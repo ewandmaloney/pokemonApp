@@ -2,6 +2,7 @@ import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivateFn, Router } from '@angular/router';
 import { PokemonService } from '../services/pokemon.service';
 import { catchError, map, of } from 'rxjs';
+import { LoginService } from '../services/login.service';
 
 export const authFnGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state) => {
 
@@ -9,6 +10,9 @@ export const authFnGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state)
   const id = route.params['id'];
   const pokeServ = inject(PokemonService);
   const router = inject(Router);
+  const loginServ = inject(LoginService);
+  const users = loginServ.getAllUsers();
+  const user = loginServ.getCookie();
 
   if (id) {
     return pokeServ.pokemonType(id).pipe(

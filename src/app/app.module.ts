@@ -11,6 +11,8 @@ import { LocationsModule } from './locations/locations.module';
 import { ItemsModule } from './items/items.module';
 import { authGuard } from './auth.guard';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
+import { CookieModule } from 'ngx-cookie';
+
 
 
 @NgModule({
@@ -27,6 +29,7 @@ import { AuthInterceptorService } from './services/auth-interceptor.service';
     PipesModule,
     LocationsModule,
     ItemsModule,
+    CookieModule.withOptions()
 
   ],
   exports: [],
