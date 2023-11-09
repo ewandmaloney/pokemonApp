@@ -3,32 +3,26 @@ import { Router } from '@angular/router';
 import { PokemonService } from 'src/app/services/pokemon.service';
 import { PokemonDetailsResponse } from '../interfaces/PokemonDetailsResponse.interface';
 import { PokemonResponse } from '../interfaces/PokemonResponse';
-import { Subscription, from, take } from 'rxjs'
+import { Subscription, from, take } from 'rxjs';
 @Component({
   selector: 'app-pokemon-table',
   templateUrl: './pokemon-table.component.html',
-  styleUrls: ['./pokemon-table.component.css']
+  styleUrls: ['./pokemon-table.component.css'],
 })
 export class PokemonTableComponent implements OnInit, OnDestroy {
-
   public pokemonNoInfo: any = {};
   public pokemons: PokemonDetailsResponse[] = [];
   public limit: number = 10;
   public offset: number = 0;
   public totalPokemons: number = 0;
-  pokemonResultsSubscription?: Subscription;
   pokemonInfoSubscription?: Subscription;
 
-  constructor(private pokeService: PokemonService, private router: Router) {
-
-  }
+  constructor(private pokeService: PokemonService, private router: Router) {}
 
   ngOnDestroy(): void {
-    this.pokemonResultsSubscription?.unsubscribe();
     this.pokemonInfoSubscription?.unsubscribe();
-    console.log('Desuscrito')
+    console.log('Desuscrito');
   }
-
 
   ngOnInit(): void {
     this.getPokemonResults();
@@ -39,29 +33,33 @@ export class PokemonTableComponent implements OnInit, OnDestroy {
   }
 
   getPokemonResults() {
-    this.pokemonResultsSubscription = this.pokeService.getPokemons(this.limit, this.offset).subscribe((pokemons: PokemonResponse) => {
-      this.pokemonNoInfo = pokemons
-      this.totalPokemons = this.pokemonNoInfo.count
-      this.getPokemonsInfo();
-      console.log(this.pokemons)
-    })
+    this.pokeService
+      .getPokemons(this.limit, this.offset)
+      .pipe(take(1))
+      .subscribe((pokemons: PokemonResponse) => {
+        this.pokemonNoInfo = pokemons;
+        this.totalPokemons = this.pokemonNoInfo.count;
+        this.getPokemonsInfo();
+        console.log(this.pokemons);
+      });
   }
 
   getPokemonsInfo() {
     /*Con from creo un observable a partir de un array y con take(1) indico que solo me devuelva 1 resultado
-    */
-    from(this.pokemonNoInfo.results).pipe(take(1)).forEach((pokemon: any) => {
-      this.pokemonInfoSubscription = this.pokeService.getPokemonByQuery(pokemon.url).subscribe((resp: PokemonDetailsResponse) => {
-        this.pokemons.push(resp);
-        this.pokemons.sort((a, b) => a.id - b.id);
-      })
-    })
+     */
+    from(this.pokemonNoInfo.results).forEach((pokemon: any) => {
+      this.pokemonInfoSubscription = this.pokeService
+        .getPokemonByQuery(pokemon.url)
+        .subscribe((resp: PokemonDetailsResponse) => {
+          this.pokemons.push(resp);
+          this.pokemons.sort((a, b) => a.id - b.id);
+        });
+    });
   }
 
   changePage(n: number) {
-    this.offset = (n * 10) - 10;
+    this.offset = n * 10 - 10;
     this.pokemons = [];
-    this.getPokemonResults()
+    this.getPokemonResults();
   }
-
 }
