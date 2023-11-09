@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LocationService } from 'src/app/services/location.service';
 import { MainGeneration, RegionDetailsResponse } from '../interfaces/RegionsDetailsResponse';
@@ -6,14 +6,14 @@ import { PokedexResponse, PokemonEntry } from '../interfaces/PokedexResponse';
 import { PokemonService } from 'src/app/services/pokemon.service';
 import { SpeciesReponse } from '../interfaces/SpeciesReponse';
 import { PokemonDetailsResponse } from 'src/app/components/interfaces/PokemonDetailsResponse.interface';
-import { combineLatest, forkJoin } from 'rxjs';
+import { Subject, combineLatest, forkJoin, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-region',
   templateUrl: './region.component.html',
   styleUrls: ['./region.component.css']
 })
-export class RegionComponent implements OnInit {
+export class RegionComponent implements OnInit, OnDestroy {
 
   public regionInfo: any = {};
   public pokedexes: MainGeneration[] = [];
@@ -24,10 +24,16 @@ export class RegionComponent implements OnInit {
   public offset: number = 0;
   public loading: boolean = false
   public pkm: any[] = []
+  ngUnsubscribe = new Subject<void>();
+
 
   constructor(private locServ: LocationService, private actvRout: ActivatedRoute,
     private router: Router, private pokeServ: PokemonService) {
 
+  }
+  ngOnDestroy(): void {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   ngOnInit(): void {
@@ -36,7 +42,7 @@ export class RegionComponent implements OnInit {
   }
 
   getRegionInfo(id: number) {
-    this.locServ.getRegionById(id).subscribe((res: any) => {
+    this.locServ.getRegionById(id).pipe(takeUntil(this.ngUnsubscribe)).subscribe((res: any) => {
       this.regionInfo = res
       this.pokedexes = res.pokedexes.splice(0, 3);
       console.log(this.regionInfo)
@@ -60,7 +66,7 @@ export class RegionComponent implements OnInit {
   }
 
   getInfoPokedex(url: string) {
-    this.locServ.getPokedex(url).subscribe((res: PokedexResponse) => {
+    this.locServ.getPokedex(url).pipe(takeUntil(this.ngUnsubscribe)).subscribe((res: PokedexResponse) => {
       this.loading = true;
       this.pokedexInfo = res.pokemon_entries;
       this.getInfoSpecies();
@@ -70,7 +76,7 @@ export class RegionComponent implements OnInit {
 
   getInfoSpecies() {
     const requests = this.pokedexInfo.map(res => this.pokeServ.getPokemonByQuery(res.pokemon_species.url));
-    forkJoin(requests).subscribe((responses: any[]) => {
+    forkJoin(requests).pipe(takeUntil(this.ngUnsubscribe)).subscribe((responses: any[]) => {
       responses.forEach(res => {
         this.speciesInfo.push(res);
         this.speciesInfo.sort((a, b) => a.id - b.id);

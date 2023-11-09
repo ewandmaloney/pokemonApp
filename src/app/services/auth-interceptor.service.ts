@@ -13,7 +13,7 @@ export class AuthInterceptorService implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     if (req.url.endsWith('/login') && req.method == 'POST') {
-      const { username, password } = req.body;
+      const { username } = req.body;
 
       return this.http.get('assets/users.json').pipe(
         map(user => new HttpResponse({ body: user }))

@@ -11,13 +11,12 @@ export class LoginService {
   constructor(private http: HttpClient, private router: Router) { }
 
 
-  logIn(username: string, password: string) {
-    return this.http.post<any>('http://localhost:4200/login', { username, password }).pipe(
+  logIn(username: string) {
+    return this.http.post<any>('http://localhost:4200/login', { username }).pipe(
       tap(res => {
-        //debugger;
         if (res) {
-          const authorized = res.filter((user: any) => user.email == username && user.password == password);
-          if (authorized) {
+          const authorized = res.filter((user: any) => user.email == username);
+          if (authorized.length > 0 ) {
             alert('Usuario autorizado');
             this.router.navigate(['/pokemons']);
           } else {

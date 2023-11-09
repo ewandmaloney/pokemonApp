@@ -11,7 +11,7 @@ import { LoginService } from 'src/app/services/login.service';
 export class LoginComponent {
 
   public email: string = '';
-  public password: string = '';
+
 
   constructor(private logServ: LoginService, private router: Router) {
 
@@ -21,9 +21,9 @@ export class LoginComponent {
 
     if (form.invalid) { return; }
 
-    const { email, password } = form.value;
+    const { email } = form.value;
 
-    this.logServ.logIn(email, password);
+    this.logServ.logIn(email);
 
   }
 

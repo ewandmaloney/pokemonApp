@@ -1,49 +1,47 @@
-<div *ngIf="pokemons.length == 0" class="text-center">
-    <app-loading></app-loading>
-</div>
-
-
-
 <div class="searchPokemon mb-3 input-group">
     <span class="me-2">Type to search</span>
     <input type="text" (input)="searchPokemon($event)" class="rounded" placeholder="Pokemon name...">
 </div>
 
-<div *ngIf="pokemons.length > 0">
+<div *ngIf="pokemons.length == 0">
+    <div class="alert alert-danger text-center" role="alert">
+        <h4 class="alert-heading">No results found!</h4>
+        <p>Try to search another pokemon.</p>
+    </div>
+</div>
 
-    <table class="table table-hover">
-        <thead class="table-dark">
-            <tr>
-                <th scope="col"># <span class="poke-card" (click)="orderById()">
-                        <i *ngIf="!orderId" class="fa-solid fa-arrow-up"></i>
-                        <i *ngIf="orderId" class="fa-solid fa-arrow-down"></i>
-                    </span></th>
-                <th scope="col">Image</th>
-                <th scope="col">Name
-                     <span class="poke-card" (click)="orderByName()"><i *ngIf="!orderName"
-                            class="fa-solid fa-arrow-up"></i>
-                        <i *ngIf="orderName" class="fa-solid fa-arrow-down"></i></span>
-                    </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr [ngClass]="{'table-success': pokemon.types[0].type.name == 'grass' || pokemon.types[0].type.name == 'bug','table-danger': pokemon.types[0].type.name == 'fire',
+<table class="table table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th scope="col"># <span class="poke-card" (click)="orderById()">
+                    <i *ngIf="!orderId" class="fa-solid fa-arrow-up"></i>
+                    <i *ngIf="orderId" class="fa-solid fa-arrow-down"></i>
+                </span></th>
+            <th scope="col">Image</th>
+            <th scope="col">Name
+                <span class="poke-card" (click)="orderByName()"><i *ngIf="!orderName" class="fa-solid fa-arrow-up"></i>
+                    <i *ngIf="orderName" class="fa-solid fa-arrow-down"></i></span>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        <tr [ngClass]="{'table-success': pokemon.types[0].type.name == 'grass' || pokemon.types[0].type.name == 'bug','table-danger': pokemon.types[0].type.name == 'fire',
         'table-primary': pokemon.types[0].type.name == 'water' || pokemon.types[0].type.name == 'dragon', 'table-secondary': pokemon.types[0].type.name == 'ground'}"
-                class="poke-card planta" (click)="goToDetailsPokemon(pokemon.id)" *ngFor="let pokemon of pokemons | paginate: {id: 'listing_pagination',
+            class="poke-card planta" (click)="goToDetailsPokemon(pokemon.id)" *ngFor="let pokemon of pokemons | paginate: {id: 'listing_pagination',
         itemsPerPage: 10,
         currentPage: page,
         totalItems: totalPokemons
     }">
-                <th scope="row">{{pokemon.id}}</th>
-                <td>
-                    <img class="rounded pokemon-img" [src]="pokemon.sprites | noImage" [alt]="pokemon.name">
-                </td>
-                <td>{{pokemon.name | titlecase}}</td>
-            </tr>
-        </tbody>
-    </table>
-    <div class="text-center">
-        <pagination-controls id="listing_pagination" (click)="changePage(page)" [maxSize]="5" [directionLinks]="true"
-            (pageChange)="page = $event"></pagination-controls>
-    </div>
+            <th scope="row">{{pokemon.id}}</th>
+            <td>
+                <img class="rounded pokemon-img" [src]="pokemon.sprites | noImage" [alt]="pokemon.name">
+            </td>
+            <td>{{pokemon.name | titlecase}}</td>
+        </tr>
+    </tbody>
+</table>
+<div class="text-center">
+    <pagination-controls id="listing_pagination" (click)="changePage(page)" [maxSize]="5" [directionLinks]="true"
+        (pageChange)="page = $event"></pagination-controls>
 </div>
