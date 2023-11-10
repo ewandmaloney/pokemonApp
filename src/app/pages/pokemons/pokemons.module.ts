@@ -6,11 +6,12 @@ import { PokemonDetailsComponent } from './pokemon-details/pokemon-details.compo
 import { SliderImagesPokemonComponent } from './slider-images-pokemon/slider-images-pokemon.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { LoadingComponent } from './loading/loading.component';
-import { PipesModule } from '../pipes/pipes.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { RouterModule } from '@angular/router';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from '../login/login/login.component';
 import { FormsModule } from '@angular/forms';
+import { PipesModule } from 'src/app/pipes/pipes.module';
+import { PokemonRoutingModule } from './pokemon-routing.module';
 
 
 
@@ -22,7 +23,6 @@ import { FormsModule } from '@angular/forms';
     SliderImagesPokemonComponent,
     LoadingComponent,
     PageNotFoundComponent,
-    LoginComponent,
   ],
   exports: [LoadingComponent],
   imports: [
@@ -30,7 +30,8 @@ import { FormsModule } from '@angular/forms';
     NgxPaginationModule,
     PipesModule,
     RouterModule,
-    FormsModule
+    FormsModule,
+    PokemonRoutingModule
   ]
 })
-export class ComponentsModule { }
+export class PokemonsModule { }

@@ -12,10 +12,10 @@ export class PageNotFoundComponent {
   constructor(private router: Router) { }
 
   backHome() {
-    this.router.navigate(['pokemons']);
+    this.router.navigate(['pokeApp/pokemons/all']);
   }
   logIn() {
-    this.router.navigate(['login']);
+    this.router.navigate(['pokeApp/login']);
   }
 
 }

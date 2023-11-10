@@ -1,6 +1,6 @@
 import { Injectable, inject } from "@angular/core";
 import { ActivatedRouteSnapshot, CanActivate, CanActivateFn, Router, RouterStateSnapshot } from "@angular/router";
-import { PokemonService } from "./services/pokemon.service";
+import { PokemonService } from "../services/pokemon.service";
 import { Observable, of } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 

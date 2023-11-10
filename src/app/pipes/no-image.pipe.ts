@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Sprites } from '../components/interfaces/PokemonDetailsResponse.interface';
+import { Sprites } from '../pages/pokemons/interfaces/PokemonDetailsResponse.interface';
 
 @Pipe({
   name: 'noImage'

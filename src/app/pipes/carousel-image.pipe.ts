@@ -1,5 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Sprites } from '../components/interfaces/PokemonDetailsResponse.interface';
 
 @Pipe({
   name: 'carouselImage'

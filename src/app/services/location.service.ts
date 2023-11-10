@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { LocationResponse } from '../locations/interfaces/LocationResponse';
-import { LocationDetailsResponse } from '../locations/interfaces/LocationDetailsResponse';
-import { RegionDetailsResponse } from '../locations/interfaces/RegionsDetailsResponse';
-import { PokedexResponse } from '../locations/interfaces/PokedexResponse';
+import { LocationResponse } from '../pages/locations/interfaces/LocationResponse';
+import { PokedexResponse } from '../pages/locations/interfaces/PokedexResponse';
+import { RegionDetailsResponse } from '../pages/locations/interfaces/RegionsDetailsResponse';
+import { LocationDetailsResponse } from '../pages/locations/interfaces/LocationDetailsResponse';
+
 
 @Injectable({
   providedIn: 'root'

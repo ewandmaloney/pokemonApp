@@ -31,7 +31,7 @@ export const authFnGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state)
             return true;
           }
           console.log('No puedes entrar al ser de tipo fuego');
-          router.navigate(['page-not-found'])
+          router.navigate(['pokeApp/page-not-found'])
           return false;
         } else {
           return true;

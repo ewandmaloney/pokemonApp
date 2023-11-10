@@ -29,7 +29,7 @@ export class PokemonTableComponent implements OnInit, OnDestroy {
   }
 
   getPokemonById(id: number) {
-    this.router.navigate(['/pokemon', id]);
+    this.router.navigate(['pokeApp/pokemons/pokemon', id]);
   }
 
   getPokemonResults() {

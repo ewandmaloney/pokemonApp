@@ -5,13 +5,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http'
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
-import { ComponentsModule } from './components/components.module';
 import { PipesModule } from './pipes/pipes.module';
-import { LocationsModule } from './locations/locations.module';
-import { ItemsModule } from './items/items.module';
-import { authGuard } from './auth.guard';
+import { authGuard } from './guards/auth.guard';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { CookieModule } from 'ngx-cookie';
+import { PagesModule } from './pages/pages.module';
+import { ServicesModule } from './services/services.module';
 
 
 
@@ -25,10 +24,9 @@ import { CookieModule } from 'ngx-cookie';
     AppRoutingModule,
     HttpClientModule,
     SharedModule,
-    ComponentsModule,
     PipesModule,
-    LocationsModule,
-    ItemsModule,
+    PagesModule,
+    ServicesModule,
     CookieModule.withOptions()
 
   ],

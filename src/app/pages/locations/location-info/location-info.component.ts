@@ -51,7 +51,7 @@ export class LocationInfoComponent implements OnInit, OnDestroy {
   }
 
   goToRegionInfo(id: number) {
-    this.router.navigate(['/region', id]);
+    this.router.navigate(['pokeApp/locations/region', id]);
   }
 
   orderById() {

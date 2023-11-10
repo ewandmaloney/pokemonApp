@@ -5,8 +5,8 @@ import { MainGeneration, RegionDetailsResponse } from '../interfaces/RegionsDeta
 import { PokedexResponse, PokemonEntry } from '../interfaces/PokedexResponse';
 import { PokemonService } from 'src/app/services/pokemon.service';
 import { SpeciesReponse } from '../interfaces/SpeciesReponse';
-import { PokemonDetailsResponse } from 'src/app/components/interfaces/PokemonDetailsResponse.interface';
-import { Subject, combineLatest, forkJoin, takeUntil } from 'rxjs';
+import { Subject, forkJoin, takeUntil } from 'rxjs';
+import { PokemonDetailsResponse } from '../../pokemons/interfaces/PokemonDetailsResponse.interface';
 
 @Component({
   selector: 'app-region',
@@ -51,7 +51,7 @@ export class RegionComponent implements OnInit, OnDestroy {
   }
 
   goBack() {
-    this.router.navigate(['locations']);
+    this.router.navigate(['pokeApp/locations/all']);
   }
 
   getPokedex(url: string) {
