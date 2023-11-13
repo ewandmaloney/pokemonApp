@@ -51,7 +51,7 @@ export class RegionComponent implements OnInit, OnDestroy {
   }
 
   goBack() {
-    this.router.navigate(['pokeApp/locations/all']);
+    this.router.navigate(['locations/all']);
   }
 
   getPokedex(url: string) {

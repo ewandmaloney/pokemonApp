@@ -17,6 +17,10 @@ const routes: Routes = [
         component: PokemonDetailsComponent,
         canActivate: [authFnGuard]
       },
+      {
+        path: '**',
+        redirectTo: 'all'
+      }
     ]
   }
 ];

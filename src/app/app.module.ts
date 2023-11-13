@@ -9,8 +9,9 @@ import { PipesModule } from './pipes/pipes.module';
 import { authGuard } from './guards/auth.guard';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { CookieModule } from 'ngx-cookie';
-import { PagesModule } from './pages/pages.module';
+
 import { ServicesModule } from './services/services.module';
+import { LoginModule } from './pages/login/login.module';
 
 
 
@@ -25,7 +26,7 @@ import { ServicesModule } from './services/services.module';
     HttpClientModule,
     SharedModule,
     PipesModule,
-    PagesModule,
+    LoginModule,
     ServicesModule,
     CookieModule.withOptions()
 

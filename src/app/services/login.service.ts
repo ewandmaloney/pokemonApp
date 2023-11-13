@@ -21,7 +21,7 @@ export class LoginService {
             const userEmail = authorized[0].email
             alert('Usuario autorizado');
             this.saveCookie(userEmail);
-            this.router.navigate(['pokeApp/pokemons/all']);
+            this.router.navigate(['pokemons/all']);
           } else {
             alert('Usuario no autorizado');
           }
@@ -58,7 +58,7 @@ export class LoginService {
     if (this.getCookie()) {
       console.log('Cookie borrada')
       this.cookie.remove('user');
-      this.router.navigate(['pokeApp/login']);
+      this.router.navigate(['login']);
     } else {
       console.log('No hay cookie que borrar')
     }

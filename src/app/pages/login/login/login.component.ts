@@ -11,6 +11,7 @@ import { LoginService } from 'src/app/services/login.service';
 export class LoginComponent {
 
   public email: string = '';
+  public loading: boolean = false;
 
 
   constructor(private logServ: LoginService, private router: Router) {
@@ -18,13 +19,18 @@ export class LoginComponent {
   }
 
   onSubmit(form: NgForm) {
+    this.loading = true;
 
-    if (form.invalid) { return; }
+    if (form.invalid) {
+      this.loading = false;
+      return;
+    }
 
     const { email } = form.value;
-
-    this.logServ.logIn(email);
-
+    setTimeout(() => {
+      this.logServ.logIn(email);
+      this.loading = false;
+    }, 1000);
   }
 
 }

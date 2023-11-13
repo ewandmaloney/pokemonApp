@@ -21,12 +21,31 @@ const routes: Routes = [
   // { path: 'page-not-found', component: PageNotFoundComponent },
   // { path: '**', pathMatch: 'full', redirectTo: 'pokemons' },
   {
-    path: 'pokeApp',
-    loadChildren: () => import('./pages/pages.module').then(m => m.PagesModule),
+    path: 'pokemons',
+    loadChildren: () => import('./pages/pokemons/pokemons.module').then(m => m.PokemonsModule),
+    canActivateChild: [loginGuard]
+  },
+  {
+    path: 'locations',
+    loadChildren: () => import('./pages/locations/locations.module').then(m => m.LocationsModule),
+    canActivateChild: [loginGuard]
+  },
+  {
+    path: 'items',
+    loadChildren: () => import('./pages/items/items.module').then(m => m.ItemsModule),
+    canActivate: [loginGuard]
+  },
+  {
+    path: 'login',
+    component: LoginComponent
+  },
+  {
+    path: 'page-not-found',
+    component: PageNotFoundComponent
   },
   {
     path: '**',
-    redirectTo: 'pokeApp'
+    redirectTo: 'login'
   }
 
 ];

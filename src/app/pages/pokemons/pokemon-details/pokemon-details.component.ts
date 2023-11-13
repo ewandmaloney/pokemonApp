@@ -52,7 +52,7 @@ export class PokemonDetailsComponent implements OnInit, OnDestroy {
   }
 
   goBack() {
-    this.router.navigate(['pokeApp/pokemons/all']);
+    this.router.navigate(['pokemons/all']);
   }
 
 }
