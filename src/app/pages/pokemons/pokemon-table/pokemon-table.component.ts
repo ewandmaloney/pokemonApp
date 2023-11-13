@@ -15,9 +15,10 @@ export class PokemonTableComponent implements OnInit, OnDestroy {
   public limit: number = 10;
   public offset: number = 0;
   public totalPokemons: number = 0;
+  public page: number = 0;
   pokemonInfoSubscription?: Subscription;
 
-  constructor(private pokeService: PokemonService, private router: Router) {}
+  constructor(private pokeService: PokemonService, private router: Router) { }
 
   ngOnDestroy(): void {
     this.pokemonInfoSubscription?.unsubscribe();
@@ -57,8 +58,15 @@ export class PokemonTableComponent implements OnInit, OnDestroy {
     });
   }
 
+  changeLimit(limit: number) {
+    this.limit = limit;
+    this.pokemons = [];
+    this.getPokemonResults();
+  }
+
   changePage(n: number) {
-    this.offset = n * 10 - 10;
+    this.page = n;
+    this.offset = this.page * this.limit - this.limit;
     this.pokemons = [];
     this.getPokemonResults();
   }

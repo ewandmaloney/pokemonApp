@@ -14,11 +14,12 @@ export class PokemonCardComponent implements OnInit, OnChanges {
   public orderId: boolean = false;
   public orderName: boolean = false;
 
-
+  @Input() limit: number = 10;
   @Input() totalPokemons!: number;
   @Input() pokemons: PokemonDetailsResponse[] = [];
   @Output() eventIdPokemon: EventEmitter<number> = new EventEmitter;
   @Output() eventPageNumber: EventEmitter<number> = new EventEmitter;
+  @Output() eventLimit: EventEmitter<number> = new EventEmitter();
 
   constructor(private pokeService: PokemonService) {
   }
@@ -44,6 +45,11 @@ export class PokemonCardComponent implements OnInit, OnChanges {
   changePage(page: number) {
     console.log(page)
     this.eventPageNumber.emit(page);
+  }
+
+  changeLimit(n : any) {
+    let limit = n.target.value;
+    this.eventLimit.emit(limit);
   }
 
   //Busca entre el array de pokemons

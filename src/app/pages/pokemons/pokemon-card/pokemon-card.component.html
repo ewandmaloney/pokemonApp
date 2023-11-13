@@ -29,7 +29,7 @@
         <tr [ngClass]="{'table-success': pokemon.types[0].type.name == 'grass' || pokemon.types[0].type.name == 'bug','table-danger': pokemon.types[0].type.name == 'fire',
         'table-primary': pokemon.types[0].type.name == 'water' || pokemon.types[0].type.name == 'dragon', 'table-secondary': pokemon.types[0].type.name == 'ground'}"
             class="poke-card planta" (click)="goToDetailsPokemon(pokemon.id)" *ngFor="let pokemon of pokemons | paginate: {id: 'listing_pagination',
-        itemsPerPage: 10,
+        itemsPerPage: limit,
         currentPage: page,
         totalItems: totalPokemons
     }">
@@ -42,12 +42,12 @@
     </tbody>
 </table>
 <div class="d-flex justify-content-end">
-    Items per page:   
-    <select>
-        <option value="5">5</option>
+    Items per page:
+    <select (change)="changeLimit($event)">
         <option [defaultSelected]="10" value="10">10</option>
-        <option value="20">20</option>
         <option value="50">50</option>
+        <option value="100">100</option>
+        <option value="500">500</option>
     </select>
 </div>
 <div class="text-center">
