@@ -14,6 +14,10 @@ const routes: Routes = [
       {
         path: 'region/:id',
         component: RegionComponent
+      },
+      {
+        path: '**',
+        redirectTo: 'all'
       }
     ]
   }

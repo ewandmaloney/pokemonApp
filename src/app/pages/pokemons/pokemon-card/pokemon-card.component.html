@@ -41,6 +41,15 @@
         </tr>
     </tbody>
 </table>
+<div class="d-flex justify-content-end">
+    Items per page:   
+    <select>
+        <option value="5">5</option>
+        <option [defaultSelected]="10" value="10">10</option>
+        <option value="20">20</option>
+        <option value="50">50</option>
+    </select>
+</div>
 <div class="text-center">
     <pagination-controls id="listing_pagination" (click)="changePage(page)" [maxSize]="5" [directionLinks]="true"
         (pageChange)="page = $event"></pagination-controls>

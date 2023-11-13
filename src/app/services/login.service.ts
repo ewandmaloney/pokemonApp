@@ -8,6 +8,7 @@ import { catchError, tap } from 'rxjs';
   providedIn: 'root'
 })
 export class LoginService {
+  redirectUrl: string | null = null;
 
   constructor(private http: HttpClient, private router: Router, private cookie: CookieService) { }
 
@@ -21,7 +22,12 @@ export class LoginService {
             const userEmail = authorized[0].email
             alert('Usuario autorizado');
             this.saveCookie(userEmail);
-            this.router.navigate(['pokemons/all']);
+            if(this.redirectUrl){
+              this.router.navigate([this.redirectUrl]);
+              this.redirectUrl = null;
+            }else{
+              this.router.navigate(['pokemons/all']);
+            }
           } else {
             alert('Usuario no autorizado');
           }
