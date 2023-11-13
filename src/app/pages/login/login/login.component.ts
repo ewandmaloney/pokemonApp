@@ -6,17 +6,13 @@ import { LoginService } from 'src/app/services/login.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
-
   public email: string = '';
   public loading: boolean = false;
 
-
-  constructor(private logServ: LoginService, private router: Router) {
-
-  }
+  constructor(private logServ: LoginService, private router: Router) {}
 
   onSubmit(form: NgForm) {
     this.loading = true;
@@ -27,10 +23,9 @@ export class LoginComponent {
     }
 
     const { email } = form.value;
-    setTimeout(() => {
-      this.logServ.logIn(email);
-      this.loading = false;
-    }, 1000);
-  }
 
+    this.logServ.logIn(email).subscribe((result) => {
+      this.loading = false;
+    });
+  }
 }

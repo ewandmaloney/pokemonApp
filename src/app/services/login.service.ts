@@ -20,7 +20,7 @@ export class LoginService {
           const authorized = res.filter((user: any) => user.email == username);
           if (authorized.length > 0) {
             const userEmail = authorized[0].email
-            alert('Usuario autorizado');
+            // alert('Usuario autorizado');
             this.saveCookie(userEmail);
             if(this.redirectUrl){
               this.router.navigate([this.redirectUrl]);
@@ -40,7 +40,7 @@ export class LoginService {
         console.log('Error:', error);
         throw error;
       })
-    ).subscribe();
+    );
   }
 
   saveCookie(email: string) {
