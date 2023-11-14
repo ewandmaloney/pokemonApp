@@ -7,6 +7,7 @@ import { PokemonService } from 'src/app/services/pokemon.service';
 import { SpeciesReponse } from '../interfaces/SpeciesReponse';
 import { Subject, forkJoin, takeUntil } from 'rxjs';
 import { PokemonDetailsResponse } from '../../pokemons/interfaces/PokemonDetailsResponse.interface';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-region',
@@ -24,11 +25,12 @@ export class RegionComponent implements OnInit, OnDestroy {
   public offset: number = 0;
   public loading: boolean = false
   public pkm: any[] = []
+  public pokedexPokemons: PokemonDetailsResponse[] = [];
   ngUnsubscribe = new Subject<void>();
 
 
   constructor(private locServ: LocationService, private actvRout: ActivatedRoute,
-    private router: Router, private pokeServ: PokemonService) {
+    private router: Router, private pokeServ: PokemonService, private location: Location) {
 
   }
   ngOnDestroy(): void {
@@ -45,13 +47,13 @@ export class RegionComponent implements OnInit, OnDestroy {
     this.locServ.getRegionById(id).pipe(takeUntil(this.ngUnsubscribe)).subscribe((res: any) => {
       this.regionInfo = res
       this.pokedexes = res.pokedexes.splice(0, 3);
-      console.log(this.regionInfo)
-      console.log(this.pokedexes)
+      // console.log(this.regionInfo)
+      // console.log(this.pokedexes)
     })
   }
 
   goBack() {
-    this.router.navigate(['locations/all']);
+    this.location.back();
   }
 
   getPokedex(url: string) {
@@ -61,6 +63,7 @@ export class RegionComponent implements OnInit, OnDestroy {
     this.speciesInfo = [];
     this.pkm = [];
     this.limit = 0;
+    this.pokedexPokemons = [];
     this.getInfoPokedex(url);
     console.log(this.speciesInfo)
   }
@@ -81,7 +84,9 @@ export class RegionComponent implements OnInit, OnDestroy {
         this.speciesInfo.push(res);
         this.speciesInfo.sort((a, b) => a.id - b.id);
       });
-      this.getPokemons(); // Llamamos a getPokemons una vez se hayan completado todas las llamadas
+      // this.getPokemons(); // Llamamos a getPokemons una vez se hayan completado todas las llamadas
+      this.getInfoPokemon();
+      console.log(this.pokedexPokemons);
     });
   }
 
@@ -90,14 +95,27 @@ export class RegionComponent implements OnInit, OnDestroy {
   }
 
 
-  getPokemons() {
-    //Divido el species de 10 en 10 
-    this.limit += 10;
-    this.speciesInfo.splice(this.offset, this.limit).forEach(res => {
-      this.pkm.push(res)
-      console.log(this.pkm)
+   getPokemons() {
+     //Divido el species de 10 en 10 
+    //  this.limit += 10;
+    //  this.speciesInfo.splice(this.offset, this.limit).forEach(res => {
+    //    this.pkm.push(res)
+    //    console.log(this.pkm)
+    //  })
+    //  this.offset += 10;
+   }
+
+
+   getInfoPokemon(){
+    // Recorrer todo el pokemonSpecies y llamar a la api con la url de cada uno y meterlo en otro array
+    this.speciesInfo.forEach(res => {
+        this.pokeServ.getPokemonByQuery(res.varieties[0].pokemon.url)
+        .pipe(takeUntil(this.ngUnsubscribe)).subscribe
+        ((res: PokemonDetailsResponse) => {
+          this.pokedexPokemons.push(res)
+          this.pokedexPokemons.sort((a,b) => a.id - b.id)
+        }) 
     })
-    this.offset += 10;
-  }
+   }
 
 }

@@ -6,18 +6,22 @@ import { RouterModule } from '@angular/router';
 import { RegionComponent } from './region/region.component';
 import { PokemonsModule } from '../pokemons/pokemons.module';
 import { LocationsRoutingModule } from './locations-routing.module';
+import { PokemonCardComponent } from './components/pokemon-card/pokemon-card.component';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 
 
 @NgModule({
   declarations: [
     LocationInfoComponent,
-    RegionComponent
+    RegionComponent,
+    PokemonCardComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
-    LocationsRoutingModule
+    LocationsRoutingModule,
+    PipesModule
   ]
 })
 export class LocationsModule { }

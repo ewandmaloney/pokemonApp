@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { Ability, Move, PokemonDetailsResponse, Type } from '../interfaces/PokemonDetailsResponse.interface';
 import { PokemonMoveSetResponse } from '../interfaces/PokemonMoveSetResponse.interface';
 import { Subject, takeUntil } from 'rxjs';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-pokemon-details',
@@ -20,7 +21,7 @@ export class PokemonDetailsComponent implements OnInit, OnDestroy {
   ngUnsubscribe = new Subject<void>();
 
 
-  constructor(private pokeService: PokemonService, private actvRoute: ActivatedRoute, private router: Router) {
+  constructor(private pokeService: PokemonService, private actvRoute: ActivatedRoute, private router: Router ,private location: Location) {
 
   }
   ngOnDestroy(): void {
@@ -52,7 +53,7 @@ export class PokemonDetailsComponent implements OnInit, OnDestroy {
   }
 
   goBack() {
-    this.router.navigate(['pokemons/all']);
+    this.location.back();
   }
 
 }
