@@ -8,6 +8,8 @@ import { PokemonsModule } from '../pokemons/pokemons.module';
 import { LocationsRoutingModule } from './locations-routing.module';
 import { PokemonCardComponent } from './components/pokemon-card/pokemon-card.component';
 import { PipesModule } from 'src/app/pipes/pipes.module';
+import { InfiniteScrollComponent } from './components/infinite-scroll/infinite-scroll.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 
 
@@ -15,13 +17,15 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
   declarations: [
     LocationInfoComponent,
     RegionComponent,
-    PokemonCardComponent
+    PokemonCardComponent,
+    InfiniteScrollComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
     LocationsRoutingModule,
-    PipesModule
+    PipesModule,
+    InfiniteScrollModule
   ]
 })
 export class LocationsModule { }

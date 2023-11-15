@@ -10,10 +10,20 @@
                 {{item.name | titlecase}}
             </span>
         </p>
-        <a (click)="getPokedex(item.url)" *ngFor="let item of pokedexes; let i = index" class="btn btn-primary me-2 mb-1">
+        <a (click)="getPokedex(item.url)" *ngFor="let item of pokedexes; let i = index"
+            class="btn btn-primary me-2 mb-1">
             View pokedex {{i + 1}}
         </a>
     </div>
 </div>
 
-<app-pokemon-card [pokemons]="pokedexPokemons"></app-pokemon-card>
+<div *ngIf="loading"  class="text-center mt-5">
+    <p>Loading...</p>
+    <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+
+<div *ngIf="pokedexPokemons.length > 0">
+    <app-infinite-scroll [totalPokemons]="totalPokemons" [pokemonsCpy]="pokedexPokemons"></app-infinite-scroll>
+</div>

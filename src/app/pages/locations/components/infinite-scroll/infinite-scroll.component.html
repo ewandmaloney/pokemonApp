@@ -1,0 +1,4 @@
+<app-pokemon-card infiniteScroll [infiniteScrollDistance]="2" (scrolled)="onScroll()"
+    [pokemons]="pokemons"></app-pokemon-card>
+<button [ngClass]="'no-hidden'" *ngIf="showGoUpButton" class="btn btn-primary" (click)="scrollTop()">
+    <i class="fa-solid fa-circle-up"></i></button>

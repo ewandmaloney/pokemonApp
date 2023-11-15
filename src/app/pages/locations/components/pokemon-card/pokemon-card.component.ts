@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { PokemonDetailsResponse } from 'src/app/pages/pokemons/interfaces/PokemonDetailsResponse.interface';
 
@@ -7,15 +7,18 @@ import { PokemonDetailsResponse } from 'src/app/pages/pokemons/interfaces/Pokemo
   templateUrl: './pokemon-card.component.html',
   styleUrls: ['./pokemon-card.component.css']
 })
-export class PokemonCardComponent {
-  
-  @Input() pokemons : PokemonDetailsResponse[] = [];  
-  
-  constructor(private router: Router) { }
-  
+export class PokemonCardComponent implements OnInit{
 
-detailsPokemon(id: number) {
-  this.router.navigate(['pokemons/pokemon', id]);
+  @Input() pokemons: PokemonDetailsResponse[] = [];
+
+  constructor(private router: Router) {
+   }
+
+  ngOnInit(): void {
+  }
+
+  detailsPokemon(id: number) {
+    this.router.navigate(['pokemons/pokemon', id]);
   }
 
 }
