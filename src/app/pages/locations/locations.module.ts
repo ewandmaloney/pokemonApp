@@ -10,7 +10,7 @@ import { PokemonListComponent } from './components/pokemon-list/pokemon-list.com
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { InfiniteScrollComponent } from './components/infinite-scroll/infinite-scroll.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
-import { PokemonCardComponent } from './components/pokemon-card/pokemon-card.component';
+import { PokemonCardComponent } from '../../shared/components/pokemon-card/pokemon-card.component';
 
 
 
