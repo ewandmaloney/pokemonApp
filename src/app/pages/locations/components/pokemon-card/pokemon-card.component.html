@@ -1,22 +1,6 @@
-<div *ngIf="pokemons.length === 0">
-
-</div>
-
-<div class="my-5" *ngIf="pokemons.length > 0">
-
-    <div class="row row-cols-1
-    row-cols-xl-6
-    row-cols-lg-5
-    row-cols-md-4
-    row-cols-sm-3
-    g-4">
-        <div class="col" *ngFor="let pokemon of pokemons">
-            <div class="card hover-shadow pokemon" (click)="detailsPokemon(pokemon.id)">
-                <img [src]="pokemon.sprites | noImage" class="card-img-top" [alt]="pokemon.name">
-                <div class="card-body">
-                    <h5 class="card-title text-center">{{pokemon.name | titlecase}}</h5>
-                </div>
-            </div>
-        </div>
+<div class="card hover-shadow pokemon" (click)="detailsPokemon(pokemon.id)">
+    <img [src]="pokemon.sprites | noImage" class="card-img-top" [alt]="pokemon.name">
+    <div class="card-body">
+        <h5 class="card-title text-center">{{pokemon.name | titlecase}}</h5>
     </div>
 </div>

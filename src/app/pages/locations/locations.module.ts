@@ -6,10 +6,11 @@ import { RouterModule } from '@angular/router';
 import { RegionComponent } from './region/region.component';
 import { PokemonsModule } from '../pokemons/pokemons.module';
 import { LocationsRoutingModule } from './locations-routing.module';
-import { PokemonCardComponent } from './components/pokemon-card/pokemon-card.component';
+import { PokemonListComponent } from './components/pokemon-list/pokemon-list.component';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { InfiniteScrollComponent } from './components/infinite-scroll/infinite-scroll.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { PokemonCardComponent } from './components/pokemon-card/pokemon-card.component';
 
 
 
@@ -17,15 +18,18 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
   declarations: [
     LocationInfoComponent,
     RegionComponent,
-    PokemonCardComponent,
-    InfiniteScrollComponent
+    PokemonListComponent,
+    InfiniteScrollComponent,
+    
+    
   ],
   imports: [
     CommonModule,
     RouterModule,
     LocationsRoutingModule,
     PipesModule,
-    InfiniteScrollModule
+    InfiniteScrollModule,
+    PokemonCardComponent
   ]
 })
 export class LocationsModule { }

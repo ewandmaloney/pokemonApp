@@ -1,24 +1,22 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { PokemonDetailsResponse } from 'src/app/pages/pokemons/interfaces/PokemonDetailsResponse.interface';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 
 @Component({
   selector: 'app-pokemon-card',
+  standalone: true,
+  imports: [CommonModule, PipesModule],
   templateUrl: './pokemon-card.component.html',
   styleUrls: ['./pokemon-card.component.css']
 })
-export class PokemonCardComponent implements OnInit{
+export class PokemonCardComponent {
 
-  @Input() pokemons: PokemonDetailsResponse[] = [];
+  @Input() pokemon: any = {};
+  @Output() detailPokemon: EventEmitter<number> = new EventEmitter();
 
-  constructor(private router: Router) {
-   }
-
-  ngOnInit(): void {
-  }
 
   detailsPokemon(id: number) {
-    this.router.navigate(['pokemons/pokemon', id]);
+    this.detailPokemon.emit(id);
   }
 
 }

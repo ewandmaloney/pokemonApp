@@ -15,18 +15,16 @@ import { Location } from '@angular/common';
   styleUrls: ['./region.component.css']
 })
 export class RegionComponent implements OnInit, OnDestroy {
+  //Mandar al componente infinitescroll
 
+
+  //Esto se queda
   public regionInfo: any = {};
   public pokedexes: MainGeneration[] = [];
-  public pokedexInfo: PokemonEntry[] = [];
-  public speciesInfo: SpeciesReponse[] = [];
-  public pokemons: PokemonDetailsResponse[] = [];
-  public limit: number = 0;
-  public offset: number = 0;
+
   public loading: boolean = false
-  public pkm: any[] = []
-  public pokedexPokemons: PokemonDetailsResponse[] = [];
-  public totalPokemons: number = 0;
+  public pokedexID: any;
+  public showNextComponent: boolean = false;
   ngUnsubscribe = new Subject<void>();
 
 
@@ -59,46 +57,13 @@ export class RegionComponent implements OnInit, OnDestroy {
 
   getPokedex(url: string) {
     if (url.length === 0) { return; }
-    this.loading = true;
+    this.showNextComponent = false;
+    this.pokedexID = url
+    this.showNextComponent = true;
     //Cada vez que llamemos una pokedex, reestablecemos los arrays que almacenan la informacion y el limite de la division de pokemon
     //la reestablecemos a 0 por si le habiamos dado anteriormente
-    this.speciesInfo = [];
-    this.pkm = [];
-    this.limit = 0;
-    this.pokedexPokemons = [];
-    this.getInfoPokedex(url);
   }
 
-  getInfoPokedex(url: string) {
-    this.locServ.getPokedex(url).pipe(takeUntil(this.ngUnsubscribe)).subscribe((res: PokedexResponse) => {
-      this.pokedexInfo = res.pokemon_entries;
-      this.getInfoSpecies();
 
-    })
-  }
-
-  getInfoSpecies() {
-    const requests = this.pokedexInfo.map(res => this.pokeServ.getPokemonByQuery(res.pokemon_species.url));
-    forkJoin(requests).pipe(takeUntil(this.ngUnsubscribe)).subscribe((responses: any[]) => {
-      responses.forEach(res => {
-        this.speciesInfo.push(res);
-        this.speciesInfo.sort((a, b) => a.id - b.id);
-      });
-      this.getInfoPokemon();
-      this.loading = false;
-      this.totalPokemons = this.speciesInfo.length;
-      console.log(this.pokedexPokemons)
-    });
-  }
-
-  getInfoPokemon() {
-    const requests = this.speciesInfo.map(res => this.pokeServ.getPokemonByQuery(res.varieties[0].pokemon.url).pipe(takeUntil(this.ngUnsubscribe)));
-
-    forkJoin(requests).subscribe((responses: PokemonDetailsResponse[]) => {
-      this.pokedexPokemons = responses;
-      this.pokedexPokemons.sort((a, b) => a.id - b.id);
-      console.log(this.pokedexPokemons);
-    });
-  }
 
 }

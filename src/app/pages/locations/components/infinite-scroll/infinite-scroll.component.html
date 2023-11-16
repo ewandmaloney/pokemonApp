@@ -1,4 +1,13 @@
-<app-pokemon-card infiniteScroll [infiniteScrollDistance]="2" (scrolled)="onScroll()"
-    [pokemons]="pokemons"></app-pokemon-card>
+<!-- Llevarme esto al infinite scroll component -->
+<div *ngIf="loading" class="text-center mt-5">
+    <p>Loading...</p>
+    <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+
+
+<app-pokemon-list infiniteScroll [infiniteScrollDistance]="2" (scrolled)="onScroll()"
+    [pokemons]="pokemons"></app-pokemon-list>
 <button [ngClass]="'no-hidden'" *ngIf="showGoUpButton" class="btn btn-primary" (click)="scrollTop()">
     <i class="fa-solid fa-circle-up"></i></button>

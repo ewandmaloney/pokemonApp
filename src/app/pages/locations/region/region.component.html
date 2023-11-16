@@ -17,13 +17,11 @@
     </div>
 </div>
 
-<div *ngIf="loading"  class="text-center mt-5">
-    <p>Loading...</p>
-    <div class="spinner-border" role="status">
-        <span class="visually-hidden">Loading...</span>
-    </div>
-</div>
 
-<div *ngIf="pokedexPokemons.length > 0">
-    <app-infinite-scroll [totalPokemons]="totalPokemons" [pokemonsCpy]="pokedexPokemons"></app-infinite-scroll>
+
+
+<!-- MANDAR SOLAMENTE ID POKEDEX -->
+<div *ngIf="showNextComponent">
+    <!-- <app-infinite-scroll [totalPokemons]="totalPokemons" [pokemonsCpy]="pokedexPokemons"></app-infinite-scroll> -->
+    <app-infinite-scroll [pokedexID]="pokedexID" ></app-infinite-scroll>
 </div>

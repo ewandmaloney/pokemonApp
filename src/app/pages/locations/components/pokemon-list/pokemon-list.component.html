@@ -1,0 +1,17 @@
+<div *ngIf="pokemons.length === 0">
+
+</div>
+
+<div class="my-5" *ngIf="pokemons.length > 0">
+
+    <div class="row row-cols-1
+    row-cols-xl-6
+    row-cols-lg-5
+    row-cols-md-4
+    row-cols-sm-3
+    g-4">
+        <div class="col" *ngFor="let pokemon of pokemons">
+            <app-pokemon-card [pokemon]="pokemon" (detailPokemon)="detailsPokemon($event)"></app-pokemon-card>
+        </div>
+    </div>
+</div>
