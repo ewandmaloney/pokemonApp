@@ -9,6 +9,7 @@ import { catchError, tap } from 'rxjs';
 })
 export class LoginService {
   redirectUrl: string | null = null;
+  public loggedIn: boolean = false;
 
   constructor(private http: HttpClient, private router: Router, private cookie: CookieService) { }
 
@@ -20,12 +21,14 @@ export class LoginService {
           const authorized = res.filter((user: any) => user.email == username);
           if (authorized.length > 0) {
             const userEmail = authorized[0].email
+            const userId = authorized[0].id
             // alert('Usuario autorizado');
-            this.saveCookie(userEmail);
-            if(this.redirectUrl){
+            this.saveCookie(userEmail, userId);
+            this.loggedIn = true;
+            if (this.redirectUrl) {
               this.router.navigate([this.redirectUrl]);
               this.redirectUrl = null;
-            }else{
+            } else {
               this.router.navigate(['pokemons/all']);
             }
           } else {
@@ -43,8 +46,9 @@ export class LoginService {
     );
   }
 
-  saveCookie(email: string) {
+  saveCookie(email: string, id: number) {
     this.cookie.put('user', email);
+    this.cookie.put('id', id.toString());
   }
 
 
@@ -56,7 +60,12 @@ export class LoginService {
     return this.cookie.get('user');
   }
 
+  getCookieId() {
+    return this.cookie.get('id');
+  }
+
   logout() {
+    this.loggedIn = false;
     this.deleteCookie();
   }
 

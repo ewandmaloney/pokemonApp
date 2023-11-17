@@ -1,6 +1,8 @@
-<div class="card hover-shadow pokemon" (click)="detailsPokemon(pokemon.id)">
-    <img [src]="pokemon.sprites | noImage" class="card-img-top" [alt]="pokemon.name">
-    <div class="card-body">
-        <h5 class="card-title text-center">{{pokemon.name | titlecase}}</h5>
+<div class="card hover-shadow">
+    <img (click)="detailsPokemon(pokemon.id)" [src]="pokemon.sprites | noImage" class="card-img-top pokemon"
+        [alt]="pokemon.name">
+    <div class="card-body d-flex justify-content-around pokemon">
+        <h5 (click)="detailsPokemon(pokemon.id)" class="card-title text-center">{{pokemon.name | titlecase}}</h5>
+        <p (click)="addPokemonToPokedex(pokemon)" class="hover"><i class="fa-solid fa-user-plus"></i></p>
     </div>
 </div>

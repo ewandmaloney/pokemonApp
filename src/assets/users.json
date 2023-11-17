@@ -42,6 +42,7 @@
         "avatar": "https://reqres.in/img/faces/12-image.jpg"
     },
     {
+        "id": 13,
         "email": "user1@gmail.com",
         "password": "12345",
         "first_name": "user1"

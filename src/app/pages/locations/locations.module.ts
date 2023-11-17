@@ -11,6 +11,7 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
 import { InfiniteScrollComponent } from './components/infinite-scroll/infinite-scroll.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { PokemonCardComponent } from '../../shared/components/pokemon-card/pokemon-card.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 
@@ -29,7 +30,7 @@ import { PokemonCardComponent } from '../../shared/components/pokemon-card/pokem
     LocationsRoutingModule,
     PipesModule,
     InfiniteScrollModule,
-    PokemonCardComponent
+    SharedModule
   ]
 })
 export class LocationsModule { }

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { PokemonDetailsResponse, Type } from '../interfaces/PokemonDetailsResponse.interface';
 import { PokemonService } from 'src/app/services/pokemon.service';
+import { FirebaseService } from 'src/app/services/firebase.service';
 
 @Component({
   selector: 'app-pokemon-card',
@@ -8,6 +9,7 @@ import { PokemonService } from 'src/app/services/pokemon.service';
   styleUrls: ['./pokemon-card.component.css']
 })
 export class PokemonCardComponent implements OnInit, OnChanges {
+
 
   public page: number = 1;
   public copyPokemons: PokemonDetailsResponse[] = [];
@@ -21,7 +23,7 @@ export class PokemonCardComponent implements OnInit, OnChanges {
   @Output() eventPageNumber: EventEmitter<number> = new EventEmitter;
   @Output() eventLimit: EventEmitter<number> = new EventEmitter();
 
-  constructor(private pokeService: PokemonService) {
+  constructor(private pokeService: PokemonService, private firebase: FirebaseService) {
   }
 
   //Con esto compruebo si existen cambios en los datos de la llamada y me lo copio
@@ -41,13 +43,19 @@ export class PokemonCardComponent implements OnInit, OnChanges {
     this.eventIdPokemon.emit(id);
   }
 
+  addPokemonToPokedex(pokemon: PokemonDetailsResponse) {
+    //Post a la pokedex
+    //this.firebase.deletePruebas();
+    this.firebase.savePokemon(pokemon);
+  }
+
   //Cambia de pagina y manda un evento al padre para llamar a la api
   changePage(page: number) {
     console.log(page)
     this.eventPageNumber.emit(page);
   }
 
-  changeLimit(n : any) {
+  changeLimit(n: any) {
     let limit = n.target.value;
     this.eventLimit.emit(limit);
   }

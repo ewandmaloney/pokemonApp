@@ -13,6 +13,10 @@
     justify-content: flex-end;
     align-items: flex-end;
 }
+
+.hover:hover{
+    color: blue;
+}
 .planta{
     background-color: rgb(24, 255, 24);
 }

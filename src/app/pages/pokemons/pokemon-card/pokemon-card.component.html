@@ -28,16 +28,24 @@
 
         <tr [ngClass]="{'table-success': pokemon.types[0].type.name == 'grass' || pokemon.types[0].type.name == 'bug','table-danger': pokemon.types[0].type.name == 'fire',
         'table-primary': pokemon.types[0].type.name == 'water' || pokemon.types[0].type.name == 'dragon', 'table-secondary': pokemon.types[0].type.name == 'ground'}"
-            class="poke-card planta" (click)="goToDetailsPokemon(pokemon.id)" *ngFor="let pokemon of pokemons | paginate: {id: 'listing_pagination',
+            class="poke-card planta" *ngFor="let pokemon of pokemons | paginate: {id: 'listing_pagination',
         itemsPerPage: limit,
         currentPage: page,
         totalItems: totalPokemons
     }">
             <th scope="row">{{pokemon.id}}</th>
             <td>
-                <img class="rounded pokemon-img" [src]="pokemon.sprites | noImage" [alt]="pokemon.name">
+                <img (click)="goToDetailsPokemon(pokemon.id)" class="rounded pokemon-img"
+                    [src]="pokemon.sprites | noImage" [alt]="pokemon.name">
             </td>
-            <td>{{pokemon.name | titlecase}}</td>
+            <td>
+                <div (click)="goToDetailsPokemon(pokemon.id)">
+                    {{pokemon.name | titlecase}}
+                </div>
+                <div (click)="addPokemonToPokedex(pokemon)">
+                    <i class="fa-solid fa-user-plus hover"></i>
+                </div>
+            </td>
         </tr>
     </tbody>
 </table>
