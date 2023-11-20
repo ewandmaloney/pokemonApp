@@ -73,6 +73,7 @@ export class LoginService {
     if (this.getCookie()) {
       console.log('Cookie borrada')
       this.cookie.remove('user');
+      this.cookie.remove('id');
       this.router.navigate(['login']);
     } else {
       console.log('No hay cookie que borrar')

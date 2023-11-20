@@ -10,6 +10,7 @@ import { PokemonDetailsComponent } from './pages/pokemons/pokemon-details/pokemo
 import { LocationInfoComponent } from './pages/locations/location-info/location-info.component';
 import { RegionComponent } from './pages/locations/region/region.component';
 import { ItemInfoComponent } from './pages/items/item-info/item-info.component';
+import { MyPokedexComponent } from './pages/user-pokedex/my-pokedex/my-pokedex.component';
 
 const routes: Routes = [
   // { path: 'pokemons', component: PokemonTableComponent, canActivate: [loginGuard] },
@@ -33,6 +34,11 @@ const routes: Routes = [
   {
     path: 'items',
     loadChildren: () => import('./pages/items/items.module').then(m => m.ItemsModule),
+    canActivate: [loginGuard]
+  },
+  {
+    path: 'my-pokedex',
+    component: MyPokedexComponent,
     canActivate: [loginGuard]
   },
   {

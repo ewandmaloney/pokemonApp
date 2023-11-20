@@ -1,0 +1,7 @@
+<div *ngFor="let pokemon of pokemons; let i = index">
+    <p>{{pokemon.id}}</p>
+    <img [src]="pokemon.image" alt="{{pokemon.name}}">
+    <p>{{pokemon.name}}</p>
+</div>
+
+<!-- <app-infinite-scroll [pokedexID]="pokedexID" ></app-infinite-scroll> -->

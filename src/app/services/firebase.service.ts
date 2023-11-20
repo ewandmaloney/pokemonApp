@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { PokemonDetailsResponse } from '../pages/pokemons/interfaces/PokemonDetailsResponse.interface';
-import { Observer, filter, map } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { LoginService } from './login.service';
 
 @Injectable({
@@ -9,43 +9,65 @@ import { LoginService } from './login.service';
 })
 export class FirebaseService {
 
-
-
   constructor(private http: HttpClient, private LoginService: LoginService) {
-
   }
-
 
   savePokemon(pokemon: PokemonDetailsResponse) {
     const pokemonSaved = {
       id: pokemon.id,
       name: pokemon.name,
-      image: pokemon.sprites.front_default
+      image: pokemon.sprites.front_default,
     }
-
     let userId = Number(this.LoginService.getCookieId())
 
-    //A futuro: comprobar si el pokemon ya existe en la pokedex del usuario
-
-    this.http.post(`https://angular-test-request-project-default-rtdb.europe-west1.firebasedatabase.app/pokedex/${userId}/pokemons.json`, pokemonSaved).subscribe(res => {
-      alert('Pokemon guardado en la pokedex')
-    })
-
+    let isSaved;
+    this.isPokemonAlreadySaved(pokemon).subscribe((res: any) => {
+      isSaved = res;
+      if (isSaved) {
+        alert('El pokemon ya está guardado en tu pokedex')
+        return;
+      } else {
+        this.http.post(`https://angular-test-request-project-default-rtdb.europe-west1.firebasedatabase.app/pokedex/${userId}/pokemons.json`, pokemonSaved).subscribe(res => {
+          alert('Pokemon guardado en la pokedex')
+        })
+      }
+    });
   }
 
   getPokedexFromUser() {
     let userId = Number(this.LoginService.getCookieId())
     return this.http.get(`https://angular-test-request-project-default-rtdb.europe-west1.firebasedatabase.app/pokedex/${userId}.json#`)
+      .pipe(map((res: any) => this.createPokedexArray(res)))
   }
 
-  isPokemonAlreadySaved(pokemon: PokemonDetailsResponse) {
-    const { id } = pokemon
-    let userId = Number(this.LoginService.getCookieId())
+  createPokedexArray(pokedexObj: any) {
+    let pokedex: any[] = []
+    if (pokedexObj) {
+      const data: any[] = Object.values(pokedexObj)
+      if (pokedexObj === null) { return []; }
+      data.forEach((pkm: any) => {
+        pokedex = Object.values(pkm)
+      })
+    }
+    return pokedex;
+  }
 
-    //Llamar a la pokedex del usuario
-
-    //Recorrer pokedex del usuario
-
+  isPokemonAlreadySaved(pokemon: PokemonDetailsResponse): Observable<boolean> {
+    return new Observable<boolean>(observer => {
+      const { id } = pokemon;
+      let isSaved = false;
+      this.getPokedexFromUser().subscribe((res: any) => {
+        const pokemons = Object.values(res);
+        pokemons.forEach((pkm: any) => {
+          if (pkm.id === id) {
+            isSaved = true;
+          }
+        });
+        observer.next(isSaved);
+        observer.complete();
+        observer.error(Error('Error trying to obtain pokemon from pokedex'));
+      });
+    });
   }
 
   deletePruebas() {

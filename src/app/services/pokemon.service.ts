@@ -36,10 +36,9 @@ export class PokemonService {
         }
         observer.next(isFireType);
         observer.complete();
-      }, error => {
-        // Manejar errores si es necesario
-        observer.error(error);
-      });
+        observer.error(Error('Error trying to obtain pokemon type'));
+      }
+      );
     });
   }
 

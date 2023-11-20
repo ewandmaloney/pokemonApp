@@ -12,6 +12,8 @@ import { CookieModule } from 'ngx-cookie';
 
 import { ServicesModule } from './services/services.module';
 import { LoginModule } from './pages/login/login.module';
+import { UserPokedexModule } from './pages/user-pokedex/user-pokedex.module';
+
 
 
 
@@ -28,6 +30,7 @@ import { LoginModule } from './pages/login/login.module';
     PipesModule,
     LoginModule,
     ServicesModule,
+    UserPokedexModule,
     CookieModule.withOptions()
 
   ],
