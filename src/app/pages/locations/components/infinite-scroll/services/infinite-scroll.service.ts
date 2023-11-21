@@ -52,6 +52,7 @@ export class InfiniteScrollService {
       this.loading = true;
       this.pokedexPokemons = res;
       this.pokedexPokemons.sort((a, b) => a.id - b.id);
+      this.totalPokemons = this.pokedexPokemons.length;
       //paginas
       this.pages = Math.ceil(this.totalPokemons / 20);
       this.addPokemons();
