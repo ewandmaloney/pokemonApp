@@ -1,8 +1,13 @@
 <div class="card hover-shadow">
-    <img (click)="detailsPokemon(pokemon.id)" [src]="pokemon.sprites | noImage" class="card-img-top pokemon"
+    <img *ngIf="!personalPokedex" (click)="detailsPokemon(pokemon.id)" [src]="pokemon.sprites | noImage"
+        class="card-img-top pokemon" [alt]="pokemon.name">
+    <img *ngIf="personalPokedex" (click)="detailsPokemon(pokemon.id)" [src]="pokemon.image" class="card-img-top pokemon"
         [alt]="pokemon.name">
     <div class="card-body d-flex justify-content-around pokemon">
         <h5 (click)="detailsPokemon(pokemon.id)" class="card-title text-center">{{pokemon.name | titlecase}}</h5>
-        <p (click)="addPokemonToPokedex(pokemon)" class="hover"><i class="fa-solid fa-user-plus"></i></p>
+        <p *ngIf="!personalPokedex" (click)="addPokemonToPokedex(pokemon)" class="hover"><i
+                class="fa-solid fa-user-plus"></i></p>
+        <p *ngIf="personalPokedex" (click)="deletePokemon(pokemon.id)" class="delete"><i
+                class="fa-solid fa-trash-can"></i></p>
     </div>
 </div>

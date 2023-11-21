@@ -21,8 +21,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
     RegionComponent,
     PokemonListComponent,
     InfiniteScrollComponent,
-    
-    
   ],
   imports: [
     CommonModule,
@@ -31,6 +29,9 @@ import { SharedModule } from 'src/app/shared/shared.module';
     PipesModule,
     InfiniteScrollModule,
     SharedModule
+  ],
+  exports:[
+    InfiniteScrollComponent
   ]
 })
 export class LocationsModule { }

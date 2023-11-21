@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FirebaseService } from 'src/app/services/firebase.service';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-my-pokedex',
@@ -8,22 +9,27 @@ import { FirebaseService } from 'src/app/services/firebase.service';
 })
 export class MyPokedexComponent implements OnInit {
 
+
   public pokemons: any[] = [];
   public firebaseData: any[] = [];
+  public pokedexID: string = '';
 
-  constructor(private firebase: FirebaseService) {
+  constructor(private firebase: FirebaseService, private loginServ: LoginService) {
 
   }
 
   ngOnInit(): void {
-    this.getPokemonsFromPokedex();
+    //this.getPokemonsFromPokedex();
+    //Paso el email del usuario
+    this.pokedexID = this.loginServ.getCookieUser()!;
   }
 
-  getPokemonsFromPokedex() {
-    this.firebase.getPokedexFromUser().subscribe((res: any) => {
-      
-      this.pokemons = res;
-    })
-  }
+  // getPokemonsFromPokedex() {
+  //   this.firebase.getPokedexFromUser().subscribe((res: any) => {
+  //     this.pokemons = res;
 
+  //   })
+  // }
+
+  
 }

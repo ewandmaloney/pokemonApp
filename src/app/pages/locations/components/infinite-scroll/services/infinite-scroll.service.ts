@@ -5,6 +5,7 @@ import { PokemonService } from 'src/app/services/pokemon.service';
 import { PokedexResponse, PokemonEntry } from '../../../interfaces/PokedexResponse';
 import { Subject, forkJoin, takeUntil } from 'rxjs';
 import { PokemonDetailsResponse } from 'src/app/pages/pokemons/interfaces/PokemonDetailsResponse.interface';
+import { FirebaseService } from 'src/app/services/firebase.service';
 
 @Injectable()
 export class InfiniteScrollService {
@@ -20,9 +21,13 @@ export class InfiniteScrollService {
   public limit: number = 20;
   public offset: number = 0;
   public actualPage: number = 1;
+  public personalPokedex: boolean = false;
 
 
-  constructor(private http: HttpClient, private locServ: LocationService, private pokeServ: PokemonService) {
+  constructor(private http: HttpClient,
+    private locServ: LocationService,
+    private pokeServ: PokemonService,
+    private firebase: FirebaseService) {
 
   }
 
@@ -32,12 +37,29 @@ export class InfiniteScrollService {
     let isNumber = pokedexId.split('/')
 
     if (Number(isNumber[6])) {
+      this.personalPokedex = false;
       this.showPokemonList(pokedexId);
+    } else {
+      this.personalPokedex = true;
+      this.showPersonalPokedex();
     }
 
   }
 
-  showPokemonList(url : string) {
+  showPersonalPokedex() {
+    this.resetValues();
+    this.firebase.getPokedexFromUser().subscribe((res: any) => {
+      this.loading = true;
+      this.pokedexPokemons = res;
+      this.pokedexPokemons.sort((a, b) => a.id - b.id);
+      //paginas
+      this.pages = Math.ceil(this.totalPokemons / 20);
+      this.addPokemons();
+      this.loading = false;
+    })
+  }
+
+  showPokemonList(url: string) {
     this.resetValues();
     this.getInfoPokedex(url);
   }

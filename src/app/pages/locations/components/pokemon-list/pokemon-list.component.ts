@@ -10,6 +10,7 @@ import { PokemonDetailsResponse } from 'src/app/pages/pokemons/interfaces/Pokemo
 export class PokemonListComponent implements OnInit{
 
   @Input() pokemons: PokemonDetailsResponse[] = [];
+  @Input() personalPokedex: boolean = false;
 
   constructor(private router: Router) {
    }

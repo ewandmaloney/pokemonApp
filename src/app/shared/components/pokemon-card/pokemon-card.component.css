@@ -5,3 +5,11 @@
 .hover:hover{
     color: blue;
 }
+
+.delete{
+    color: rgb(218, 87, 87);
+}
+
+.delete:hover{
+    color: red;
+}

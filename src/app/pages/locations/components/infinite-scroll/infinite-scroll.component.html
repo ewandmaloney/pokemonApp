@@ -6,8 +6,9 @@
     </div>
 </div>
 
+<h4 *ngIf="personalPokedex">Personal Pokedex</h4>
 
 <app-pokemon-list infiniteScroll [infiniteScrollDistance]="2" (scrolled)="onScroll()"
-    [pokemons]="pokemons"></app-pokemon-list>
+    [personalPokedex]="personalPokedex" [pokemons]="pokemons"></app-pokemon-list>
 <button [ngClass]="'no-hidden'" *ngIf="showGoUpButton" class="btn btn-primary" (click)="scrollTop()">
     <i class="fa-solid fa-circle-up"></i></button>

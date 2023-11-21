@@ -14,7 +14,7 @@ export const authFnGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state)
 
 
   //Obtengo el email del usuario logueado (solo puede llegar a esta pagina si esta logueado por eso no hago comprobacion)
-  const userEmail = loginServ.getCookie();
+  const userEmail = loginServ.getCookieUser();
 
   if (id) {
     /*

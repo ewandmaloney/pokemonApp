@@ -5,7 +5,7 @@ import { LoginService } from '../services/login.service';
 export const loginGuard: CanActivateFn = (route, state) => {
 
   const loginServ = inject(LoginService);
-  const user = loginServ.getCookie();
+  const user = loginServ.getCookieUser();
   const router = inject(Router);
 
   if (!user) {

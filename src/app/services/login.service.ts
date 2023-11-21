@@ -56,7 +56,7 @@ export class LoginService {
     return this.http.get('assets/users.json');
   }
 
-  getCookie() {
+  getCookieUser() {
     return this.cookie.get('user');
   }
 
@@ -70,7 +70,7 @@ export class LoginService {
   }
 
   deleteCookie() {
-    if (this.getCookie()) {
+    if (this.getCookieUser()) {
       console.log('Cookie borrada')
       this.cookie.remove('user');
       this.cookie.remove('id');

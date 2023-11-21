@@ -21,6 +21,7 @@ export class InfiniteScrollComponent implements OnInit, OnChanges {
 
 
   public showGoUpButton: boolean = false;
+  public personalPokedex: boolean = false;
   @Input() pokedexID!: string;
   public pokedexId?: number;
   showScrollHeight: number = 400;
@@ -50,6 +51,7 @@ export class InfiniteScrollComponent implements OnInit, OnChanges {
     if (changes['pokedexID'] && changes['pokedexID'].currentValue) {
       this.infScr.detectPokedexId(this.pokedexID);
       this.pokemons = this.infScr.pokemons;
+      this.personalPokedex = this.infScr.personalPokedex;
     }
   }
 

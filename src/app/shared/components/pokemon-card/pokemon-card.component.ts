@@ -15,6 +15,7 @@ export class PokemonCardComponent {
 
   constructor(private firebase: FirebaseService) { }
 
+  @Input() personalPokedex: boolean = false;
   @Input() pokemon: any = {};
   @Output() detailPokemon: EventEmitter<number> = new EventEmitter();
 
@@ -27,6 +28,17 @@ export class PokemonCardComponent {
     //Post a la pokedex
     //this.firebase.deletePruebas();
     this.firebase.savePokemon(pokemon);
+  }
+
+  //Llevarme esta función a pokemon card (dentro de infinite scroll)
+  deletePokemon(id: number) {
+    this.firebase.deletePokemonFromPokedex(id);
+    //Esto se hace para que no se quede colgando el pokemon en la vista
+    for (let index = 0; index < this.pokemon.length; index++) {
+      if (this.pokemon[index].id == id) {
+        this.pokemon.splice(index, 1);
+      }
+    }
   }
 
 }
