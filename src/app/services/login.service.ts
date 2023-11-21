@@ -2,14 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie';
-import { catchError, tap } from 'rxjs';
+import { BehaviorSubject, catchError, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
   redirectUrl: string | null = null;
-  public loggedIn: boolean = false;
+  //Es un tipo de observable que mantiene un valor y lo emite a los nuevos subscriptores
+  public loggedIn = new BehaviorSubject<boolean>(false);
 
   constructor(private http: HttpClient, private router: Router, private cookie: CookieService) { }
 
@@ -24,7 +25,6 @@ export class LoginService {
             const userId = authorized[0].id
             // alert('Usuario autorizado');
             this.saveCookie(userEmail, userId);
-            this.loggedIn = true;
             if (this.redirectUrl) {
               this.router.navigate([this.redirectUrl]);
               this.redirectUrl = null;
@@ -49,6 +49,8 @@ export class LoginService {
   saveCookie(email: string, id: number) {
     this.cookie.put('user', email);
     this.cookie.put('id', id.toString());
+    //Con el next actualizo su valor
+    this.loggedIn.next(true);
   }
 
 
@@ -65,7 +67,7 @@ export class LoginService {
   }
 
   logout() {
-    this.loggedIn = false;
+    this.loggedIn.next(false);
     this.deleteCookie();
   }
 

@@ -1,4 +1,5 @@
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Observable } from 'rxjs';
 import { LoginService } from 'src/app/services/login.service';
 
 @Component({
@@ -6,23 +7,20 @@ import { LoginService } from 'src/app/services/login.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent implements OnInit, OnChanges {
+export class NavbarComponent implements OnInit {
 
-  public loggedIn : boolean = true;
+  public loggedIn: boolean = true;
 
   constructor(private logServ: LoginService) {
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes)
-  }
-
   ngOnInit(): void {
-
+    this.logServ.loggedIn.subscribe(loggedIn => {
+      this.loggedIn = loggedIn;
+    });
   }
 
   logout() {
-    this.loggedIn = false;
     this.logServ.logout();
   }
 
