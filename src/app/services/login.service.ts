@@ -66,6 +66,10 @@ export class LoginService {
     return this.cookie.get('id');
   }
 
+  makeSubjectGoTrue() {
+    return this.loggedIn.next(true);
+  }
+
   logout() {
     this.loggedIn.next(false);
     this.deleteCookie();

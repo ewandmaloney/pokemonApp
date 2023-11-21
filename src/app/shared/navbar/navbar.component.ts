@@ -15,6 +15,10 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    let userLoggedIn: boolean = this.logServ.getCookieUser() ? true : false;
+    if(userLoggedIn){
+      this.logServ.makeSubjectGoTrue();
+    }
     this.logServ.loggedIn.subscribe(loggedIn => {
       this.loggedIn = loggedIn;
     });
