@@ -7,7 +7,7 @@
         <h5 (click)="detailsPokemon(pokemon.id)" class="card-title text-center">{{pokemon.name | titlecase}}</h5>
         <p *ngIf="!personalPokedex" (click)="addPokemonToPokedex(pokemon)" class="hover"><i
                 class="fa-solid fa-user-plus"></i></p>
-        <p *ngIf="personalPokedex" (click)="deletePokemon(pokemon.id)" class="delete"><i
+        <p *ngIf="personalPokedex" (click)="deletePokemonFirebase(pokemon.id)" class="delete"><i
                 class="fa-solid fa-trash-can"></i></p>
     </div>
 </div>

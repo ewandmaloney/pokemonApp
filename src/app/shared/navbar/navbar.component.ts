@@ -1,5 +1,6 @@
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs';
+import { InfoDialogsService } from 'src/app/services/info-dialogs.service';
 import { LoginService } from 'src/app/services/login.service';
 
 @Component({
@@ -11,12 +12,12 @@ export class NavbarComponent implements OnInit {
 
   public loggedIn: boolean = true;
 
-  constructor(private logServ: LoginService) {
+  constructor(private logServ: LoginService, private dialog: InfoDialogsService) {
   }
 
   ngOnInit(): void {
     let userLoggedIn: boolean = this.logServ.getCookieUser() ? true : false;
-    if(userLoggedIn){
+    if (userLoggedIn) {
       this.logServ.makeSubjectGoTrue();
     }
     this.logServ.loggedIn.subscribe(loggedIn => {
@@ -25,7 +26,9 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
-    this.logServ.logout();
+    this.dialog.showConfirmationDialog('Logout', 'Are you sure you want to logout?', () => {
+      this.logServ.logout();
+    });
   }
 
 }

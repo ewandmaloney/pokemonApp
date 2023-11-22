@@ -23,7 +23,6 @@ export class LoginService {
           if (authorized.length > 0) {
             const userEmail = authorized[0].email
             const userId = authorized[0].id
-            // alert('Usuario autorizado');
             this.saveCookie(userEmail, userId);
             if (this.redirectUrl) {
               this.router.navigate([this.redirectUrl]);
@@ -32,7 +31,7 @@ export class LoginService {
               this.router.navigate(['pokemons/all']);
             }
           } else {
-            alert('Usuario no autorizado');
+            //alert('Usuario no autorizado');
           }
         } else {
           alert('No se han recogido los usuarios del interceptor');

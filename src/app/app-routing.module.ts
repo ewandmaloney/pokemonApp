@@ -51,7 +51,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'login'
+    redirectTo: 'pokemons'
   }
 
 ];

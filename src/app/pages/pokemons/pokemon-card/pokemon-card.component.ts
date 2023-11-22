@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { PokemonDetailsResponse, Type } from '../interfaces/PokemonDetailsResponse.interface';
 import { PokemonService } from 'src/app/services/pokemon.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
+import { InfoDialogsService } from 'src/app/services/info-dialogs.service';
 
 @Component({
   selector: 'app-pokemon-card',
@@ -23,7 +24,7 @@ export class PokemonCardComponent implements OnInit, OnChanges {
   @Output() eventPageNumber: EventEmitter<number> = new EventEmitter;
   @Output() eventLimit: EventEmitter<number> = new EventEmitter();
 
-  constructor(private pokeService: PokemonService, private firebase: FirebaseService) {
+  constructor(private pokeService: PokemonService, private firebase: FirebaseService, private dialog : InfoDialogsService) {
   }
 
   //Con esto compruebo si existen cambios en los datos de la llamada y me lo copio
@@ -46,6 +47,8 @@ export class PokemonCardComponent implements OnInit, OnChanges {
   addPokemonToPokedex(pokemon: PokemonDetailsResponse) {
     //Post a la pokedex
     //this.firebase.deletePruebas();
+
+    //Mensaje de error y de success desde aqui
     this.firebase.savePokemon(pokemon);
   }
 

@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-dark navbar-dark mb-4">
     <div class="container-fluid">
-        <ul class="navbar-nav d-flex justify-content-start">
+        <ul *ngIf="loggedIn" class="navbar-nav d-flex justify-content-start">
             <li class="nav-item">
                 <a class="nav-link" routerLinkActive="active" routerLink="pokemons/all">Home</a>
             </li>

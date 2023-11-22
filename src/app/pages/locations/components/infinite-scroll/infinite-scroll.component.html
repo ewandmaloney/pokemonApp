@@ -6,7 +6,6 @@
     </div>
 </div>
 
-<h4 *ngIf="personalPokedex">Personal Pokedex</h4>
 
 <app-pokemon-list infiniteScroll [infiniteScrollDistance]="2" (scrolled)="onScroll()"
     [personalPokedex]="personalPokedex" [pokemons]="pokemons"></app-pokemon-list>

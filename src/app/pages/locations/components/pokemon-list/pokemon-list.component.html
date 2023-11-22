@@ -1,5 +1,11 @@
 <div *ngIf="pokemons.length === 0">
+    <div class="alert alert-warning" role="alert">
+        Your pokedex is empty!
+    </div>
+</div>
 
+<div *ngIf="personalPokedex && pokemons.length > 0">
+    <h1>Personal pokedex</h1>
 </div>
 
 <div class="my-5" *ngIf="pokemons.length > 0">
@@ -11,7 +17,8 @@
     row-cols-sm-3
     g-4">
         <div class="col" *ngFor="let pokemon of pokemons">
-            <app-pokemon-card [personalPokedex]="personalPokedex" [pokemon]="pokemon" (detailPokemon)="detailsPokemon($event)"></app-pokemon-card>
+            <app-pokemon-card [personalPokedex]="personalPokedex" [pokemon]="pokemon"
+                (deletePokemon)="deletePokemon($event)" (detailPokemon)="detailsPokemon($event)"></app-pokemon-card>
         </div>
     </div>
 </div>

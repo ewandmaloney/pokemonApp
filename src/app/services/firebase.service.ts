@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { PokemonDetailsResponse } from '../pages/pokemons/interfaces/PokemonDetailsResponse.interface';
 import { Observable, map } from 'rxjs';
 import { LoginService } from './login.service';
+import { InfoDialogsService } from './info-dialogs.service';
+import { TitleCasePipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,7 @@ export class FirebaseService {
 
   public firebaseData: any[] = [];
 
-  constructor(private http: HttpClient, private LoginService: LoginService) {
+  constructor(private http: HttpClient, private LoginService: LoginService, private dialog: InfoDialogsService) {
   }
 
   savePokemon(pokemon: PokemonDetailsResponse) {
@@ -26,11 +28,11 @@ export class FirebaseService {
     this.isPokemonAlreadySaved(pokemon).subscribe((res: any) => {
       isSaved = res;
       if (isSaved) {
-        alert('El pokemon ya está guardado en tu pokedex')
+        this.dialog.showError('Error', 'El pokemon ya está guardado en la pokedex');
         return;
       } else {
         this.http.post(`https://angular-test-request-project-default-rtdb.europe-west1.firebasedatabase.app/pokedex/${userId}/pokemons.json`, pokemonSaved).subscribe(res => {
-          alert('Pokemon guardado en la pokedex')
+          this.dialog.showSuccess('Pokemon guardado', 'El pokemon se ha guardado en la pokedex');
         })
       }
     });
@@ -92,9 +94,12 @@ export class FirebaseService {
       dataFirebase.forEach((pkm: any) => {
         if (pkm[1].id === id) {
           let pokemon = pkm[0]
-          this.http.delete(`https://angular-test-request-project-default-rtdb.europe-west1.firebasedatabase.app/pokedex/${userId}/pokemons/${pokemon}.json`).subscribe(res => {
-            alert('Pokemon eliminado de la pokedex')
-          })
+          //sweeet alert para confirmar
+          this.dialog.showConfirmationDialog('Confirm', 'Do you want to delete this Pokémon?', () => {
+            this.http.delete(`https://angular-test-request-project-default-rtdb.europe-west1.firebasedatabase.app/pokedex/${userId}/pokemons/${pokemon}.json`).subscribe(res => {
+              this.dialog.showSuccess('Pokemon deleted', `${pkm[1].name} has been deleted from your pokedex`);
+            })
+          });
         }
       })
     })
