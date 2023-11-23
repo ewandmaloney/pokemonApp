@@ -48,9 +48,10 @@ export class InfiniteScrollService {
 
   showPersonalPokedex() {
     this.resetValues();
-    this.firebase.getPokedexFromUser().subscribe((res: any) => {
+    this.firebase.leerDatosPokedex().subscribe((res: any) => {
+      let data = this.firebase.createPokedexArray(res);
       this.loading = true;
-      this.pokedexPokemons = res;
+      this.pokedexPokemons = data;
       this.pokedexPokemons.sort((a, b) => a.id - b.id);
       this.totalPokemons = this.pokedexPokemons.length;
       //paginas
@@ -58,6 +59,16 @@ export class InfiniteScrollService {
       this.addPokemons();
       this.loading = false;
     })
+    // this.firebase.getPokedexFromUser().subscribe((res: any) => {
+    //   this.loading = true;
+    //   this.pokedexPokemons = res;
+    //   this.pokedexPokemons.sort((a, b) => a.id - b.id);
+    //   this.totalPokemons = this.pokedexPokemons.length;
+    //   //paginas
+    //   this.pages = Math.ceil(this.totalPokemons / 20);
+    //   this.addPokemons();
+    //   this.loading = false;
+    // })
   }
 
   showPokemonList(url: string) {

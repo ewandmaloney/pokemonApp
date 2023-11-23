@@ -13,6 +13,9 @@ import { CookieModule } from 'ngx-cookie';
 import { ServicesModule } from './services/services.module';
 import { LoginModule } from './pages/login/login.module';
 import { UserPokedexModule } from './pages/user-pokedex/user-pokedex.module';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getAuth, provideAuth } from '@angular/fire/auth';
+import { getDatabase, provideDatabase } from '@angular/fire/database';
 
 
 
@@ -31,8 +34,10 @@ import { UserPokedexModule } from './pages/user-pokedex/user-pokedex.module';
     LoginModule,
     ServicesModule,
     UserPokedexModule,
-    CookieModule.withOptions()
-
+    CookieModule.withOptions(),
+    provideFirebaseApp(() => initializeApp({ "projectId": "angular-test-request-project", "appId": "1:435090426922:web:dcaed200fbbbcf46bf0753", "databaseURL": "https://angular-test-request-project-default-rtdb.europe-west1.firebasedatabase.app", "storageBucket": "angular-test-request-project.appspot.com", "apiKey": "AIzaSyDCyGC_vQk3oelDOMSmWaYn09g8IMWhvI0", "authDomain": "angular-test-request-project.firebaseapp.com", "messagingSenderId": "435090426922", "measurementId": "G-0CTEXTL3KC" })),
+    //provideAuth(() => getAuth()),
+    provideDatabase(() => getDatabase()),
   ],
   exports: [],
   providers: [
