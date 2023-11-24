@@ -1,12 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { PokemonDetailsResponse } from '../pages/pokemons/interfaces/PokemonDetailsResponse.interface';
-import { Observable, map } from 'rxjs';
+import { Observable } from 'rxjs';
 import { LoginService } from './login.service';
 import { InfoDialogsService } from './info-dialogs.service';
-import { TitleCasePipe } from '@angular/common';
-import { Database, list, object, onValue, ref, remove, set } from '@angular/fire/database';
-import { isEmpty } from 'ngx-cookie';
+import { Database, get, object, onValue, push, ref, remove, set } from '@angular/fire/database';
 
 @Injectable({
   providedIn: 'root'
@@ -30,22 +28,9 @@ export class FirebaseService {
       onValue(dbRef, (snapshot) => {
         const data = snapshot.val();
         //Si no hay nada me devuelve null o undefined
-        if (data === null || data === undefined) { observer.next([]); }
-        observer.next(data)
-        observer.complete();
+        //if (data === null || data === undefined) { observer.next([]); }
+        observer.next(data);
       })
-    })
-  }
-
-
-  //Emite directamente los valores en un void (Se vuelve a llamar si hay cambios en la pokedex)
-  readPokedex() {
-    let userId = Number(this.LoginService.getCookieId())
-    const dbRef = ref(this.database, `pokedex/${userId}`)
-    return onValue(dbRef, (snapshot) => {
-      const data = snapshot.val();
-      this.pokemons = data;
-      console.log(this.pokemons)
     })
   }
 
@@ -66,8 +51,14 @@ export class FirebaseService {
         return;
       } else {
         //Añadir pokemon a la pokedex
-        const dbRef = ref(this.database, `pokedex/${userId}/pokemons/${pokemonSaved.id}`)
-        set(dbRef, pokemonSaved)
+        const dbRef = ref(this.database, `pokedex/${userId}/pokemons`)
+        get(dbRef).then((snapshot) => {
+          if (snapshot.exists()) {
+            push(dbRef, pokemonSaved);
+          } else {
+            set(dbRef, [pokemonSaved]);
+          }
+        });
         this.dialog.showSuccess('Pokemon saved', `${pokemon.name} has been added to your pokedex`);
       }
     });
@@ -97,22 +88,13 @@ export class FirebaseService {
       const { id } = pokemon;
       const userId = Number(this.LoginService.getCookieId())
       let isSaved = false;
-      //Introduce un null de vez en cuando
-      //AÑADIR IVYSAUR Y DESPUES VENUSAUR (DOBLE NULL) 
       this.leerDatosPokedex().subscribe((res: any) => {
-        // console.log(isEmpty(res.pokemons[0]))
-        // if (isEmpty(res.pokemons[0])) {
-        //   const dbRef = ref(this.database, `pokedex/${userId}/pokemons/null`)
-        //   remove(dbRef)
-        //   res.pokemons.shift();
-        // }
+        if (!res) { observer.next(false); observer.complete(); return; }
         const pokemons = Object.values(res);
-        console.log(pokemons)
         pokemons.forEach((pkm: any) => {
-          //Inicio en 1 porque el añadir bulbasur me añade un null
-          for (let index = 0; index < pkm.length; index++) {
-            console.log(pkm[index].id)
-            if (pkm[index].id === id) {
+          const pkmArray = Object.values(pkm);
+          for (let index = 0; index < pkmArray.length; index++) {
+            if ((pkmArray[index] as any).id === id) {
               isSaved = true;
             }
           }

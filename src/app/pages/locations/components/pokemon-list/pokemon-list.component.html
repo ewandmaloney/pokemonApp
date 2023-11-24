@@ -18,7 +18,7 @@
     g-4">
         <div class="col" *ngFor="let pokemon of pokemons">
             <app-pokemon-card [personalPokedex]="personalPokedex" [pokemon]="pokemon"
-                (deletePokemon)="deletePokemon($event)" (detailPokemon)="detailsPokemon($event)"></app-pokemon-card>
+                (deletePokemon)="deletePokemon($event)" (addPokemon)="addPokemonToPokedex($event)" (detailPokemon)="detailsPokemon($event)"></app-pokemon-card>
         </div>
     </div>
 </div>

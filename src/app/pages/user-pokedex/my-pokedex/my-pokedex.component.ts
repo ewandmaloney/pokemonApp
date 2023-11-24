@@ -22,13 +22,8 @@ export class MyPokedexComponent implements OnInit {
   ngOnInit(): void {
     //Paso el email del usuario
     this.pokedexID = this.loginServ.getCookieUser()!;
-    this.firebase.deletePruebas();
-    this.firebase.readPokedex();
-    // this.firebase.leerDatosPokedex().subscribe((res: any) => {
-    //   this.pkm = this.firebase.pokemons;
-    //   console.log(this.pkm)
-    // });
-
+    //this.firebase.deletePruebas();
+    // this.firebase.readPokedex();
   }
 
 

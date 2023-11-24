@@ -19,6 +19,7 @@ export class PokemonCardComponent {
   @Input() pokemon: any = {};
   @Output() detailPokemon: EventEmitter<number> = new EventEmitter();
   @Output() deletePokemon: EventEmitter<number> = new EventEmitter();
+  @Output() addPokemon: EventEmitter<PokemonDetailsResponse> = new EventEmitter();
 
 
   detailsPokemon(id: number) {
@@ -26,9 +27,7 @@ export class PokemonCardComponent {
   }
 
   addPokemonToPokedex(pokemon: PokemonDetailsResponse) {
-    //Post a la pokedex
-    //this.firebase.deletePruebas();
-    this.firebase.savePokemon(pokemon);
+    this.addPokemon.emit(pokemon);
   }
 
   //Llevarme esta función a pokemon card (dentro de infinite scroll)

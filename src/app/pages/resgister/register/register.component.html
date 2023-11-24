@@ -1,0 +1,44 @@
+<form [formGroup]="signupForm" (ngSubmit)="onSubmit(signupForm)">
+
+    <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" required class="form-control" name="name" formControlName="name" id="name"
+            placeholder="Enter name">
+        <span *ngIf="signupForm.get('name')?.touched && signupForm.get('name')?.errors" class="text-danger">Name
+            is required</span>
+    </div>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input type="text" required class="form-control" name="email" formControlName="email" id="email"
+            placeholder="Enter email">
+        <span *ngIf="signupForm.get('email')?.touched && signupForm.get('email')?.errors" class="text-danger">Email
+            is required</span>
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" required class="form-control" name="password" formControlName="password" id="password"
+            placeholder="Enter password">
+        <span *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.errors"
+            class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="password_confirmation">Password Confirmation</label>
+        <input type="password" required class="form-control" name="password_confirmation"
+            formControlName="password_confirmation" id="password_confirmation" placeholder="Enter password">
+        <span
+            *ngIf="signupForm.get('password_confirmation')?.touched && signupForm.get('password_confirmation')?.errors"
+            class="text-danger"></span>
+        <span *ngIf="signupForm.get('password')?.touched != signupForm.get('password_confirmation')?.touched"
+            class="text-danger">
+            Passwords do not match
+        </span>
+    </div>
+
+
+    <button type="submit" *ngIf="!loading" class="btn btn-primary mt-2">Submit</button>
+
+    <button *ngIf="loading" class="btn btn-primary" type="button" disabled>
+        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+        <span role="status">Loading...</span>
+    </button>
+</form>

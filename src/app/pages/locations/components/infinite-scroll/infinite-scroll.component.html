@@ -8,6 +8,7 @@
 
 
 <app-pokemon-list infiniteScroll [infiniteScrollDistance]="2" (scrolled)="onScroll()"
+    (deletePokemonFromPokedex)="deletePokemonFromPokedex($event)" (addPokemon)="addPokemonToPokedex($event)"
     [personalPokedex]="personalPokedex" [pokemons]="pokemons"></app-pokemon-list>
 <button [ngClass]="'no-hidden'" *ngIf="showGoUpButton" class="btn btn-primary" (click)="scrollTop()">
     <i class="fa-solid fa-circle-up"></i></button>

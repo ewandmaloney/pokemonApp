@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { InfoDialogsService } from 'src/app/services/info-dialogs.service';
 import { LoginService } from 'src/app/services/login.service';
 
 @Component({
@@ -10,16 +11,16 @@ import { LoginService } from 'src/app/services/login.service';
 export class PageNotFoundComponent {
 
 
-  constructor(private router: Router, private logServ: LoginService) { }
+  constructor(private router: Router, private logServ: LoginService, private dialogs: InfoDialogsService) { }
 
   backHome() {
     this.router.navigate(['pokemons/all']);
   }
-  
+
   logIn() {
     const userEmail = this.logServ.getCookieUser();
     if (userEmail) {
-      alert('You are already logged in')
+      this.dialogs.showError('Error', 'You are already logged in')
       this.router.navigate(['pokemons/all']);
     } else {
       this.router.navigate(['login']);
