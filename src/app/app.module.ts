@@ -37,7 +37,7 @@ import { ResgisterModule } from './pages/resgister/register.module';
     UserPokedexModule,
     CookieModule.withOptions(),
     provideFirebaseApp(() => initializeApp({ "projectId": "angular-test-request-project", "appId": "1:435090426922:web:dcaed200fbbbcf46bf0753", "databaseURL": "https://angular-test-request-project-default-rtdb.europe-west1.firebasedatabase.app", "storageBucket": "angular-test-request-project.appspot.com", "apiKey": "AIzaSyDCyGC_vQk3oelDOMSmWaYn09g8IMWhvI0", "authDomain": "angular-test-request-project.firebaseapp.com", "messagingSenderId": "435090426922", "measurementId": "G-0CTEXTL3KC" })),
-    //provideAuth(() => getAuth()),
+    provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
     ResgisterModule
   ],

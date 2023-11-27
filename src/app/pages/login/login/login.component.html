@@ -1,3 +1,6 @@
+
+<h3 class="text-center">Login</h3>
+
 <form (ngSubmit)="onSubmit(f)" #f="ngForm">
   <div class="form-group">
     <label for="username">Email</label>
@@ -6,9 +9,22 @@
     <span *ngIf="f.submitted && f.controls['email'].errors" class="text-danger">Email is required. Example:
       test&#64;test.com</span>
   </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input type="password" required class="form-control" name="password" minlength="6" [(ngModel)]="password"
+      id="password" placeholder="Password">
+    <span *ngIf="f.submitted && f.controls['password'].errors" class="text-danger">Password is required.</span>
+  </div>
 
-  <button type="submit" *ngIf="!loading" class="btn btn-primary mt-2">Submit</button>
-  
+  <div class="d-flex justify-content-around mt-2">
+    <p>Dont have an account?</p>
+    <p class="text-primary" style="cursor: pointer;" routerLink="/register">Click here</p>
+  </div>
+
+  <div class="d-flex justify-content-center">
+    <button type="submit" *ngIf="!loading" class="btn btn-primary w-100 t-2">Submit</button>
+  </div>
+
   <button *ngIf="loading" class="btn btn-primary" type="button" disabled>
     <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
     <span role="status">Loading...</span>

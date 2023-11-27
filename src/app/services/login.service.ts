@@ -45,9 +45,9 @@ export class LoginService {
     );
   }
 
-  saveCookie(email: string, id: number) {
+  saveCookie(email: string, id: string) {
     this.cookie.put('user', email);
-    this.cookie.put('id', id.toString());
+    this.cookie.put('id', id);
     //Con el next actualizo su valor
     this.loggedIn.next(true);
   }

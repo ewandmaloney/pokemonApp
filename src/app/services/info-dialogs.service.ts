@@ -55,4 +55,14 @@ export class InfoDialogsService {
     });
   }
 
+  showLoading(title: string) {
+    Swal.fire({
+      title,
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading()
+      },
+    });
+  }
+
 }

@@ -1,3 +1,5 @@
+<h3 class="text-center">Register</h3>
+
 <form [formGroup]="signupForm" (ngSubmit)="onSubmit(signupForm)">
 
     <div class="form-group">
@@ -8,10 +10,36 @@
             is required</span>
     </div>
     <div class="form-group">
+        <label for="phone_number">Phone number</label>
+        <input type="number" required class="form-control" name="phone_number" formControlName="phone_number"
+            id="phone_number" placeholder="Enter phone number">
+        <span *ngIf="signupForm.get('phone_number')?.touched && signupForm.get('phone_number')?.errors"
+            class="text-danger">Phone number
+            is required. Example: 678944541</span>
+    </div>
+    <div class="form-group">
         <label for="email">Email</label>
         <input type="text" required class="form-control" name="email" formControlName="email" id="email"
             placeholder="Enter email">
         <span *ngIf="signupForm.get('email')?.touched && signupForm.get('email')?.errors" class="text-danger">Email
+            is required</span>
+    </div>
+    <div class="form-group">
+        <label for="gender">Gender</label>
+        <div *ngFor="let item of gender, index as i">
+            <input type="radio" [value]="item" name="gender" formControlName="gender">{{item}}
+        </div>
+        <span *ngIf="signupForm.get('gender')?.touched && signupForm.get('gender')?.errors" class="text-danger">Gender
+            is required</span>
+    </div>
+    <div class="form-group">
+        <label for="language">Language</label>
+        <select name="language" id="language" formControlName="language">
+            <option value="">Select language</option>
+            <option *ngFor="let item of language">
+                {{item}}</option>
+        </select>
+        <span *ngIf="signupForm.get('gender')?.touched && signupForm.get('gender')?.errors" class="text-danger">Gender
             is required</span>
     </div>
     <div class="form-group">
@@ -34,8 +62,15 @@
         </span>
     </div>
 
+    <div class="d-flex justify-content-around mt-2">
+        <p>Already have an account?</p>
+        <p class="text-primary" style="cursor: pointer;" routerLink="/register">Login here</p>
+    </div>
 
-    <button type="submit" *ngIf="!loading" class="btn btn-primary mt-2">Submit</button>
+    <div class="d-flex justify-content-center">
+        <button type="submit" *ngIf="!loading" class="btn btn-primary w-100 mt-2">Submit</button>
+    </div>
+
 
     <button *ngIf="loading" class="btn btn-primary" type="button" disabled>
         <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>

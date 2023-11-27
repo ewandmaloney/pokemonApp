@@ -22,7 +22,7 @@ export class FirebaseService {
 
   //Devuelve un observable con los datos de la pokedex
   leerDatosPokedex() {
-    let userId = Number(this.LoginService.getCookieId())
+    let userId = (this.LoginService.getCookieId())
     const dbRef = ref(this.database, `pokedex/${userId}`)
     return new Observable(observer => {
       onValue(dbRef, (snapshot) => {
@@ -42,7 +42,7 @@ export class FirebaseService {
       name: pokemon.name,
       image: pokemon.sprites.front_default,
     }
-    let userId = Number(this.LoginService.getCookieId())
+    let userId = (this.LoginService.getCookieId())
     let isSaved;
     this.isPokemonAlreadySaved(pokemon).subscribe((res: any) => {
       isSaved = res;
@@ -86,7 +86,7 @@ export class FirebaseService {
   isPokemonAlreadySaved(pokemon: PokemonDetailsResponse): Observable<boolean> {
     return new Observable<boolean>(observer => {
       const { id } = pokemon;
-      const userId = Number(this.LoginService.getCookieId())
+      const userId = (this.LoginService.getCookieId())
       let isSaved = false;
       this.leerDatosPokedex().subscribe((res: any) => {
         if (!res) { observer.next(false); observer.complete(); return; }
@@ -109,7 +109,7 @@ export class FirebaseService {
 
   deletePokemonFromPokedex(id: number) {
     //ID usuario
-    let userId = Number(this.LoginService.getCookieId())
+    let userId = (this.LoginService.getCookieId())
 
     this.firebaseData.forEach((pkm: any) => {
       //Vuelve el objeto en un array
