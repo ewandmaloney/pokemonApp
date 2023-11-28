@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { updateProfile } from '@angular/fire/auth';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { FirebaseAuthService } from 'src/app/services/firebase-auth.service';
+import { InfoDialogsService } from 'src/app/services/info-dialogs.service';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-register',
@@ -13,9 +17,10 @@ export class RegisterComponent implements OnInit {
   public loading: boolean = false;
   public language: string[] = ['Ingles', 'Español']
   public gender: string[] = ['Hombre', 'Mujer', 'Otro']
+  public submitted: boolean = false;
 
 
-  constructor(private auth: FirebaseAuthService) { }
+  constructor(private auth: FirebaseAuthService, private router: Router, private dialog: InfoDialogsService, private loginServ: LoginService) { }
 
   ngOnInit(): void {
     this.signupForm = new FormGroup({
@@ -31,6 +36,7 @@ export class RegisterComponent implements OnInit {
 
 
   onSubmit(form: FormGroup) {
+    this.submitted = true;
     this.loading = true;
 
     if (form.invalid || form.value.password != form.value.password_confirmation) {
@@ -42,7 +48,28 @@ export class RegisterComponent implements OnInit {
 
     console.log(form)
 
-    this.auth.registerNewUser(name, email, password)
+    this.auth.registerNewUser(name, email, password).then((userCredential) => {
+      const user = userCredential.user;
+      updateProfile(user, {
+        displayName: name,
+      }).catch((error) => {
+        console.log(error)
+      })
+
+      console.log(user)
+      this.loginServ.saveCookie(user.email!, user.uid);
+      this.router.navigate(['pokemons/all']);
+    }).catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      if (errorCode === 'auth/weak-password') {
+        this.dialog.showError('¡Error!', 'La contraseña es muy débil.');
+      } else if (errorCode === 'auth/email-already-in-use') {
+        this.dialog.showError('¡Error!', 'El correo electrónico ya está en uso.');
+      } else {
+        this.dialog.showError('¡Error!', errorMessage);
+      }
+    });
 
     console.log(form)
   }

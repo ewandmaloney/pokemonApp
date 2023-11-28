@@ -55,6 +55,24 @@ export class InfoDialogsService {
     });
   }
 
+  showConfirmationDialog2(title: string, text: string, confirmButtonText: string, callback: () => void, callback2: () => void) {
+    return Swal.fire({
+      title,
+      text,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: confirmButtonText,
+      cancelButtonText: 'No',
+      allowOutsideClick: false
+    }).then((result) => {
+      if (result.isConfirmed) {
+        callback();
+      } else {
+        callback2();
+      }
+    });
+  }
+
   showLoading(title: string) {
     Swal.fire({
       title,

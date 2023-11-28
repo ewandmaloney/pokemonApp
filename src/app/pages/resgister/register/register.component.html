@@ -1,79 +1,128 @@
-<h3 class="text-center">Register</h3>
+<h2 class="text-center">Register</h2>
 
-<form [formGroup]="signupForm" (ngSubmit)="onSubmit(signupForm)">
+<div class="d-flex justify-content-center">
+    <div class="card" style="width: 38rem;">
+        <form [formGroup]="signupForm" (ngSubmit)="onSubmit(signupForm)">
+            <div class="card-body">
+                <div class="form-group">
+                    <label class="fw-bolder" for="name">Name</label>
+                    <app-input-field [control]="signupForm.get('name')" [label]="'name'" [type]="'text'"
+                        [placeholder]="'Enter name'"></app-input-field>
+                    <!-- <input type="text" required class="form-control" name="name" formControlName="name" id="name"
+                        placeholder="Enter name"> -->
+                    <span *ngIf="submitted && signupForm.get('name')?.errors?.['required']" class="text-danger">Name
+                        is required</span>
+                    <span class="text-danger"
+                        *ngIf="signupForm.get('name')?.touched && signupForm.get('name')?.errors?.['maxlength']">
+                        Name must be less than 20 characters
+                    </span>
+                    <span class="text-danger"
+                        *ngIf="signupForm.get('name')?.touched && signupForm.get('name')?.errors?.['minlength']">
+                        Name must be more than 3 characters
+                    </span>
+                </div>
+                <div class="form-group mt-2">
+                    <label class="fw-bolder" for="phone_number">Phone number</label>
+                    <app-input-field [control]="signupForm.get('phone_number')" [label]="'phone_number'" [type]="'number'"
+                        [placeholder]="'Enter phone_number'"></app-input-field>
+                    <!-- <input type="number" required class="form-control" name="phone_number"
+                        formControlName="phone_number" id="phone_number" placeholder="Enter phone number"> -->
+                    <span *ngIf="submitted && signupForm.get('phone_number')?.errors" class="text-danger">Phone number
+                        is required. Example: 678944541</span>
+                    <span class="text-danger"
+                        *ngIf="signupForm.get('phone_number')?.touched && signupForm.get('phone_number')?.errors">
+                        Phone number must be 9 numbers
+                    </span>
+                    <span class="text-danger"
+                        *ngIf="signupForm.get('phone_number')?.touched && signupForm.get('phone_number')?.errors?.['maxlength']">
+                        Phone number must be 9 numbers
+                    </span>
 
-    <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" required class="form-control" name="name" formControlName="name" id="name"
-            placeholder="Enter name">
-        <span *ngIf="signupForm.get('name')?.touched && signupForm.get('name')?.errors" class="text-danger">Name
-            is required</span>
-    </div>
-    <div class="form-group">
-        <label for="phone_number">Phone number</label>
-        <input type="number" required class="form-control" name="phone_number" formControlName="phone_number"
-            id="phone_number" placeholder="Enter phone number">
-        <span *ngIf="signupForm.get('phone_number')?.touched && signupForm.get('phone_number')?.errors"
-            class="text-danger">Phone number
-            is required. Example: 678944541</span>
-    </div>
-    <div class="form-group">
-        <label for="email">Email</label>
-        <input type="text" required class="form-control" name="email" formControlName="email" id="email"
-            placeholder="Enter email">
-        <span *ngIf="signupForm.get('email')?.touched && signupForm.get('email')?.errors" class="text-danger">Email
-            is required</span>
-    </div>
-    <div class="form-group">
-        <label for="gender">Gender</label>
-        <div *ngFor="let item of gender, index as i">
-            <input type="radio" [value]="item" name="gender" formControlName="gender">{{item}}
-        </div>
-        <span *ngIf="signupForm.get('gender')?.touched && signupForm.get('gender')?.errors" class="text-danger">Gender
-            is required</span>
-    </div>
-    <div class="form-group">
-        <label for="language">Language</label>
-        <select name="language" id="language" formControlName="language">
-            <option value="">Select language</option>
-            <option *ngFor="let item of language">
-                {{item}}</option>
-        </select>
-        <span *ngIf="signupForm.get('gender')?.touched && signupForm.get('gender')?.errors" class="text-danger">Gender
-            is required</span>
-    </div>
-    <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" required class="form-control" name="password" formControlName="password" id="password"
-            placeholder="Enter password">
-        <span *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.errors"
-            class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label for="password_confirmation">Password Confirmation</label>
-        <input type="password" required class="form-control" name="password_confirmation"
-            formControlName="password_confirmation" id="password_confirmation" placeholder="Enter password">
-        <span
-            *ngIf="signupForm.get('password_confirmation')?.touched && signupForm.get('password_confirmation')?.errors"
-            class="text-danger"></span>
-        <span *ngIf="signupForm.get('password')?.touched != signupForm.get('password_confirmation')?.touched"
-            class="text-danger">
-            Passwords do not match
-        </span>
-    </div>
+                </div>
+                <div class="form-group mt-2">
+                    <label class="fw-bolder" for="email">Email</label>
+                    <app-input-field [control]="signupForm.get('email')" [label]="'email'" [type]="'email'"
+                        [placeholder]="'Enter email'"></app-input-field>
+                    <!-- <input type="text" required class="form-control" name="email" formControlName="email" id="email"
+                        placeholder="Enter email"> -->
+                    <span *ngIf="submitted && signupForm.get('email')?.errors" class="text-danger">Email
+                        is required</span>
+                    <span class="text-danger"
+                        *ngIf="signupForm.get('email')?.touched && signupForm.get('email')?.errors">
+                        Email pattern isnt correct. Example: test&#64;test.com
+                    </span>
+                </div>
+                <div class="form-group mt-2">
+                    <label class="fw-bolder" for="gender">Gender</label>
+                    <div *ngFor="let item of gender, index as i" class="form-check form-check-inline">
+                        <input type="radio" [value]="item" name="gender" formControlName="gender"> {{item}}
+                    </div>
+                    <br />
+                    <span *ngIf="submitted && signupForm.get('gender')?.errors" class="text-danger">Gender
+                        is required</span>
+                </div>
+                <div class="form-group mt-2">
+                    <label class="fw-bolder" for="language">Language</label>
+                    <select name="language" class="form-select" id="language" formControlName="language">
+                        <option selected value="">--- Select language ---</option>
+                        <option *ngFor="let item of language">
+                            {{item}}</option>
+                    </select>
+                    <span *ngIf="submitted && signupForm.get('language')?.errors?.['required']"
+                        class="text-danger">Language
+                        is required</span>
+                </div>
+                <div class="form-group mt-2">
+                    <label class="fw-bolder" for="password">Password</label>
+                    <app-input-field [control]="signupForm.get('password')" [label]="'password'" [type]="'password'"
+                        [placeholder]="'Enter password'"></app-input-field>
+                    <!-- <input type="password" required class="form-control" name="password" formControlName="password"
+                        id="password" placeholder="Enter password"> -->
+                    <span *ngIf="submitted && signupForm.get('password')?.errors?.['required']" class="text-danger">
+                        Password is required
+                    </span>
+                    <span class="text-danger"
+                        *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.errors?.['minlength']">
+                        Password must be more than 6 characters
+                    </span>
+                    <span class="text-danger"
+                        *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.errors?.['maxlength']">
+                        Password must be lees than 20 characters
+                    </span>
+                </div>
+                <div class="form-group mt-2">
+                    <label class="fw-bolder" for="password_confirmation">Password Confirmation</label>
+                    <app-input-field [control]="signupForm.get('password_confirmation')" [label]="'password_confirmation'" [type]="'password'"
+                        [placeholder]="'Enter password'"></app-input-field>
+                    <!-- <input type="password" required class="form-control" name="password_confirmation"
+                        formControlName="password_confirmation" id="password_confirmation" placeholder="Enter password"> -->
+                    <span *ngIf="submitted && signupForm.get('password_confirmation')?.errors?.['required']"
+                        class="text-danger">
+                        Password confirmation is required
+                    </span>
+                    <span
+                        *ngIf="signupForm.get('password')?.value != signupForm.get('password_confirmation')?.value && signupForm.get('password_confirmation')?.touched"
+                        class="text-danger">
+                        Passwords do not match
+                    </span>
+                </div>
 
-    <div class="d-flex justify-content-around mt-2">
-        <p>Already have an account?</p>
-        <p class="text-primary" style="cursor: pointer;" routerLink="/register">Login here</p>
+                <div class="d-flex justify-content-around mt-2">
+                    <p>Already have an account?</p>
+                    <p class="text-primary" style="cursor: pointer;" routerLink="/login">Click here</p>
+                </div>
+
+                <div class="d-flex justify-content-center">
+                    <button type="submit" *ngIf="!loading" class="btn btn-primary w-100 mt-2">Submit</button>
+                </div>
+
+
+                <button *ngIf="loading" class="btn btn-primary" type="button" disabled>
+                    <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                    <span role="status">Loading...</span>
+                </button>
+            </div>
+        </form>
+        {{signupForm.value | json}}
     </div>
-
-    <div class="d-flex justify-content-center">
-        <button type="submit" *ngIf="!loading" class="btn btn-primary w-100 mt-2">Submit</button>
-    </div>
-
-
-    <button *ngIf="loading" class="btn btn-primary" type="button" disabled>
-        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
-        <span role="status">Loading...</span>
-    </button>
-</form>
+</div>
