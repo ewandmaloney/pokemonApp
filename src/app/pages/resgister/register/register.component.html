@@ -5,11 +5,8 @@
         <form [formGroup]="signupForm" (ngSubmit)="onSubmit(signupForm)">
             <div class="card-body">
                 <div class="form-group">
-                    <label class="fw-bolder" for="name">Name</label>
-                    <app-input-field [control]="signupForm.get('name')" [label]="'name'" [type]="'text'"
+                    <app-input-field formControlName="name" [label]="'name'" [type]="'text'"
                         [placeholder]="'Enter name'"></app-input-field>
-                    <!-- <input type="text" required class="form-control" name="name" formControlName="name" id="name"
-                        placeholder="Enter name"> -->
                     <span *ngIf="submitted && signupForm.get('name')?.errors?.['required']" class="text-danger">Name
                         is required</span>
                     <span class="text-danger"
@@ -22,11 +19,8 @@
                     </span>
                 </div>
                 <div class="form-group mt-2">
-                    <label class="fw-bolder" for="phone_number">Phone number</label>
-                    <app-input-field [control]="signupForm.get('phone_number')" [label]="'phone_number'" [type]="'number'"
-                        [placeholder]="'Enter phone_number'"></app-input-field>
-                    <!-- <input type="number" required class="form-control" name="phone_number"
-                        formControlName="phone_number" id="phone_number" placeholder="Enter phone number"> -->
+                    <app-input-field formControlName="phone_number" [label]="'phone number'" [type]="'number'"
+                        [placeholder]="'Enter phone number'"></app-input-field>
                     <span *ngIf="submitted && signupForm.get('phone_number')?.errors" class="text-danger">Phone number
                         is required. Example: 678944541</span>
                     <span class="text-danger"
@@ -40,11 +34,8 @@
 
                 </div>
                 <div class="form-group mt-2">
-                    <label class="fw-bolder" for="email">Email</label>
-                    <app-input-field [control]="signupForm.get('email')" [label]="'email'" [type]="'email'"
+                    <app-input-field formControlName="email" [label]="'email'" [type]="'email'"
                         [placeholder]="'Enter email'"></app-input-field>
-                    <!-- <input type="text" required class="form-control" name="email" formControlName="email" id="email"
-                        placeholder="Enter email"> -->
                     <span *ngIf="submitted && signupForm.get('email')?.errors" class="text-danger">Email
                         is required</span>
                     <span class="text-danger"
@@ -73,11 +64,8 @@
                         is required</span>
                 </div>
                 <div class="form-group mt-2">
-                    <label class="fw-bolder" for="password">Password</label>
-                    <app-input-field [control]="signupForm.get('password')" [label]="'password'" [type]="'password'"
+                    <app-input-field formControlName="password" [label]="'password'" [type]="'password'"
                         [placeholder]="'Enter password'"></app-input-field>
-                    <!-- <input type="password" required class="form-control" name="password" formControlName="password"
-                        id="password" placeholder="Enter password"> -->
                     <span *ngIf="submitted && signupForm.get('password')?.errors?.['required']" class="text-danger">
                         Password is required
                     </span>
@@ -91,11 +79,8 @@
                     </span>
                 </div>
                 <div class="form-group mt-2">
-                    <label class="fw-bolder" for="password_confirmation">Password Confirmation</label>
-                    <app-input-field [control]="signupForm.get('password_confirmation')" [label]="'password_confirmation'" [type]="'password'"
-                        [placeholder]="'Enter password'"></app-input-field>
-                    <!-- <input type="password" required class="form-control" name="password_confirmation"
-                        formControlName="password_confirmation" id="password_confirmation" placeholder="Enter password"> -->
+                    <app-input-field formControlName="password_confirmation" [label]="'password confirmation'"
+                        [type]="'password'" [placeholder]="'Enter password confirmation'"></app-input-field>
                     <span *ngIf="submitted && signupForm.get('password_confirmation')?.errors?.['required']"
                         class="text-danger">
                         Password confirmation is required

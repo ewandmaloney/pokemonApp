@@ -1,1 +1,4 @@
-<input [formControl]="control" [(ngModel)]="fieldValue" [type]="type" [placeholder]="placeholder" [id]="label" [name]="label" [ngClass]="type !== 'radio' ? 'form-control' : ''">
+<label [for]="label" class="fw-bolder">{{label | titlecase}}</label>
+<input [type]="type" [placeholder]="placeholder" #valor [id]="label" [name]="label" 
+(input)="onInput(valor.value)" [value]="value" [disabled]="isDisabled" [pattern]="pattern"   
+[ngClass]="type !== 'radio' ? 'form-control' : ''">

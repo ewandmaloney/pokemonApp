@@ -5,11 +5,9 @@
   <div class="card" style="width: 38rem;">
     <form (ngSubmit)="onSubmit(f)" #f="ngForm">
       <div class="card-body">
-        <app-input-field [(fieldValue)]="email" [label]="'Email'" [type]="'text'" [placeholder]="'Enter email'"></app-input-field>
         <div class="form-group">
-          <label class="fw-bolder" for="username">Email</label>
-          <input type="text" required class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-            name="email" [(ngModel)]="email" id="username" placeholder="Enter email">
+          <app-input-field [label]="'Email'" [pattern]="'[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'" [(ngModel)]="email"
+            name="email" [type]="'text'" [placeholder]="'Enter email'"></app-input-field>
           <span class="text-danger"
             *ngIf="f.controls['email']?.errors && (f.controls['email']?.dirty || f.controls['email']?.touched)">
             Email pattern isnt correct. Example: test&#64;test.com
@@ -18,9 +16,8 @@
             test&#64;test.com</span>
         </div>
         <div class="form-group mt-2">
-          <label class="fw-bolder" for="password">Password</label>
-          <input type="password" required class="form-control" name="password" minlength="6" [(ngModel)]="password"
-            id="password" placeholder="Password">
+          <app-input-field [label]="'password'" [(ngModel)]="password" name="password" [type]="'password'"
+            [placeholder]="'Enter password'"></app-input-field>
           <span *ngIf="f.submitted && f.controls['password']?.errors" class="text-danger">Password is required.</span>
         </div>
 
