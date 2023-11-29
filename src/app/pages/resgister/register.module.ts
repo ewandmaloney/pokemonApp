@@ -4,6 +4,8 @@ import { RegisterComponent } from './register/register.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { InputFieldComponent } from 'src/app/components/forms/input-field/input-field.component';
+import { RadioFieldComponent } from 'src/app/components/forms/radio-field/radio-field.component';
+import { SelectFieldComponent } from 'src/app/components/forms/select-field/select-field.component';
 
 
 
@@ -15,7 +17,9 @@ import { InputFieldComponent } from 'src/app/components/forms/input-field/input-
     CommonModule,
     ReactiveFormsModule,
     RouterModule,
-    InputFieldComponent
+    InputFieldComponent,
+    RadioFieldComponent,
+    SelectFieldComponent
   ]
 })
 export class ResgisterModule { }

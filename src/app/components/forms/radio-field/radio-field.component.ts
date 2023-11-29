@@ -3,39 +3,36 @@ import { Component, Input, forwardRef } from '@angular/core';
 import { FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-input-field',
+  selector: 'app-radio-field',
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
-  templateUrl: './input-field.component.html',
-  styleUrls: ['./input-field.component.css'],
+  templateUrl: './radio-field.component.html',
+  styleUrls: ['./radio-field.component.css'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => InputFieldComponent),
+      useExisting: forwardRef(() => RadioFieldComponent),
       multi: true
     }
   ]
-})
-export class InputFieldComponent {
 
+})
+export class RadioFieldComponent {
 
   @Input() label: string = '';
   @Input() type: string = '';
   @Input() placeholder: string = '';
   @Input() errors: any;
-  @Input() passwordMismatch: boolean | undefined = false;
   @Input() submitted: boolean = false;
-  @Input() pattern: string = '';
-  value?: string;
-  isDisabled?: boolean;
-  onChange = (_: any) => { }
-  onTouch = () => { }
-
+  @Input() gender: string[] = []
+  public value?: string;
+  public isDisabled?: boolean;
+  public onChange = (_: any) => { }
+  public onTouch = () => { }
 
   constructor() {
 
   }
-
 
   writeValue(value: any): void {
     if (value) {

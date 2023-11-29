@@ -1,6 +1,9 @@
-<label [for]="label" class="fw-bolder">{{label | titlecase}}</label>
-<input [type]="type" [placeholder]="placeholder" #valor [id]="label" [name]="label" (input)="onInput(valor.value)"
-    [value]="value" [disabled]="isDisabled" [pattern]="pattern" [ngClass]="type !== 'radio' ? 'form-control' : ''">
+<label class="fw-bolder" [for]="label">{{label| titlecase}}</label>
+<select [name]="label" [disabled]="isDisabled" #valor (click)="onClick(valor.value)" [id]="label" class="form-select">
+    <option selected value="">--- Select language ---</option>
+    <option [value]="item" *ngFor="let item of language">
+        {{item}}</option>
+</select>
 
 <div class="input-field">
     <span *ngIf="submitted && errors?.required" class="text-danger">{{label | titlecase}} is required</span>
@@ -9,7 +12,4 @@
         characters</span>
     <span *ngIf="errors?.maxlength" class="text-danger">This field must be less than {{errors.maxlength.requiredLength}}
         characters</span>
-    <span *ngIf="passwordMismatch" class="text-danger">Passwords do not match</span>
 </div>
-
-<ng-content></ng-content>

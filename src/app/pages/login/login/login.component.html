@@ -7,18 +7,22 @@
       <div class="card-body">
         <div class="form-group">
           <app-input-field [label]="'Email'" [pattern]="'[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'" [(ngModel)]="email"
-            name="email" [type]="'text'" [placeholder]="'Enter email'"></app-input-field>
-          <span class="text-danger"
-            *ngIf="f.controls['email']?.errors && (f.controls['email']?.dirty || f.controls['email']?.touched)">
-            Email pattern isnt correct. Example: test&#64;test.com
-          </span>
-          <span *ngIf="f.submitted && f.controls['email'].errors" class="text-danger">Email is required. Example:
-            test&#64;test.com</span>
+            name="email" [type]="'text'" [placeholder]="'Enter email'" [submitted]="f.submitted"
+            [errors]="f.controls['email']?.errors" required>
+            <!-- <span class="text-danger"
+              *ngIf="f.controls['email']?.errors && (f.controls['email']?.dirty || f.controls['email']?.touched)">
+              Email pattern isnt correct. Example: test&#64;test.com
+            </span>
+            <span *ngIf="f.submitted && f.controls['email'].errors" class="text-danger">Email is required. Example:
+              test&#64;test.com</span> -->
+          </app-input-field>
+
         </div>
         <div class="form-group mt-2">
           <app-input-field [label]="'password'" [(ngModel)]="password" name="password" [type]="'password'"
-            [placeholder]="'Enter password'"></app-input-field>
-          <span *ngIf="f.submitted && f.controls['password']?.errors" class="text-danger">Password is required.</span>
+            [placeholder]="'Enter password'" [submitted]="f.submitted" [errors]="f.controls['password']?.errors"
+            required></app-input-field>
+          <!-- <span *ngIf="f.submitted && f.controls['password']?.errors" class="text-danger">Password is required.</span> -->
         </div>
 
         <div class="d-flex justify-content-around mt-2">

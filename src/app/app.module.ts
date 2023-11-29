@@ -18,6 +18,8 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getDatabase, provideDatabase } from '@angular/fire/database';
 import { ResgisterModule } from './pages/resgister/register.module';
 import { InputFieldComponent } from './components/forms/input-field/input-field.component';
+import { RadioFieldComponent } from './components/forms/radio-field/radio-field.component';
+import { SelectFieldComponent } from './components/forms/select-field/select-field.component';
 
 
 
@@ -25,7 +27,8 @@ import { InputFieldComponent } from './components/forms/input-field/input-field.
 @NgModule({
   declarations: [
     AppComponent,
-    
+
+
 
   ],
   imports: [
@@ -42,6 +45,8 @@ import { InputFieldComponent } from './components/forms/input-field/input-field.
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
     InputFieldComponent,
+    RadioFieldComponent,
+    SelectFieldComponent,
     ResgisterModule
   ],
   exports: [],

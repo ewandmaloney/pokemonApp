@@ -6,90 +6,57 @@
             <div class="card-body">
                 <div class="form-group">
                     <app-input-field formControlName="name" [label]="'name'" [type]="'text'"
-                        [placeholder]="'Enter name'"></app-input-field>
-                    <span *ngIf="submitted && signupForm.get('name')?.errors?.['required']" class="text-danger">Name
-                        is required</span>
-                    <span class="text-danger"
-                        *ngIf="signupForm.get('name')?.touched && signupForm.get('name')?.errors?.['maxlength']">
-                        Name must be less than 20 characters
-                    </span>
-                    <span class="text-danger"
-                        *ngIf="signupForm.get('name')?.touched && signupForm.get('name')?.errors?.['minlength']">
-                        Name must be more than 3 characters
-                    </span>
+                        [placeholder]="'Enter name'" [submitted]="submitted" [errors]="signupForm.get('name')?.errors">
+                    </app-input-field>
                 </div>
                 <div class="form-group mt-2">
                     <app-input-field formControlName="phone_number" [label]="'phone number'" [type]="'number'"
-                        [placeholder]="'Enter phone number'"></app-input-field>
-                    <span *ngIf="submitted && signupForm.get('phone_number')?.errors" class="text-danger">Phone number
-                        is required. Example: 678944541</span>
-                    <span class="text-danger"
-                        *ngIf="signupForm.get('phone_number')?.touched && signupForm.get('phone_number')?.errors">
-                        Phone number must be 9 numbers
-                    </span>
-                    <span class="text-danger"
-                        *ngIf="signupForm.get('phone_number')?.touched && signupForm.get('phone_number')?.errors?.['maxlength']">
-                        Phone number must be 9 numbers
-                    </span>
-
+                        [placeholder]="'Enter phone number'" [errors]="signupForm.get('phone_number')?.errors"
+                        [submitted]="submitted">
+                    </app-input-field>
                 </div>
                 <div class="form-group mt-2">
                     <app-input-field formControlName="email" [label]="'email'" [type]="'email'"
-                        [placeholder]="'Enter email'"></app-input-field>
-                    <span *ngIf="submitted && signupForm.get('email')?.errors" class="text-danger">Email
-                        is required</span>
-                    <span class="text-danger"
-                        *ngIf="signupForm.get('email')?.touched && signupForm.get('email')?.errors">
-                        Email pattern isnt correct. Example: test&#64;test.com
-                    </span>
+                        [placeholder]="'Enter email'" [submitted]="submitted"
+                        [errors]="signupForm.get('email')?.errors">
+                    </app-input-field>
+
                 </div>
                 <div class="form-group mt-2">
-                    <label class="fw-bolder" for="gender">Gender</label>
-                    <div *ngFor="let item of gender, index as i" class="form-check form-check-inline">
-                        <input type="radio" [value]="item" name="gender" formControlName="gender"> {{item}}
-                    </div>
-                    <br />
-                    <span *ngIf="submitted && signupForm.get('gender')?.errors" class="text-danger">Gender
-                        is required</span>
+                    <app-radio-field formControlName="gender" [label]="'Gender'" [type]="'radio'"
+                        [submitted]="submitted" [gender]="gender"
+                        [errors]="signupForm.get('gender')?.errors"></app-radio-field>
+                    <!-- <span *ngIf="submitted && signupForm.get('gender')?.errors" class="text-danger">Gender
+                        is required</span> -->
                 </div>
                 <div class="form-group mt-2">
-                    <label class="fw-bolder" for="language">Language</label>
+                    <app-select-field formControlName="language" [language]="language" [label]="'language'"
+                        [submitted]="submitted" [errors]="signupForm.get"
+                        [errors]="signupForm.get('language')?.errors"></app-select-field>
+                    <!-- <label class="fw-bolder" for="language">Language</label>
                     <select name="language" class="form-select" id="language" formControlName="language">
                         <option selected value="">--- Select language ---</option>
                         <option *ngFor="let item of language">
                             {{item}}</option>
-                    </select>
-                    <span *ngIf="submitted && signupForm.get('language')?.errors?.['required']"
+                    </select> -->
+                    <!-- <span *ngIf="submitted && signupForm.get('language')?.errors?.['required']"
                         class="text-danger">Language
-                        is required</span>
+                        is required</span> -->
                 </div>
                 <div class="form-group mt-2">
                     <app-input-field formControlName="password" [label]="'password'" [type]="'password'"
-                        [placeholder]="'Enter password'"></app-input-field>
-                    <span *ngIf="submitted && signupForm.get('password')?.errors?.['required']" class="text-danger">
-                        Password is required
-                    </span>
-                    <span class="text-danger"
-                        *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.errors?.['minlength']">
-                        Password must be more than 6 characters
-                    </span>
-                    <span class="text-danger"
-                        *ngIf="signupForm.get('password')?.touched && signupForm.get('password')?.errors?.['maxlength']">
-                        Password must be lees than 20 characters
-                    </span>
+                        [placeholder]="'Enter password'" [submitted]="submitted"
+                        [errors]="signupForm.get('password')?.errors">
+
+                    </app-input-field>
+
                 </div>
                 <div class="form-group mt-2">
                     <app-input-field formControlName="password_confirmation" [label]="'password confirmation'"
-                        [type]="'password'" [placeholder]="'Enter password confirmation'"></app-input-field>
-                    <span *ngIf="submitted && signupForm.get('password_confirmation')?.errors?.['required']"
-                        class="text-danger">
-                        Password confirmation is required
-                    </span>
-                    <span
-                        *ngIf="signupForm.get('password')?.value != signupForm.get('password_confirmation')?.value && signupForm.get('password_confirmation')?.touched"
-                        class="text-danger">
-                        Passwords do not match
-                    </span>
+                        [type]="'password'" [placeholder]="'Enter password confirmation'" [submitted]="submitted"
+                        [errors]="signupForm.get('password_confirmation')?.errors"
+                        [passwordMismatch]="signupForm.get('password')?.value != signupForm.get('password_confirmation')?.value && signupForm.get('password_confirmation')?.touched">
+                    </app-input-field>
                 </div>
 
                 <div class="d-flex justify-content-around mt-2">
