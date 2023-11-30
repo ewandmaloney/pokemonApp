@@ -3,18 +3,19 @@ import { CommonModule } from '@angular/common';
 import { NavbarComponent } from './navbar/navbar.component';
 import { RouterModule } from '@angular/router';
 import { PokemonCardComponent } from './components/pokemon-card/pokemon-card.component';
+import { DirectivesModule } from '../directives/directives.module';
 
 
 
 @NgModule({
   declarations: [
-    NavbarComponent
+    NavbarComponent,
   ],
-  exports:[NavbarComponent, PokemonCardComponent],
+  exports: [NavbarComponent, PokemonCardComponent],
   imports: [
     CommonModule,
     RouterModule,
-    PokemonCardComponent
+    PokemonCardComponent,
   ]
 })
 export class SharedModule { }

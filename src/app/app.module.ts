@@ -20,6 +20,7 @@ import { ResgisterModule } from './pages/resgister/register.module';
 import { InputFieldComponent } from './components/forms/input-field/input-field.component';
 import { RadioFieldComponent } from './components/forms/radio-field/radio-field.component';
 import { SelectFieldComponent } from './components/forms/select-field/select-field.component';
+import { DirectivesModule } from './directives/directives.module';
 
 
 
@@ -27,9 +28,6 @@ import { SelectFieldComponent } from './components/forms/select-field/select-fie
 @NgModule({
   declarations: [
     AppComponent,
-
-
-
   ],
   imports: [
     BrowserModule,
