@@ -4,6 +4,8 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { RouterModule } from '@angular/router';
 import { PokemonCardComponent } from './components/pokemon-card/pokemon-card.component';
 import { DirectivesModule } from '../directives/directives.module';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+
 
 
 
@@ -16,6 +18,7 @@ import { DirectivesModule } from '../directives/directives.module';
     CommonModule,
     RouterModule,
     PokemonCardComponent,
+    TranslateModule
   ]
 })
 export class SharedModule { }

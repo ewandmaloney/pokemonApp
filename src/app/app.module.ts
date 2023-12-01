@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http'
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http'
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { PipesModule } from './pipes/pipes.module';
@@ -21,6 +21,8 @@ import { InputFieldComponent } from './components/forms/input-field/input-field.
 import { RadioFieldComponent } from './components/forms/radio-field/radio-field.component';
 import { SelectFieldComponent } from './components/forms/select-field/select-field.component';
 import { DirectivesModule } from './directives/directives.module';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 
 
@@ -45,7 +47,14 @@ import { DirectivesModule } from './directives/directives.module';
     InputFieldComponent,
     RadioFieldComponent,
     SelectFieldComponent,
-    ResgisterModule
+    ResgisterModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: httpTranslateLoader,
+        deps: [HttpClient]
+      }
+    }),
   ],
   exports: [],
   providers: [
@@ -58,3 +67,7 @@ import { DirectivesModule } from './directives/directives.module';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+export function httpTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
