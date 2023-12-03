@@ -5,6 +5,7 @@ import { ItemsService } from './items.service';
 import { LocationService } from './location.service';
 import { LoginService } from './login.service';
 import { PokemonService } from './pokemon.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 
@@ -18,7 +19,8 @@ import { PokemonService } from './pokemon.service';
     ItemsService,
     LocationService,
     LoginService,
-    PokemonService
+    PokemonService,
+    TranslateModule
   ]
 })
 export class ServicesModule { }

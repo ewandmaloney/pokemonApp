@@ -1,12 +1,11 @@
 <div class="searchPokemon mb-3 input-group">
-    <span class="me-2">Type to search</span>
-    <input type="text" (input)="searchPokemon($event)" class="rounded" placeholder="Pokemon name...">
-</div>
+    <span class="me-2">{{'Type to search' | translate}}</span>
+    <input type="text" (input)="searchPokemon($event)" class="rounded" placeholder="{{'Pokemon name...' | translate }}"></div>
 
 <div *ngIf="pokemons.length == 0">
     <div class="alert alert-danger text-center" role="alert">
-        <h4 class="alert-heading">No results found!</h4>
-        <p>Try to search another pokemon.</p>
+        <h4 class="alert-heading">{{'No results found' | translate}}!</h4>
+        <p>{{'Try to search another pokemon' | translate}}.</p>
     </div>
 </div>
 
@@ -17,8 +16,8 @@
                     <i *ngIf="!orderId" class="fa-solid fa-arrow-up"></i>
                     <i *ngIf="orderId" class="fa-solid fa-arrow-down"></i>
                 </span></th>
-            <th scope="col">{{'Image'}}</th>
-            <th scope="col">Name
+            <th scope="col">{{'Image' | translate}}</th>
+            <th scope="col">{{'Name' | translate}}
                 <span class="poke-card" (click)="orderByName()"><i *ngIf="!orderName" class="fa-solid fa-arrow-up"></i>
                     <i *ngIf="orderName" class="fa-solid fa-arrow-down"></i></span>
             </th>
@@ -50,7 +49,7 @@
     </tbody>
 </table>
 <div class="d-flex justify-content-end">
-    Items per page:
+    {{'Items per page' | translate}}:
     <select (change)="changeLimit($event)">
         <option [defaultSelected]="10" value="10">10</option>
         <option value="50">50</option>

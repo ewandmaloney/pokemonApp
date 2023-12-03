@@ -1,11 +1,11 @@
 <div *ngIf="pokemons.length === 0 && personalPokedex">
     <div class="alert alert-warning" role="alert">
-        Your pokedex is empty!
+        {{'Your pokedex is empty' | translate}}!
     </div>
 </div>
 
 <div *ngIf="personalPokedex && pokemons.length > 0">
-    <h1>Personal pokedex</h1>
+    <h1>{{'Personal pokedex' | translate}}</h1>
 </div>
 
 <div class="my-5" *ngIf="pokemons.length > 0">

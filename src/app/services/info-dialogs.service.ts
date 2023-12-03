@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import Swal from 'sweetalert2';
 
 @Injectable({
@@ -6,7 +7,7 @@ import Swal from 'sweetalert2';
 })
 export class InfoDialogsService {
 
-  constructor() { }
+  constructor(private translateService: TranslateService) { }
 
 
   showInformation(title: string, text: string) {
@@ -45,7 +46,7 @@ export class InfoDialogsService {
       text,
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Yes',
+      confirmButtonText: this.translateService.instant('Yes'),
       cancelButtonText: 'No',
       allowOutsideClick: false
     }).then((result) => {

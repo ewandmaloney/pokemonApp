@@ -4,6 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { InputFieldComponent } from 'src/app/components/forms/input-field/input-field.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 
@@ -15,7 +16,8 @@ import { InputFieldComponent } from 'src/app/components/forms/input-field/input-
     CommonModule,
     FormsModule,
     RouterModule,
-    InputFieldComponent
+    InputFieldComponent,
+    TranslateModule
   ]
 })
 export class LoginModule { }

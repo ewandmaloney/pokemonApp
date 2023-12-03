@@ -58,7 +58,7 @@
                         <option value="" selected>{{'Select language' | translate}}</option>
                         <option *ngFor="let language of translate.getLangs()" [value]="language"
                             [selected]="language === translate.currentLang">{{language | titlecase}}
-                            ></option>
+                            </option>
                     </select>
 
                 </div>

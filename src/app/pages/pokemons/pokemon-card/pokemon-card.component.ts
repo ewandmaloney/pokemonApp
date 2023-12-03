@@ -24,7 +24,7 @@ export class PokemonCardComponent implements OnInit, OnChanges {
   @Output() eventPageNumber: EventEmitter<number> = new EventEmitter;
   @Output() eventLimit: EventEmitter<number> = new EventEmitter();
 
-  constructor(private pokeService: PokemonService, private firebase: FirebaseService, private dialog : InfoDialogsService) {
+  constructor(private pokeService: PokemonService, private firebase: FirebaseService, private dialog: InfoDialogsService) {
   }
 
   //Con esto compruebo si existen cambios en los datos de la llamada y me lo copio

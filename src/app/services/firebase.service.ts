@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { LoginService } from './login.service';
 import { InfoDialogsService } from './info-dialogs.service';
 import { Database, get, object, onValue, push, ref, remove, set } from '@angular/fire/database';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class FirebaseService {
   public firebaseData: any[] = [];
   public pokemons: any[] = [];
 
-  constructor(private http: HttpClient, private LoginService: LoginService, private dialog: InfoDialogsService) {
+  constructor(private http: HttpClient, private translateService: TranslateService, private LoginService: LoginService, private dialog: InfoDialogsService) {
   }
 
 
@@ -47,7 +48,7 @@ export class FirebaseService {
     this.isPokemonAlreadySaved(pokemon).subscribe((res: any) => {
       isSaved = res;
       if (isSaved) {
-        this.dialog.showError('Error', 'El pokemon ya está guardado en la pokedex');
+        this.dialog.showError(this.translateService.instant('Error'), this.translateService.instant('This pokemon is already saved in your pokedex'));
         return;
       } else {
         //Añadir pokemon a la pokedex
@@ -59,7 +60,7 @@ export class FirebaseService {
             set(dbRef, [pokemonSaved]);
           }
         });
-        this.dialog.showSuccess('Pokemon saved', `${pokemon.name} has been added to your pokedex`);
+        this.dialog.showSuccess(this.translateService.instant('Pokemon saved'), `${pokemon.name} ${this.translateService.instant('has been added to your pokedex')}`);
       }
     });
   }
@@ -119,10 +120,10 @@ export class FirebaseService {
         if (pkm[1].id === id) {
           let pokemon = pkm[0]
           //sweeet alert para confirmar
-          this.dialog.showConfirmationDialog('Confirm', 'Do you want to delete this Pokémon?', () => {
+          this.dialog.showConfirmationDialog(this.translateService.instant('Confirm'), this.translateService.instant('Do you want to delete this pokemon?'), () => {
             const dbRef = ref(this.database, `pokedex/${userId}/pokemons/${pokemon}`)
             remove(dbRef)
-            this.dialog.showSuccess('Pokemon deleted', `${pkm[1].name} has been deleted from your pokedex`);
+            this.dialog.showSuccess(this.translateService.instant('Pokemon deleted'), `${pkm[1].name} ${this.translateService.instant('has been deleted from your pokedex')}`);
           });
         }
       })

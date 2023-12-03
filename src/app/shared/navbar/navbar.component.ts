@@ -14,7 +14,7 @@ export class NavbarComponent implements OnInit {
 
   public loggedIn: boolean = true;
 
-  constructor(private logServ: LoginService, private dialog: InfoDialogsService, private auth: FirebaseAuthService, public translate: TranslateService) {
+  constructor(private logServ: LoginService, private translateService: TranslateService, private dialog: InfoDialogsService, private auth: FirebaseAuthService, public translate: TranslateService) {
     translate.addLangs(['en', 'es', 'de']);
     translate.setDefaultLang('en');
   }
@@ -30,7 +30,7 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
-    this.dialog.showConfirmationDialog('Logout', 'Are you sure you want to logout?', () => {
+    this.dialog.showConfirmationDialog(this.translateService.instant('Logout'), this.translateService.instant('Are you sure you want to logout?'), () => {
       this.auth.logout().then(() => {
         this.logServ.logout();
       }).catch((error) => {

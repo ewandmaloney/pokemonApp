@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, forwardRef } from '@angular/core';
 import { FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-radio-field',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, TranslateModule],
   templateUrl: './radio-field.component.html',
   styleUrls: ['./radio-field.component.css'],
   providers: [

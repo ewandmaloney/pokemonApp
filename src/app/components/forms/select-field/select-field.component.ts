@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, forwardRef } from '@angular/core';
 import { FormsModule, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-select-field',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, TranslateModule],
   templateUrl: './select-field.component.html',
   styleUrls: ['./select-field.component.css'],
   providers: [

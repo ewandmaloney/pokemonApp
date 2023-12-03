@@ -1,12 +1,13 @@
 <div class="d-flex justify-content-center">
     <div class="card" style="width: 28rem;">
         <div class="card-body">
-            <h5 class="card-title text-center">Unathorized!</h5>
-            <p class="card-text">To be able to see fire type pokemon you need to be logged in. Click <span
-                    class="span-home" (click)="backHome()">here</span> to go back home</p>
+            <h5 class="card-title text-center">{{'Unathorized' | translate }}!</h5>
+            <p class="card-text">{{'To be able to see fire type pokemon you need to be logged in' |translate}}. {{'Click' | translate}} <span
+                    class="span-home" (click)="backHome()">{{'here' | translate}}</span>
+                     {{'to go back home' | translate}}</p>
             <div class="d-flex justify-content-around">
-                <a (click)="logIn()" class="card-link">Log in</a>
-                <a routerLink="register" class="card-link">Dont have an account?</a>
+                <a (click)="logIn()" class="card-link">{{'Log in' | translate}}</a>
+                <a routerLink="register" class="card-link">{{'Dont have an account' | translate}}?</a>
             </div>
         </div>
     </div>
