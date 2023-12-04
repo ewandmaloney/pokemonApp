@@ -10,7 +10,7 @@ export class AppComponent {
   title = 'pokeApp';
 
   constructor(public translate: TranslateService) {
-    translate.addLangs(['en', 'es', 'de']);
+    translate.addLangs(['en', 'es']);
     translate.setDefaultLang('en');
   }
 }

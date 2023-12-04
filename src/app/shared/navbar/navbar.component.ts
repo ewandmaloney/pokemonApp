@@ -15,7 +15,7 @@ export class NavbarComponent implements OnInit {
   public loggedIn: boolean = true;
 
   constructor(private logServ: LoginService, private translateService: TranslateService, private dialog: InfoDialogsService, private auth: FirebaseAuthService, public translate: TranslateService) {
-    translate.addLangs(['en', 'es', 'de']);
+    translate.addLangs(['en', 'es']);
     translate.setDefaultLang('en');
   }
 

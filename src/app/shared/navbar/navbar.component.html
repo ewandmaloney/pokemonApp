@@ -51,19 +51,21 @@
                     <a class="nav-link" routerLinkActive="active" routerLink="items">{{'Items' | translate}}</a>
                 </li>
             </ul>
-            <div class="d-flex">
-                <div class="navbar-nav">
 
-                    <select class="form-select me-2" #selectedLang (change)="changeLanguage(selectedLang.value)">
-                        <option value="" selected>{{'Select language' | translate}}</option>
-                        <option *ngFor="let language of translate.getLangs()" [value]="language"
-                            [selected]="language === translate.currentLang">{{language | titlecase}}
-                            </option>
-                    </select>
-
-                </div>
+            <div class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        {{'Select language' | translate}}
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li *ngFor="let language of translate.getLangs()">
+                            <a class="dropdown-item" (click)="changeLanguage(language)">{{language | titlecase}}</a>
+                        </li>
+                    </ul>
+                </li>
                 <button class="btn btn-success me-2" routerLink="my-pokedex">{{'My pokedex' | translate}}</button>
-                <button (click)="logout()" class="btn btn-danger">{{'Logout' | translate}}</button>
+                <button (click)="logout()" class="btn btn-danger me-2">{{'Logout' | translate}}</button>
             </div>
         </div>
     </div>

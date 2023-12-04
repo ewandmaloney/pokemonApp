@@ -1,6 +1,7 @@
 <div class="searchPokemon mb-3 input-group">
     <span class="me-2">{{'Type to search' | translate}}</span>
-    <input type="text" (input)="searchPokemon($event)" class="rounded" placeholder="{{'Pokemon name...' | translate }}"></div>
+    <input type="text" (input)="searchPokemon($event)" class="rounded" placeholder="{{'Pokemon name...' | translate }}">
+</div>
 
 <div *ngIf="pokemons.length == 0">
     <div class="alert alert-danger text-center" role="alert">
@@ -58,6 +59,7 @@
     </select>
 </div>
 <div class="text-center">
-    <pagination-controls id="listing_pagination" (click)="changePage(page)" [maxSize]="5" [directionLinks]="true"
+    <pagination-controls id="listing_pagination" previousLabel="{{'Prev' | translate}}"
+        nextLabel="{{'Next' | translate}}" (click)="changePage(page)" [maxSize]="5" [directionLinks]="true"
         (pageChange)="page = $event"></pagination-controls>
 </div>
