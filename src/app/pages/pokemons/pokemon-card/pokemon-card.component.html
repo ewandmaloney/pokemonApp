@@ -3,14 +3,14 @@
     <input type="text" (input)="searchPokemon($event)" class="rounded" placeholder="{{'Pokemon name...' | translate }}">
 </div>
 
-<div *ngIf="pokemons.length == 0">
+<div class="animate__animated animate__fadeIn" *ngIf="pokemons.length == 0">
     <div class="alert alert-danger text-center" role="alert">
         <h4 class="alert-heading">{{'No results found' | translate}}!</h4>
         <p>{{'Try to search another pokemon' | translate}}.</p>
     </div>
 </div>
 
-<table class="table table-hover">
+<table class="table table-hover animate__animated animate__fadeIn">
     <thead class="table-dark">
         <tr>
             <th scope="col"># <span class="poke-card" (click)="orderById()">
@@ -25,10 +25,12 @@
         </tr>
     </thead>
     <tbody>
-
-        <tr [ngClass]="{'table-success': pokemon.types[0].type.name == 'grass' || pokemon.types[0].type.name == 'bug','table-danger': pokemon.types[0].type.name == 'fire',
-        'table-primary': pokemon.types[0].type.name == 'water' || pokemon.types[0].type.name == 'dragon', 'table-secondary': pokemon.types[0].type.name == 'ground'}"
-            class="poke-card planta" *ngFor="let pokemon of pokemons | paginate: {id: 'listing_pagination',
+        <tr hoverPokemon [color]="pokemon.types[0].type.name" [ngClass]="{'table-success': pokemon.types[0].type.name == 'grass' || pokemon.types[0].type.name == 'bug','table-danger': pokemon.types[0].type.name == 'fire' || pokemon.types[0].type.name == 'fighting',
+        'table-primary': pokemon.types[0].type.name == 'water' || pokemon.types[0].type.name == 'dragon', 'table-secondary': pokemon.types[0].type.name == 'ground' || pokemon.types[0].type.name == 'rock' || pokemon.types[0].type.name == 'steel' || pokemon.types[0].type.name == 'flying' || pokemon.types[0].type.name == 'normal',
+        'table-dark': pokemon.types[0].type.name == 'ghost' || pokemon.types[0].type.name == 'dark', 'table-warning': pokemon.types[0].type.name == 'electric' || pokemon.types[0].type.name == 'psychic' || pokemon.types[0].type.name == 'fairy',
+        'table-info': pokemon.types[0].type.name == 'ice', 'table-light': pokemon.types[0].type.name == 'poison'
+        
+        }" class="poke-card planta" *ngFor="let pokemon of pokemons | paginate: {id: 'listing_pagination',
         itemsPerPage: limit,
         currentPage: page,
         totalItems: totalPokemons
@@ -63,3 +65,6 @@
         nextLabel="{{'Next' | translate}}" (click)="changePage(page)" [maxSize]="5" [directionLinks]="true"
         (pageChange)="page = $event"></pagination-controls>
 </div>
+
+<button [ngClass]="'no-hidden'" *ngIf="showGoUpButton" class="btn btn-primary" (click)="scrollTop()">
+    <i class="fa-solid fa-circle-up"></i></button>

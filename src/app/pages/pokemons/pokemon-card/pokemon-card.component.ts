@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { PokemonDetailsResponse, Type } from '../interfaces/PokemonDetailsResponse.interface';
 import { PokemonService } from 'src/app/services/pokemon.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
@@ -16,6 +16,9 @@ export class PokemonCardComponent implements OnInit, OnChanges {
   public copyPokemons: PokemonDetailsResponse[] = [];
   public orderId: boolean = false;
   public orderName: boolean = false;
+  public showGoUpButton: boolean = false;
+  showScrollHeight: number = 400;
+  hideScrollHeight: number = 200;
 
   @Input() limit: number = 10;
   @Input() totalPokemons!: number;
@@ -23,6 +26,24 @@ export class PokemonCardComponent implements OnInit, OnChanges {
   @Output() eventIdPokemon: EventEmitter<number> = new EventEmitter;
   @Output() eventPageNumber: EventEmitter<number> = new EventEmitter;
   @Output() eventLimit: EventEmitter<number> = new EventEmitter();
+
+  
+  
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    if ((window.pageYOffset ||
+      document.documentElement.scrollTop ||
+      document.body.scrollTop) > this.showScrollHeight) {
+      this.showGoUpButton = true;
+    } else if (this.showGoUpButton &&
+      (window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop)
+      < this.hideScrollHeight) {
+      this.showGoUpButton = false;
+    }
+  }
 
   constructor(private pokeService: PokemonService, private firebase: FirebaseService, private dialog: InfoDialogsService) {
   }
@@ -93,6 +114,11 @@ export class PokemonCardComponent implements OnInit, OnChanges {
       this.pokemons = [];
       this.pokemons = this.copyPokemons.sort((a, b) => (a.name < b.name ? -1 : 1));
     }
+  }
+
+  scrollTop() {
+    document.body.scrollTop = 0;  // Safari
+    document.documentElement.scrollTop = 0; // Other
   }
 
 

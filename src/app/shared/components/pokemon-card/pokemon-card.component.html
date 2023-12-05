@@ -12,7 +12,7 @@
 
 
 <ng-template #personalpkdx>
-    <div class="card hover-shadow">
+    <div class="card hover-shadow animate__animated animate__fadeIn animate__slow">
         <img *ngIf="personalPokedex" (click)="detailsPokemon(pokemon.id)" [src]="pokemon.image"
             class="card-img-top pokemon" [alt]="pokemon.name">
         <div class="card-body d-flex justify-content-around pokemon">

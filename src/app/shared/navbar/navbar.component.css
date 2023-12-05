@@ -3,3 +3,9 @@
     background-color: red;
     color: white;
 }
+
+@media (max-width: 992px) {
+    .small-wndw{
+        margin-bottom: 5px;
+    }
+  }

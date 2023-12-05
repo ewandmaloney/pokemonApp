@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { updateProfile } from '@angular/fire/auth';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { FirebaseAuthService } from 'src/app/services/firebase-auth.service';
 import { InfoDialogsService } from 'src/app/services/info-dialogs.service';
 import { LoginService } from 'src/app/services/login.service';
@@ -15,16 +16,16 @@ export class RegisterComponent implements OnInit {
 
   public signupForm!: FormGroup;
   public loading: boolean = false;
-  public language: string[] = ['Ingles', 'Español']
-  public gender: string[] = ['Hombre', 'Mujer', 'Otro']
+  public language: string[] = ['English', 'Spanish']
+  public gender: string[] = ['Male', 'Female', 'Other']
   public submitted: boolean = false;
 
 
-  constructor(private auth: FirebaseAuthService, private router: Router, private dialog: InfoDialogsService, private loginServ: LoginService) { }
+  constructor(private auth: FirebaseAuthService, private router: Router, private dialog: InfoDialogsService, private loginServ: LoginService, private translateService: TranslateService) { }
 
   ngOnInit(): void {
     this.signupForm = new FormGroup({
-      'name': new FormControl(null, [Validators.required, Validators.minLength(3), Validators.maxLength(20)]),
+      'name': new FormControl(null, [Validators.required, Validators.minLength(3), Validators.maxLength(20), Validators.pattern('[-_a-zA-Z]*')]),
       'phone_number': new FormControl(null, [Validators.required, Validators.minLength(9), Validators.maxLength(9), Validators.pattern('[0-9]*')]),
       'email': new FormControl(null, [Validators.required, Validators.email, Validators.maxLength(30), Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$')]),
       'gender': new FormControl(null, [Validators.required]),
@@ -44,7 +45,9 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
-    const { name, email, password } = form.value;
+    const { name, email, password, language } = form.value;
+
+    const languageCode = language == 'English' ? 'en' : 'es';
 
     console.log(form)
 
@@ -59,6 +62,7 @@ export class RegisterComponent implements OnInit {
       console.log(user)
       this.loginServ.saveCookie(user.email!, user.uid);
       this.router.navigate(['pokemons/all']);
+      this.translateService.use(languageCode)
     }).catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;

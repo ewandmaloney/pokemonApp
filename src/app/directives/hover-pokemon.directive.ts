@@ -8,24 +8,29 @@ export class HoverPokemonDirective {
 
   private _color: string = 'transparent';
 
+  private colorMap = {
+    'grass': '#78C850',
+    'fire': '#F08030',
+    'water': '#6890F0',
+    'bug': '#A8B820',
+    'normal': '#D69F76',
+    'poison': '#A040A0',
+    'electric': '#F8D030',
+    'ground': '#E0C068',
+    'rock': '#B8A038',
+    'fairy': '#EE99AC',
+    'fighting': '#C03028',
+    'psychic': '#F85888',
+    'ghost': '#705898',
+    'ice': '#98D8D8',
+    'dragon': '#7038F8',
+    'dark': '#705848',
+    'steel': '#B8B8D0',
+    'flying': '#A890F0'
+  };
+
   @Input() set color(value: string) {
-    if (value === 'grass') {
-      this._color = '#18F121';
-    } else if (value === 'fire') {
-      this._color = '#F54F2C';
-    } else if (value === 'water') {
-      this._color = '#20AAF3';
-    } else if (value === 'bug') {
-      this._color = '#9FE124';
-    } else if (value === 'normal') {
-      this._color = '#C8C4BC';
-    } else if (value === 'poison') {
-      this._color = '#B000F9';
-    } else if (value === 'electric') {
-      this._color = '#F9E100';
-    } else if (value === 'ground') {
-      this._color = '#F9C100';
-    }
+    this._color = this.colorMap[value as keyof typeof this.colorMap];
   }
 
   constructor(private element: ElementRef, private renderer: Renderer2) {

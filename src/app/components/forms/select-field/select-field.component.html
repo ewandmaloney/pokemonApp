@@ -1,8 +1,8 @@
 <label class="fw-bolder" [for]="label">{{label| titlecase}}</label>
 <select [name]="label" [disabled]="isDisabled" #valor (click)="onClick(valor.value)" [id]="label" class="form-select">
-    <option selected value="">--- Select language ---</option>
+    <option selected value="">--- {{'Select language' | translate}} ---</option>
     <option [value]="item" *ngFor="let item of language">
-        {{item}}</option>
+        {{item | translate}}</option>
 </select>
 
 <div class="input-field">

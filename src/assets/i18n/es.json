@@ -42,7 +42,7 @@
     "Try to search another pokemon": "Prueba buscando otro pokemon",
     "Image": "Imagen",
     "Items per page": "Objetos por pagina",
-    "Pokemon name": "Nombre del pokemon",
+    "Pokemon name...": "Nombre del pokemon...",
     "Height": "Altura",
     "Weight": "Peso",
     "Power": "Poder",
@@ -51,7 +51,7 @@
     "Pokemon moveset": "Movimientos del pokemon",
     "Abilities": "Habilidades",
     "Previous": "Anterior",
-    "Next": "Siguiente",
+    "Next": "Sig",
     "Register": "Registrarse",
     "Enter name": "Introduce tu nombre",
     "phone number": "numero de telefono",
@@ -71,5 +71,10 @@
     "Yes": "Si",
     "Are you sure you want to logout?": "Estas seguro de querer cerrar sesion?",
     "Select language": "Selecciona un idioma",
-    "Prev": "Anterior"
+    "Prev": "Ant",
+    "Male": "Hombre",
+    "Female": "Mujer",
+    "Other": "Otro",
+    "English": "Ingles",
+    "Spanish": "Español"
 }

@@ -2,7 +2,7 @@
     <app-loading></app-loading>
 </div>
 
-<div *ngIf="pokemon !== null">
+<div class="animate__animated animate__fadeInLeft" *ngIf="pokemon !== null">
     <!-- Efectos de animacion como por ejemplo animatecss -->
     <span class="volver" (click)="goBack()"><i class="fa-solid fa-arrow-left">{{'Back' | translate}}</i></span>
     <div *ngIf="pokemon !== null" class="card mb-3 mx-auto" style="max-width: 540px;">

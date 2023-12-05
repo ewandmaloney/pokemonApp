@@ -1,4 +1,5 @@
-<span class="volver" (click)="goBack()"><i class="fa-solid fa-arrow-left">{{'Back' | translate}}</i></span>
+<div class="animate__animated animate__fadeIn">
+    <span class="volver" (click)="goBack()"><i class="fa-solid fa-arrow-left">{{'Back' | translate}}</i></span>
 <div class="card mx-auto mt-3" style="max-width: 540px;">
     <div class="card-body text-center">
         <h5 class="card-title">{{regionInfo.name | titlecase}}</h5>
@@ -14,6 +15,7 @@
             {{'View pokedex' | translate}} {{i + 1}}
         </a>
     </div>
+</div>
 </div>
 
 

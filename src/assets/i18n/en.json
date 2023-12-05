@@ -42,7 +42,7 @@
     "Try  to search another pokemon": "Try  to search another pokemon",
     "Image": "Image",
     "Items per page": "Items per page",
-    "Pokemon name": "Pokemon name",
+    "Pokemon name...": "Pokemon name...",
     "Height": "Height",
     "Weight": "Weight",
     "Power": "Power",
@@ -71,5 +71,10 @@
     "Yes": "Yes",
     "Are you sure you want to logout?": "Are you sure you want to logout?",
     "Select language": "Select language",
-    "Prev": "Prev"
+    "Prev": "Prev",
+    "Male": "Male",
+    "Female": "Female",
+    "Other": "Other",
+    "English": "English",
+    "Spanish": "Spanish"
 }

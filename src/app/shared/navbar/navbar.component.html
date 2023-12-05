@@ -31,7 +31,7 @@
 
 <nav class="navbar navbar-expand-lg bg-dark navbar-dark mb-4">
     <div class="container-fluid">
-        <a class="navbar-brand">PokemonApp</a>
+        <a class="navbar-brand" routerLink="pokemons/all">PokemonApp</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -47,9 +47,9 @@
                         translate}}</a>
                 </li>
 
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a class="nav-link" routerLinkActive="active" routerLink="items">{{'Items' | translate}}</a>
-                </li>
+                </li> -->
             </ul>
 
             <div class="navbar-nav">
@@ -58,14 +58,16 @@
                         aria-expanded="false">
                         {{'Select language' | translate}}
                     </a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu small-wndw me-2">
                         <li *ngFor="let language of translate.getLangs()">
-                            <a class="dropdown-item" (click)="changeLanguage(language)">{{language | titlecase}}</a>
+                            <a class="dropdown-item me-2" (click)="changeLanguage(language)">{{language |
+                                titlecase}}</a>
                         </li>
                     </ul>
                 </li>
-                <button class="btn btn-success me-2" routerLink="my-pokedex">{{'My pokedex' | translate}}</button>
-                <button (click)="logout()" class="btn btn-danger me-2">{{'Logout' | translate}}</button>
+                <button class="btn btn-success me-2 small-wndw" routerLink="my-pokedex">{{'My pokedex' |
+                    translate}}</button>
+                <button (click)="logout()" class="btn btn-danger me-2 small-wndw">{{'Logout' | translate}}</button>
             </div>
         </div>
     </div>

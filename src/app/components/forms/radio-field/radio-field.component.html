@@ -1,7 +1,7 @@
 <label [for]="label" class="fw-bolder">{{label | titlecase}}</label>
 <div *ngFor="let item of gender">
     <input [type]="type" [placeholder]="placeholder" #valor [id]="item" [name]="label" (click)="onInput(valor.value)"
-        [value]="item" [disabled]="isDisabled" [ngClass]="type !== 'radio' ? 'form-control' : ''"> {{item}}
+        [value]="item" [disabled]="isDisabled" [ngClass]="type !== 'radio' ? 'form-control' : ''"> {{item | translate}}
 </div>
 
 <div class="input-field">
