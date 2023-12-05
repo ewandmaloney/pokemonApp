@@ -1,16 +1,44 @@
-<form (ngSubmit)="onSubmit(f)" #f="ngForm">
-  <div class="form-group">
-    <label for="username">Email</label>
-    <input type="text" required class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" name="email"
-      [(ngModel)]="email" id="username" placeholder="Enter email">
-    <span *ngIf="f.submitted && f.controls['email'].errors" class="text-danger">Email is required. Example:
-      test&#64;test.com</span>
-  </div>
+<h2 class="text-center">{{'Login' | translate}}</h2>
 
-  <button type="submit" *ngIf="!loading" class="btn btn-primary mt-2">Submit</button>
-  
-  <button *ngIf="loading" class="btn btn-primary" type="button" disabled>
-    <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
-    <span role="status">Loading...</span>
-  </button>
-</form>
+
+<div class="d-flex justify-content-center">
+  <div class="card" style="width: 38rem;">
+    <form (ngSubmit)="onSubmit(f)" #f="ngForm">
+      <div class="card-body">
+        <div class="form-group">
+          <app-input-field [label]="'Email' | translate" [pattern]="'[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'"
+            [(ngModel)]="email" name="email" [type]="'text'" [placeholder]="'Enter email' |translate"
+            [submitted]="f.submitted" [errors]="f.controls['email']?.errors" required>
+            <!-- <span class="text-danger"
+              *ngIf="f.controls['email']?.errors && (f.controls['email']?.dirty || f.controls['email']?.touched)">
+              Email pattern isnt correct. Example: test&#64;test.com
+            </span>
+            <span *ngIf="f.submitted && f.controls['email'].errors" class="text-danger">Email is required. Example:
+              test&#64;test.com</span> -->
+          </app-input-field>
+
+        </div>
+        <div class="form-group mt-2">
+          <app-input-field [label]="'password' | translate" [(ngModel)]="password" name="password" [type]="'password'"
+            [placeholder]="'Enter password' | translate" [submitted]="f.submitted"
+            [errors]="f.controls['password']?.errors" required></app-input-field>
+          <!-- <span *ngIf="f.submitted && f.controls['password']?.errors" class="text-danger">Password is required.</span> -->
+        </div>
+
+        <div class="d-flex justify-content-around mt-2">
+          <p>{{'Dont have an account' |translate}}?</p>
+          <p class="text-primary" style="cursor: pointer;" routerLink="/register">{{'Register' |translate}}</p>
+        </div>
+
+        <div class="d-flex justify-content-center">
+          <button type="submit" *ngIf="!loading" class="btn btn-primary w-100 mt-2">{{'Submit' | translate}}</button>
+        </div>
+
+        <button *ngIf="loading" class="btn btn-primary w-100" type="button" disabled>
+          <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+          <span role="status">{{'Loading' | translate}}...</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

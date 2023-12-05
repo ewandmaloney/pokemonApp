@@ -1,23 +1,74 @@
-<nav class="navbar navbar-expand-lg bg-dark navbar-dark mb-4">
+<!-- <nav class="navbar navbar-expand-lg bg-dark navbar-dark mb-4">
     <div class="container-fluid">
         <ul *ngIf="loggedIn" class="navbar-nav d-flex justify-content-start">
             <li class="nav-item">
-                <a class="nav-link" routerLinkActive="active" routerLink="pokemons/all">Home</a>
+                <a class="nav-link" routerLinkActive="active" routerLink="pokemons/all" i18n="navbar-home">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" routerLinkActive="active" routerLink="locations/all">Locations</a>
+                <a class="nav-link" routerLinkActive="active" routerLink="locations/all"
+                    i18n="navbar-locations">Locations</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" routerLinkActive="active" routerLink="items">Items</a>
+                <a class="nav-link" routerLinkActive="active" routerLink="items" i18n="navbar-items">Items</a>
             </li>
         </ul>
         <ul *ngIf="loggedIn" class="navbar-nav d-flex justify-content-end">
+
             <li class="nav-item">
-                <a routerLink="my-pokedex" class="btn btn-secondary me-2">Mi pokedex</a>
+                <a class="btn btn-secondary me-2" i18n="change language">Change language</a>
             </li>
             <li class="nav-item">
-                <a (click)="logout()" class="btn btn-danger">Logout</a>
+                <a routerLink="my-pokedex" class="btn btn-secondary me-2" i18n="navbar-my-pokedex">My pokedex</a>
+            </li>
+            <li class="nav-item">
+                <a (click)="logout()" class="btn btn-danger" i18n="navbar-logout">Logout</a>
             </li>
         </ul>
+    </div>
+</nav> -->
+
+
+
+<nav class="navbar navbar-expand-lg bg-dark navbar-dark mb-4">
+    <div class="container-fluid">
+        <a class="navbar-brand" routerLink="pokemons/all">PokemonApp</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div *ngIf="loggedIn" class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" routerLinkActive="active" routerLink="pokemons/all" href="#">{{'Home' |
+                        translate}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLinkActive="active" routerLink="locations/all" href="#">{{'Locations' |
+                        translate}}</a>
+                </li>
+
+                <!-- <li class="nav-item">
+                    <a class="nav-link" routerLinkActive="active" routerLink="items">{{'Items' | translate}}</a>
+                </li> -->
+            </ul>
+
+            <div class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        {{'Select language' | translate}}
+                    </a>
+                    <ul class="dropdown-menu small-wndw me-2">
+                        <li *ngFor="let language of translate.getLangs()">
+                            <a class="dropdown-item me-2" (click)="changeLanguage(language)">{{language |
+                                titlecase}}</a>
+                        </li>
+                    </ul>
+                </li>
+                <button class="btn btn-success me-2 small-wndw" routerLink="my-pokedex">{{'My pokedex' |
+                    translate}}</button>
+                <button (click)="logout()" class="btn btn-danger me-2 small-wndw">{{'Logout' | translate}}</button>
+            </div>
+        </div>
     </div>
 </nav>

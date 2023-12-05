@@ -2,9 +2,9 @@
     <app-loading></app-loading>
 </div>
 
-<div *ngIf="pokemon !== null">
+<div class="animate__animated animate__fadeInLeft" *ngIf="pokemon !== null">
     <!-- Efectos de animacion como por ejemplo animatecss -->
-    <span class="volver" (click)="goBack()"><i class="fa-solid fa-arrow-left">Volver</i></span>
+    <span class="volver" (click)="goBack()"><i class="fa-solid fa-arrow-left">{{'Back' | translate}}</i></span>
     <div *ngIf="pokemon !== null" class="card mb-3 mx-auto" style="max-width: 540px;">
         <div class="row g-0">
             <div class="col-md-4">
@@ -14,27 +14,27 @@
                 <div class="card-body">
                     <h5 class="card-title"><img src="../../../assets/pokeball.PNG" alt="pokeball" style="width: 20px;">
                         {{pokemon.id}} {{pokemon.name | titlecase}}</h5>
-                    <p class="card-text">Height: {{pokemon.height}} m</p>
-                    <p class="card-text">Weight: {{ pokemon.weight }} kg</p>
-                    <p class="card-text">Pokemon by default: {{pokemon.is_default}}</p>
+                    <p class="card-text">{{'Height'| translate}}: {{pokemon.height}} m</p>
+                    <p class="card-text">{{'Weight'| translate}}: {{ pokemon.weight }} kg</p>
+                    <p class="card-text">{{'Pokemon by default' | translate}}: {{pokemon.is_default}}</p>
                     <!--                 <p class="card-text">Type <span class="badge me-2 text-bg-dark"
                         *ngFor="let type of types">{{type.type.name | titlecase}}</span></p>-->
 
-                    <p class="card-text">Abilities <span *ngFor="let ability of abilities"
+                    <p class="card-text">{{'Abilities' | translate}} <span *ngFor="let ability of abilities"
                             class="badge text-bg-danger me-2">{{ability.ability.name | titlecase}}</span></p>
                 </div>
             </div>
         </div>
     </div>
 
-    <h1>Pokemon Moveset</h1>
+    <h1>{{'Pokemon Moveset' | translate}}</h1>
     <table class="table">
         <thead class="table-dark">
             <tr>
                 <td>#</td>
-                <td>Name</td>
-                <td>Power</td>
-                <td>Type</td>
+                <td>{{'Name'| translate}}</td>
+                <td>{{'Power'| translate}}</td>
+                <td>{{'Type'| translate}}</td>
             </tr>
         </thead>
         <tbody>

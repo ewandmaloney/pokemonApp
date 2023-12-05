@@ -2,7 +2,7 @@
     <app-loading></app-loading>
 </div> -->
 
-<table class="table table-hover">
+<table class="table table-hover animate__animated animate__fadeIn ">
     <thead class="table-dark">
         <tr>
             <th scope="col">#
@@ -11,14 +11,14 @@
                     <i *ngIf="orderId" class="fa-solid fa-arrow-down"></i>
                 </span>
             </th>
-            <th scope="col">Name
+            <th scope="col">{{'Name' | translate}}
                 <span class="order" (click)="orderByName()">
                     <i *ngIf="!orderName" class="fa-solid fa-arrow-up"></i>
                     <i *ngIf="orderName" class="fa-solid fa-arrow-down"></i>
                 </span>
             </th>
-            <th scope="col">Generation</th>
-            <th scope="col">Appearences in games</th>
+            <th scope="col">{{'Generation' | translate}}</th>
+            <th scope="col">{{'Appearences in games' | translate}}</th>
         </tr>
     </thead>
     <tbody>
@@ -29,8 +29,8 @@
             <td>{{region.name | titlecase}}</td>
             <td *ngIf="region.main_generation?.name">{{region.main_generation?.name | titlecase}}</td>
             <td *ngIf="!region.main_generation?.name">Null</td>
-            <td>
-                <span *ngFor="let item of region.version_groups" class="badge text-bg-secondary me-1">{{item.name |
+            <td class="badges">
+                <span *ngFor="let item of region.version_groups" class="rounded text-bg-secondary me-1">{{item.name |
                     titlecase}}</span>
             </td>
         </tr>

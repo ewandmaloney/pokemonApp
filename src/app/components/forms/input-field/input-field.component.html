@@ -1,0 +1,18 @@
+<label [for]="label" class="fw-bolder">{{label | titlecase}}</label>
+<input [type]="type" [placeholder]="placeholder" #valor [id]="label" [name]="label" (input)="onInput(valor.value)"
+    [value]="value" [disabled]="isDisabled" [pattern]="pattern" [ngClass]="type !== 'radio' ? 'form-control' : ''">
+
+<div class="input-field">
+    <span *ngIf="submitted && errors?.required" class="text-danger">{{label | titlecase}} {{'is required' |
+        translate}}</span>
+    <span *ngIf="errors?.pattern" class="text-danger">{{'This field is invalid' | translate}}</span>
+    <span *ngIf="errors?.minlength" class="text-danger">{{'This field must be at least' | translate}}
+        {{errors.minlength.requiredLength}}
+        {{'characters' | translate}}</span>
+    <span *ngIf="errors?.maxlength" class="text-danger">{{'This field must be less than' | translate}}
+        {{errors.maxlength.requiredLength}}
+        {{'characters' | translate}}</span>
+    <span *ngIf="passwordMismatch" class="text-danger">{{'Passwords do not match' | translate}}</span>
+</div>
+
+<ng-content></ng-content>

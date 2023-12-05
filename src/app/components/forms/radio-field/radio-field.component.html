@@ -1,0 +1,17 @@
+<label [for]="label" class="fw-bolder">{{label | titlecase}}</label>
+<div *ngFor="let item of gender">
+    <input [type]="type" [placeholder]="placeholder" #valor [id]="item" [name]="label" (click)="onInput(valor.value)"
+        [value]="item" [disabled]="isDisabled" [ngClass]="type !== 'radio' ? 'form-control' : ''"> {{item | translate}}
+</div>
+
+<div class="input-field">
+    <span *ngIf="submitted && errors?.required" class="text-danger">{{label | titlecase}} {{'is required' |
+        translate}}</span>
+    <span *ngIf="errors?.pattern" class="text-danger">{{'This field is invalid' | translate}}</span>
+    <span *ngIf="errors?.minlength" class="text-danger">{{'This field must be at least' | translate}}
+        {{errors.minlength.requiredLength}}
+        {{'characters' | translate}}</span>
+    <span *ngIf="errors?.maxlength" class="text-danger">{{'This field must be less than' | translate}}
+        {{errors.maxlength.requiredLength}}
+        {{'characters' | translate}}</span>
+</div>

@@ -15,7 +15,6 @@ import { Location } from '@angular/common';
   styleUrls: ['./region.component.css']
 })
 export class RegionComponent implements OnInit, OnDestroy {
-  //Mandar al componente infinitescroll
 
 
   //Esto se queda

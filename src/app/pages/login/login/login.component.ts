@@ -1,6 +1,8 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { FirebaseAuthService } from 'src/app/services/firebase-auth.service';
 import { InfoDialogsService } from 'src/app/services/info-dialogs.service';
 import { LoginService } from 'src/app/services/login.service';
 
@@ -11,38 +13,52 @@ import { LoginService } from 'src/app/services/login.service';
 })
 export class LoginComponent implements OnInit {
   public email: string = '';
+  public password: string = '';
   public loading: boolean = false;
 
-  constructor(private logServ: LoginService, private router: Router, private dialog: InfoDialogsService) { }
+  constructor(private logServ: LoginService, private location: Location, private router: Router, private dialog: InfoDialogsService, private auth: FirebaseAuthService) { }
 
 
   ngOnInit(): void {
     let user = this.logServ.getCookieUser();
     if (user) {
-      this.dialog.showError('Error', 'You are already logged in');
-      this.router.navigateByUrl('/pokemons');
+      this.dialog.showConfirmationDialog2('Warning', 'You are already logged in, do you want to log out?', 'Yes', () => {
+        this.logServ.logout();
+      }, () => {
+        this.location.back();
+      });
+      // this.dialog.showInformation('Error', 'You are already logged in');
+      // this.router.navigateByUrl('/pokemons');
     }
   }
 
   onSubmit(form: NgForm) {
     this.loading = true;
+    console.log(form)
 
     if (form.invalid) {
       this.loading = false;
       return;
     }
 
-    const { email } = form.value;
-
-    this.logServ.logIn(email).subscribe((result) => {
-      console.log(result)
-      let user = this.logServ.getCookieUser();
-      if (user) {
-        this.dialog.showSuccess('Success!', 'Logged in successfully');
-      } else {
-        this.dialog.showError('Error', 'Credentials are not valid');
-      }
+    const { email, password } = form.value;
+    this.dialog.showLoading('Loading...');
+    this.auth.login(email, password).then((userCredential) => {
+      const user = userCredential.user;
+      //Login completado
+      this.logServ.saveCookie(user.email!, user.uid);
+      this.dialog.showSuccess('¡Éxito!', '¡Bienvenido!');
       this.loading = false;
+      this.router.navigate(['pokemons/all']);
+    }).catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      if (errorCode === 'auth/user-not-found' || errorCode === 'auth/wrong-password') {
+        this.dialog.showError('¡Error!', 'El correo electrónico o la contraseña son incorrectos.');
+      } else {
+        this.dialog.showError('¡Error!', errorMessage);
+      }
     });
+
   }
 }

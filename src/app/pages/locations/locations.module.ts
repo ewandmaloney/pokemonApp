@@ -12,6 +12,7 @@ import { InfiniteScrollComponent } from './components/infinite-scroll/infinite-s
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { PokemonCardComponent } from '../../shared/components/pokemon-card/pokemon-card.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 
@@ -28,7 +29,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     LocationsRoutingModule,
     PipesModule,
     InfiniteScrollModule,
-    SharedModule
+    SharedModule,
+    TranslateModule
   ],
   exports:[
     InfiniteScrollComponent

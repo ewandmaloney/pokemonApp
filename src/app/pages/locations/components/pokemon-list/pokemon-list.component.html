@@ -1,11 +1,11 @@
-<div *ngIf="pokemons.length === 0">
+<div *ngIf="pokemons.length === 0 && personalPokedex">
     <div class="alert alert-warning" role="alert">
-        Your pokedex is empty!
+        {{'Your pokedex is empty' | translate}}!
     </div>
 </div>
 
 <div *ngIf="personalPokedex && pokemons.length > 0">
-    <h1>Personal pokedex</h1>
+    <h1>{{'Personal pokedex' | translate}}</h1>
 </div>
 
 <div class="my-5" *ngIf="pokemons.length > 0">
@@ -16,9 +16,9 @@
     row-cols-md-4
     row-cols-sm-3
     g-4">
-        <div class="col" *ngFor="let pokemon of pokemons">
+        <div class="col animate__animated animate__fadeInUp " *ngFor="let pokemon of pokemons">
             <app-pokemon-card [personalPokedex]="personalPokedex" [pokemon]="pokemon"
-                (deletePokemon)="deletePokemon($event)" (detailPokemon)="detailsPokemon($event)"></app-pokemon-card>
+                (deletePokemon)="deletePokemon($event)" (addPokemon)="addPokemonToPokedex($event)" (detailPokemon)="detailsPokemon($event)"></app-pokemon-card>
         </div>
     </div>
 </div>

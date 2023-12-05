@@ -11,6 +11,7 @@ import { LocationInfoComponent } from './pages/locations/location-info/location-
 import { RegionComponent } from './pages/locations/region/region.component';
 import { ItemInfoComponent } from './pages/items/item-info/item-info.component';
 import { MyPokedexComponent } from './pages/user-pokedex/my-pokedex/my-pokedex.component';
+import { RegisterComponent } from './pages/resgister/register/register.component';
 
 const routes: Routes = [
   // { path: 'pokemons', component: PokemonTableComponent, canActivate: [loginGuard] },
@@ -44,6 +45,10 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'register',
+    component: RegisterComponent
   },
   {
     path: 'page-not-found',

@@ -10,7 +10,7 @@ export const loginGuard: CanActivateFn = (route, state) => {
 
   if (!user) {
     loginServ.redirectUrl = state.url;
-    router.navigate(['pokeApp/login']);
+    router.navigate(['/login']);
     return false;
   } else {
     return true;

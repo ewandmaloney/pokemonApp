@@ -12,6 +12,8 @@ import { LoginComponent } from '../login/login/login.component';
 import { FormsModule } from '@angular/forms';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { PokemonRoutingModule } from './pokemon-routing.module';
+import { TranslateModule } from '@ngx-translate/core';
+import { HoverPokemonDirective } from 'src/app/directives/hover-pokemon.directive';
 
 
 
@@ -31,7 +33,9 @@ import { PokemonRoutingModule } from './pokemon-routing.module';
     PipesModule,
     RouterModule,
     FormsModule,
-    PokemonRoutingModule
+    PokemonRoutingModule,
+    TranslateModule,
+    HoverPokemonDirective
   ]
 })
 export class PokemonsModule { }

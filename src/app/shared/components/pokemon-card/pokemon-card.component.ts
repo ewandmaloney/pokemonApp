@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { PokemonDetailsResponse } from 'src/app/pages/pokemons/interfaces/PokemonDetailsResponse.interface';
 import { FirebaseService } from 'src/app/services/firebase.service';
+import { DirectivesModule } from 'src/app/directives/directives.module';
+import { HoverPokemonDirective } from 'src/app/directives/hover-pokemon.directive';
 
 @Component({
   selector: 'app-pokemon-card',
   standalone: true,
-  imports: [CommonModule, PipesModule],
+  imports: [CommonModule, PipesModule, HoverPokemonDirective],
   templateUrl: './pokemon-card.component.html',
   styleUrls: ['./pokemon-card.component.css']
 })
@@ -19,6 +21,7 @@ export class PokemonCardComponent {
   @Input() pokemon: any = {};
   @Output() detailPokemon: EventEmitter<number> = new EventEmitter();
   @Output() deletePokemon: EventEmitter<number> = new EventEmitter();
+  @Output() addPokemon: EventEmitter<PokemonDetailsResponse> = new EventEmitter();
 
 
   detailsPokemon(id: number) {
@@ -26,9 +29,7 @@ export class PokemonCardComponent {
   }
 
   addPokemonToPokedex(pokemon: PokemonDetailsResponse) {
-    //Post a la pokedex
-    //this.firebase.deletePruebas();
-    this.firebase.savePokemon(pokemon);
+    this.addPokemon.emit(pokemon);
   }
 
   //Llevarme esta función a pokemon card (dentro de infinite scroll)

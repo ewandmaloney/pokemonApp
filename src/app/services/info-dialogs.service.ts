@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import Swal from 'sweetalert2';
 
 @Injectable({
@@ -6,7 +7,7 @@ import Swal from 'sweetalert2';
 })
 export class InfoDialogsService {
 
-  constructor() { }
+  constructor(private translateService: TranslateService) { }
 
 
   showInformation(title: string, text: string) {
@@ -45,13 +46,41 @@ export class InfoDialogsService {
       text,
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Yes',
+      confirmButtonText: this.translateService.instant('Yes'),
       cancelButtonText: 'No',
       allowOutsideClick: false
     }).then((result) => {
       if (result.isConfirmed) {
         callback();
       }
+    });
+  }
+
+  showConfirmationDialog2(title: string, text: string, confirmButtonText: string, callback: () => void, callback2: () => void) {
+    return Swal.fire({
+      title,
+      text,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: confirmButtonText,
+      cancelButtonText: 'No',
+      allowOutsideClick: false
+    }).then((result) => {
+      if (result.isConfirmed) {
+        callback();
+      } else {
+        callback2();
+      }
+    });
+  }
+
+  showLoading(title: string) {
+    Swal.fire({
+      title,
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading()
+      },
     });
   }
 

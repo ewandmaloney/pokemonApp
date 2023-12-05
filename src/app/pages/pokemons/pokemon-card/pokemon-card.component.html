@@ -1,34 +1,36 @@
 <div class="searchPokemon mb-3 input-group">
-    <span class="me-2">Type to search</span>
-    <input type="text" (input)="searchPokemon($event)" class="rounded" placeholder="Pokemon name...">
+    <span class="me-2">{{'Type to search' | translate}}</span>
+    <input type="text" (input)="searchPokemon($event)" class="rounded" placeholder="{{'Pokemon name...' | translate }}">
 </div>
 
-<div *ngIf="pokemons.length == 0">
+<div class="animate__animated animate__fadeIn" *ngIf="pokemons.length == 0">
     <div class="alert alert-danger text-center" role="alert">
-        <h4 class="alert-heading">No results found!</h4>
-        <p>Try to search another pokemon.</p>
+        <h4 class="alert-heading">{{'No results found' | translate}}!</h4>
+        <p>{{'Try to search another pokemon' | translate}}.</p>
     </div>
 </div>
 
-<table class="table table-hover">
+<table class="table table-hover animate__animated animate__fadeIn">
     <thead class="table-dark">
         <tr>
             <th scope="col"># <span class="poke-card" (click)="orderById()">
                     <i *ngIf="!orderId" class="fa-solid fa-arrow-up"></i>
                     <i *ngIf="orderId" class="fa-solid fa-arrow-down"></i>
                 </span></th>
-            <th scope="col">Image</th>
-            <th scope="col">Name
+            <th scope="col">{{'Image' | translate}}</th>
+            <th scope="col">{{'Name' | translate}}
                 <span class="poke-card" (click)="orderByName()"><i *ngIf="!orderName" class="fa-solid fa-arrow-up"></i>
                     <i *ngIf="orderName" class="fa-solid fa-arrow-down"></i></span>
             </th>
         </tr>
     </thead>
     <tbody>
-
-        <tr [ngClass]="{'table-success': pokemon.types[0].type.name == 'grass' || pokemon.types[0].type.name == 'bug','table-danger': pokemon.types[0].type.name == 'fire',
-        'table-primary': pokemon.types[0].type.name == 'water' || pokemon.types[0].type.name == 'dragon', 'table-secondary': pokemon.types[0].type.name == 'ground'}"
-            class="poke-card planta" *ngFor="let pokemon of pokemons | paginate: {id: 'listing_pagination',
+        <tr hoverPokemon [color]="pokemon.types[0].type.name" [ngClass]="{'table-success': pokemon.types[0].type.name == 'grass' || pokemon.types[0].type.name == 'bug','table-danger': pokemon.types[0].type.name == 'fire' || pokemon.types[0].type.name == 'fighting',
+        'table-primary': pokemon.types[0].type.name == 'water' || pokemon.types[0].type.name == 'dragon', 'table-secondary': pokemon.types[0].type.name == 'ground' || pokemon.types[0].type.name == 'rock' || pokemon.types[0].type.name == 'steel' || pokemon.types[0].type.name == 'flying' || pokemon.types[0].type.name == 'normal',
+        'table-dark': pokemon.types[0].type.name == 'ghost' || pokemon.types[0].type.name == 'dark', 'table-warning': pokemon.types[0].type.name == 'electric' || pokemon.types[0].type.name == 'psychic' || pokemon.types[0].type.name == 'fairy',
+        'table-info': pokemon.types[0].type.name == 'ice', 'table-light': pokemon.types[0].type.name == 'poison'
+        
+        }" class="poke-card planta" *ngFor="let pokemon of pokemons | paginate: {id: 'listing_pagination',
         itemsPerPage: limit,
         currentPage: page,
         totalItems: totalPokemons
@@ -50,7 +52,7 @@
     </tbody>
 </table>
 <div class="d-flex justify-content-end">
-    Items per page:
+    {{'Items per page' | translate}}:
     <select (change)="changeLimit($event)">
         <option [defaultSelected]="10" value="10">10</option>
         <option value="50">50</option>
@@ -59,6 +61,10 @@
     </select>
 </div>
 <div class="text-center">
-    <pagination-controls id="listing_pagination" (click)="changePage(page)" [maxSize]="5" [directionLinks]="true"
+    <pagination-controls id="listing_pagination" previousLabel="{{'Prev' | translate}}"
+        nextLabel="{{'Next' | translate}}" (click)="changePage(page)" [maxSize]="5" [directionLinks]="true"
         (pageChange)="page = $event"></pagination-controls>
 </div>
+
+<button [ngClass]="'no-hidden'" *ngIf="showGoUpButton" class="btn btn-primary" (click)="scrollTop()">
+    <i class="fa-solid fa-circle-up"></i></button>
