@@ -23,9 +23,28 @@ describe('PokemonService', () => {
     expect(service).toBeTruthy();
   });
 
+  //Comprueba que llame a la url y que sea un get
   it('should call getPokemonList', () => {
     service.getPokemons(151, 0).subscribe();
     const req = httpController.expectOne('https://pokeapi.co/api/v2/pokemon?limit=151&offset=0');
+    expect(req.request.method).toEqual('GET');
+  });
+
+  it('should call getPokemonById', () => {
+    service.getPokemonById(1).subscribe();
+    const req = httpController.expectOne('https://pokeapi.co/api/v2/pokemon/1');
+    expect(req.request.method).toEqual('GET');
+  });
+
+  it('should call getPokemonByQuery', () => {
+    service.getPokemonByQuery('https://pokeapi.co/api/v2/pokemon/1').subscribe();
+    const req = httpController.expectOne('https://pokeapi.co/api/v2/pokemon/1');
+    expect(req.request.method).toEqual('GET');
+  });
+
+  it('should call pokemonType', () => {
+    service.pokemonType(1).subscribe();
+    const req = httpController.expectOne('https://pokeapi.co/api/v2/pokemon/1');
     expect(req.request.method).toEqual('GET');
   });
 });

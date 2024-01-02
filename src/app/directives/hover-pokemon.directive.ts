@@ -29,6 +29,10 @@ export class HoverPokemonDirective {
     'flying': '#A890F0'
   };
 
+  public getColorMap(){
+    return this.colorMap;
+  }
+
   @Input() set color(value: string) {
     this._color = this.colorMap[value as keyof typeof this.colorMap];
   }

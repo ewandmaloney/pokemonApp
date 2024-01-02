@@ -4,11 +4,11 @@ import { PokemonListComponent } from './pokemon-list.component';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { CookieOptions, CookieOptionsProvider, CookieService } from 'ngx-cookie';
-import { InjectionToken } from '@angular/core';
+import { CookieService } from 'ngx-cookie';
 import { of } from 'rxjs';
 import { Database } from '@angular/fire/database';
 import { Ability, GameIndex, Move, PokemonDetailsResponse, Species, Sprites, Stat, Type } from 'src/app/pages/pokemons/interfaces/PokemonDetailsResponse.interface';
+import { PokemonCardComponent } from 'src/app/shared/components/pokemon-card/pokemon-card.component';
 
 describe('PokemonCardComponent', () => {
   let component: PokemonListComponent;
@@ -16,7 +16,6 @@ describe('PokemonCardComponent', () => {
   let firebase: FirebaseService;
 
   class MockCookieService {
-    // Add methods as needed based on the usage of CookieService in your component
     get() {
       return of('mock value');
     }
@@ -45,7 +44,6 @@ describe('PokemonCardComponent', () => {
   }
 
   class MockDatabase {
-    // Add methods as needed based on the usage of CookieService in your component
     get() {
       return of('mock value');
     }
@@ -58,10 +56,10 @@ describe('PokemonCardComponent', () => {
       providers: [
         FirebaseService,
         TranslateService,
-        { provide: CookieService, useClass: MockCookieService }, // replace CookieService with the mock
+        { provide: CookieService, useClass: MockCookieService },
         { provide: Database, useClass: MockDatabase }
       ],
-      imports: [HttpClientTestingModule, TranslateModule.forRoot()]
+      imports: [HttpClientTestingModule, TranslateModule.forRoot(), PokemonCardComponent]
     });
     firebase = TestBed.inject(FirebaseService);
     fixture = TestBed.createComponent(PokemonListComponent);
@@ -82,7 +80,7 @@ describe('PokemonCardComponent', () => {
     expect(compiled.querySelector('h3').textContent).toContain('Your pokedex is empty!');
   })
 
-  //No funciona
+  //Comprueba que se muestre un mensaje cuando hay pokemons. El fixture.detectChanges() es para que se actualice la vista
   it('show message PERSONAL POKEDEX when there are pokemons', () => {
     component.pokemons = [{} as any];
     component.personalPokedex = true;
