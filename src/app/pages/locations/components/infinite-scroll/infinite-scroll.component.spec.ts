@@ -12,6 +12,8 @@ import { Database, getDatabase, provideDatabase } from '@angular/fire/database';
 import { PokemonListComponent } from '../pokemon-list/pokemon-list.component';
 import { Auth, getAuth, provideAuth } from '@angular/fire/auth';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
+import { PokemonCardComponent } from 'src/app/shared/components/pokemon-card/pokemon-card.component';
 
 class MockCookieService {
   get() {
@@ -30,6 +32,46 @@ class MockAuth {
     return of('mock value');
   }
 }
+class MockFirebase {
+
+  public firebaseData: any[] = [];
+
+  createPokedexArray(pokedexObj: any) {
+
+    let pokedex: any[] = []
+    if (pokedexObj) {
+      this.firebaseData = Object.values(pokedexObj)
+      const data: any[] = Object.values(pokedexObj)
+      if (pokedexObj === null) { return []; }
+      data.forEach((pkm: any) => {
+        pokedex = Object.values(pkm)
+      })
+    }
+    return pokedex;
+  }
+
+  leerDatosPokedex() {
+    return of({
+      "pokemons": {
+        "0": {
+          "id": 32,
+          "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/32.png",
+          "name": "nidoran-m"
+        },
+        "-NkoFK75_FajWxOci8Lr": {
+          "id": 73,
+          "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/73.png",
+          "name": "tentacruel"
+        },
+        "-NktlXwhmEo8GESYraUt": {
+          "id": 1,
+          "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png",
+          "name": "bulbasaur"
+        }
+      }
+    })
+  }
+}
 
 describe('InfiniteScrollComponent', () => {
   let component: InfiniteScrollComponent;
@@ -45,12 +87,10 @@ describe('InfiniteScrollComponent', () => {
         LoginService,
         { provide: CookieService, useClass: MockCookieService },
         { provide: Database, useClass: MockDatabase },
-        { provide: Auth, useClass: MockAuth }
+        { provide: Auth, useClass: MockAuth },
+        { provide: FirebaseService, useClass: MockFirebase },
       ],
-      imports: [HttpClientTestingModule, TranslateModule.forRoot(),
-        provideFirebaseApp(() => initializeApp({ "projectId": "angular-test-request-project", "appId": "1:435090426922:web:dcaed200fbbbcf46bf0753", "databaseURL": "https://angular-test-request-project-default-rtdb.europe-west1.firebasedatabase.app", "storageBucket": "angular-test-request-project.appspot.com", "apiKey": "AIzaSyDCyGC_vQk3oelDOMSmWaYn09g8IMWhvI0", "authDomain": "angular-test-request-project.firebaseapp.com", "messagingSenderId": "435090426922", "measurementId": "G-0CTEXTL3KC" })),
-        provideAuth(() => getAuth()),
-        provideDatabase(() => getDatabase()),
+      imports: [HttpClientTestingModule, TranslateModule.forRoot(), InfiniteScrollModule, PokemonCardComponent
       ]
     });
     firebase = TestBed.inject(FirebaseService);
@@ -62,5 +102,12 @@ describe('InfiniteScrollComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+    const leerDatosPokedex = spyOn(firebase, 'leerDatosPokedex').and.returnValue(of({}))
+    const createPokedexArray = spyOn(firebase, 'createPokedexArray').and.returnValue([])
+    component.pokedexID = 'bhdjas-3123-312das'
+    component.ngOnInit();
+    component.pokemons = []
+    expect(leerDatosPokedex).toHaveBeenCalled();
+    expect(createPokedexArray).toHaveBeenCalled();
   });
 });

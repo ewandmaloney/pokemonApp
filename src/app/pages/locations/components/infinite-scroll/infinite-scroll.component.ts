@@ -61,6 +61,7 @@ export class InfiniteScrollComponent implements OnInit, OnChanges {
     //Si es una pokedex de pokeApi esta se divide en 7 partes por eso la condicion
     if (this.pokedexID.split('/').length < 7) {
       this.firebase.leerDatosPokedex().subscribe((res: any) => {
+        console.log(res)
         this.pokemons = this.firebase.createPokedexArray(res);
         this.pokemons.sort((a, b) => a.id - b.id);
       });
