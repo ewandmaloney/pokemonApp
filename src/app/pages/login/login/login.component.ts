@@ -2,9 +2,12 @@ import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { FirebaseAuthService } from 'src/app/services/firebase-auth.service';
 import { InfoDialogsService } from 'src/app/services/info-dialogs.service';
 import { LoginService } from 'src/app/services/login.service';
+import { setUser } from 'src/app/states/actions/pokedex.action';
+import { AppState } from 'src/app/states/app.state';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +19,8 @@ export class LoginComponent implements OnInit {
   public password: string = '';
   public loading: boolean = false;
 
-  constructor(private logServ: LoginService, private location: Location, private router: Router, private dialog: InfoDialogsService, private auth: FirebaseAuthService) { }
+  constructor(private logServ: LoginService, private location: Location, private router: Router, private dialog: InfoDialogsService, private auth: FirebaseAuthService, private store: Store<AppState>) {
+   }
 
 
   ngOnInit(): void {
@@ -47,6 +51,7 @@ export class LoginComponent implements OnInit {
       const user = userCredential.user;
       //Login completado
       this.logServ.saveCookie(user.email!, user.uid);
+      this.store.dispatch(setUser({ userId: user.uid}))
       this.dialog.showSuccess('¡Éxito!', '¡Bienvenido!');
       this.loading = false;
       this.router.navigate(['pokemons/all']);

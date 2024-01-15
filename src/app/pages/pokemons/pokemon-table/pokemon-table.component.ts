@@ -4,6 +4,9 @@ import { PokemonService } from 'src/app/services/pokemon.service';
 import { PokemonDetailsResponse } from '../interfaces/PokemonDetailsResponse.interface';
 import { PokemonResponse } from '../interfaces/PokemonResponse';
 import { Subscription, from, take } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/states/app.state';
+import { LoginService } from 'src/app/services/login.service';
 @Component({
   selector: 'app-pokemon-table',
   templateUrl: './pokemon-table.component.html',
@@ -18,7 +21,7 @@ export class PokemonTableComponent implements OnInit, OnDestroy {
   public page: number = 0;
   pokemonInfoSubscription?: Subscription;
 
-  constructor(private pokeService: PokemonService, private router: Router) { }
+  constructor(private pokeService: PokemonService, private router: Router, private login: LoginService) { }
 
   ngOnDestroy(): void {
     this.pokemonInfoSubscription?.unsubscribe();
@@ -41,7 +44,6 @@ export class PokemonTableComponent implements OnInit, OnDestroy {
         this.pokemonNoInfo = pokemons;
         this.totalPokemons = this.pokemonNoInfo.count;
         this.getPokemonsInfo();
-        console.log(this.pokemons);
       });
   }
 

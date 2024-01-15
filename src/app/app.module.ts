@@ -26,6 +26,8 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { StoreModule } from '@ngrx/store';
 import { pokedexReducer } from './states/reducers/pokedex.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { EffectsModule } from '@ngrx/effects';
+import { PokedexEffects } from './states/effects/pokedex.effects';
 
 
 
@@ -62,7 +64,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: !isDevMode(),
-    })
+    }),
+    EffectsModule.forRoot(PokedexEffects)
   ],
   exports: [],
   providers: [
