@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -23,6 +23,9 @@ import { SelectFieldComponent } from './components/forms/select-field/select-fie
 import { DirectivesModule } from './directives/directives.module';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { StoreModule } from '@ngrx/store';
+import { pokedexReducer } from './states/reducers/pokedex.reducer';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 
 
@@ -55,6 +58,11 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
         deps: [HttpClient]
       }
     }),
+    StoreModule.forRoot({ pokedex: pokedexReducer }),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: !isDevMode(),
+    })
   ],
   exports: [],
   providers: [
