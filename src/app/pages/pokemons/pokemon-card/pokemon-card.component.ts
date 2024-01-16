@@ -46,10 +46,9 @@ export class PokemonCardComponent implements OnInit, OnChanges {
   }
 
   constructor(private pokeService: PokemonService, private firebase: FirebaseService, private dialog: InfoDialogsService, private store: Store<AppState>) {
-    this.store.select('pokedex')
-      .subscribe((data) => {
-        console.log(data)
-      });
+    this.store.subscribe((state) => {
+      console.log(state.user)
+    })
   }
 
   //Con esto compruebo si existen cambios en los datos de la llamada y me lo copio

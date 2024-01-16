@@ -5,11 +5,11 @@ import { AppState } from "../app.state";
 
 export const initialState: AppState = {
     user: undefined,
-    pokedex: {},
 }
 
-export const pokedexReducer = createReducer(
+export const userReducer = createReducer(
     initialState,
     on(setUser, (state, { userId }) => ({ ...state, user: userId })),
-    on(setPokedex, (state, { pokedex }) => ({ ...state, pokedex })),
+    // on(loadPokedex, (state) => ({ ...state })),
+    // on(setPokedex, (state, { pokedex }) => ({ ...state, pokedex })),
 );

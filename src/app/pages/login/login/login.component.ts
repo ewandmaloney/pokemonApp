@@ -51,6 +51,7 @@ export class LoginComponent implements OnInit {
       const user = userCredential.user;
       //Login completado
       this.logServ.saveCookie(user.email!, user.uid);
+      //Accion para guardar el usuario en el store
       this.store.dispatch(setUser({ userId: user.uid}))
       this.dialog.showSuccess('¡Éxito!', '¡Bienvenido!');
       this.loading = false;

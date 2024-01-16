@@ -1,6 +1,5 @@
 export interface AppState {
     user: string | undefined;
-    pokedex: {};
 }
 
 export interface Pokedex {

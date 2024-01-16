@@ -37,6 +37,7 @@ export class NavbarComponent implements OnInit {
     this.dialog.showConfirmationDialog(this.translateService.instant('Logout'), this.translateService.instant('Are you sure you want to logout?'), () => {
       this.auth.logout().then(() => {
         this.logServ.logout();
+        //Accion para eliminar el usuario del store
         this.store.dispatch(setUser({ userId: undefined }))
       }).catch((error) => {
         console.log(error)
