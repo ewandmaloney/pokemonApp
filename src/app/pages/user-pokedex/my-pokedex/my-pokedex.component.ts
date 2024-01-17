@@ -3,6 +3,7 @@ import { Store } from '@ngrx/store';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { LoginService } from 'src/app/services/login.service';
 import { AppState } from 'src/app/states/app.state';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-my-pokedex',
@@ -19,7 +20,7 @@ export class MyPokedexComponent implements OnInit {
   public idUser: string[] = [];
 
   constructor(private firebase: FirebaseService, private loginServ: LoginService, private store: Store<AppState>) {
-    this.store.select('user').subscribe((user) => {
+    this.store.select('user').pipe(takeUntilDestroyed()).subscribe((user) => {
       if (user) {
         this.idUser = Object.values(user);
       }

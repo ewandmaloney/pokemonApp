@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { EMPTY, catchError, map, mergeMap, switchMap, take, tap } from "rxjs";
+import { EMPTY, catchError, map, switchMap, take } from "rxjs";
 import { FirebaseService } from "src/app/services/firebase.service";
 
 @Injectable()
@@ -13,7 +13,7 @@ export class PokedexEffects {
         switchMap(() => this.firebase.leerDatosPokedex()
             .pipe(
                 take(1),
-                map((pokedex: any) => ({ type: '[Pokedex] Set Pokedex', pokedex })),
+                map((pokemons: any) => ({ type: '[Pokedex] Set Pokedex', pokemons: pokemons.pokemons })),
                 catchError((error) => {
                     console.error("Error cargando los pokemon", error)
                     return EMPTY

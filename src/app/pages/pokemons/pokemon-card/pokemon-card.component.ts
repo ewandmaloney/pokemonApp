@@ -49,7 +49,7 @@ export class PokemonCardComponent implements OnInit, OnChanges {
     }
   }
 
-  constructor(private pokeService: PokemonService, private firebase: FirebaseService, private dialog: InfoDialogsService, private store: Store<AppState>, private logServ: LoginService) {
+  constructor(private firebase: FirebaseService) {
 
   }
 
@@ -62,19 +62,6 @@ export class PokemonCardComponent implements OnInit, OnChanges {
 
   //Al crear el componente hago una copia de los pokemon para luego usarlo en la funcion searchPokemon  
   ngOnInit(): void {
-    this.store.dispatch(loadPokedex())
-    this.store.select('user').subscribe((user) => {
-      if (user) {
-        let userPokedex = Object.values(user)
-        this.userPokedex = userPokedex[0]
-        console.log(this.userPokedex)
-      }
-    })
-    if (this.userPokedex === '' || this.userPokedex === undefined) {
-      this.userPokedex = this.logServ.getCookieId()!
-      this.store.dispatch(setUser({ userId: this.userPokedex }))
-      console.log(this.userPokedex)
-    }
     this.copyPokemons = this.pokemons;
   }
 
