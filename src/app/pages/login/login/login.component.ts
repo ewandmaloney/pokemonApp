@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { FirebaseAuthService } from 'src/app/services/firebase-auth.service';
 import { InfoDialogsService } from 'src/app/services/info-dialogs.service';
 import { LoginService } from 'src/app/services/login.service';
-import { setUser } from 'src/app/states/actions/pokedex.action';
+import { setUser } from 'src/app/states/actions/user.action';
 import { AppState } from 'src/app/states/app.state';
 
 @Component({

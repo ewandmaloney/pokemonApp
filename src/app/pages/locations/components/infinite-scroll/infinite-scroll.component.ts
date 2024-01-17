@@ -5,6 +5,9 @@ import { Subject } from 'rxjs';
 import { LocationService } from 'src/app/services/location.service';
 import { PokemonService } from 'src/app/services/pokemon.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/states/app.state';
+//import { addPokemon } from 'src/app/states/actions/pokedex.action';
 
 @Component({
   selector: 'app-infinite-scroll',
@@ -45,7 +48,7 @@ export class InfiniteScrollComponent implements OnInit, OnChanges {
     }
   }
 
-  constructor(public infScr: InfiniteScrollService, private locServ: LocationService, private pokeServ: PokemonService, private firebase: FirebaseService) {
+  constructor(public infScr: InfiniteScrollService, private locServ: LocationService, private pokeServ: PokemonService, private firebase: FirebaseService, private store: Store<AppState>) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -60,11 +63,13 @@ export class InfiniteScrollComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     //Si es una pokedex de pokeApi esta se divide en 7 partes por eso la condicion
     if (this.pokedexID.split('/').length < 7) {
-      this.firebase.leerDatosPokedex().subscribe((res: any) => {
-        console.log(res)
-        this.pokemons = this.firebase.createPokedexArray(res);
+      this.store.select('pokedex').subscribe((res) => {
+        this.pokemons = this.firebase.createPokedexArray(res.pokedex);
         this.pokemons.sort((a, b) => a.id - b.id);
-      });
+      })
+      // this.firebase.leerDatosPokedex().subscribe((res: any) => {
+
+      // });
     }
   }
 
@@ -83,6 +88,12 @@ export class InfiniteScrollComponent implements OnInit, OnChanges {
   }
 
   addPokemonToPokedex(pokemon: PokemonDetailsResponse) {
+    // const pokemonSaved = {
+    //   id: pokemon.id,
+    //   name: pokemon.name,
+    //   image: pokemon.sprites.front_default,
+    // }
+    // this.store.dispatch(addPokemon({ pokemon: pokemonSaved }))
     this.firebase.savePokemon(pokemon);
   }
 

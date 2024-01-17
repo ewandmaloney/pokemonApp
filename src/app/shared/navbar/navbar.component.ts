@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { FirebaseAuthService } from 'src/app/services/firebase-auth.service';
 import { InfoDialogsService } from 'src/app/services/info-dialogs.service';
 import { LoginService } from 'src/app/services/login.service';
-import { setUser } from 'src/app/states/actions/pokedex.action';
+import { setUser } from 'src/app/states/actions/user.action';
 import { AppState } from 'src/app/states/app.state';
 
 @Component({
@@ -38,7 +38,7 @@ export class NavbarComponent implements OnInit {
       this.auth.logout().then(() => {
         this.logServ.logout();
         //Accion para eliminar el usuario del store
-        this.store.dispatch(setUser({ userId: undefined }))
+        this.store.dispatch(setUser({ userId: '' }))
       }).catch((error) => {
         console.log(error)
       });

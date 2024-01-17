@@ -6,6 +6,9 @@ import { LoginService } from './login.service';
 import { InfoDialogsService } from './info-dialogs.service';
 import { Database, get, object, onValue, push, ref, remove, set } from '@angular/fire/database';
 import { TranslateService } from '@ngx-translate/core';
+import { Store } from '@ngrx/store';
+import { AppState } from '../states/app.state';
+import { setUser } from '../states/actions/user.action';
 
 @Injectable({
   providedIn: 'root'
@@ -15,14 +18,31 @@ export class FirebaseService {
   private database: Database = inject(Database)
   public firebaseData: any[] = [];
   public pokemons: any[] = [];
+  public userPokedex!: string
 
-  constructor(private http: HttpClient, private translateService: TranslateService, private LoginService: LoginService, private dialog: InfoDialogsService) {
+  constructor(private http: HttpClient,
+    private translateService: TranslateService,
+    private LoginService: LoginService,
+    private dialog: InfoDialogsService,
+    private store: Store<AppState>,
+    private logServ: LoginService) {
   }
 
 
 
   //Devuelve un observable con los datos de la pokedex
   leerDatosPokedex() {
+    //Crear un reducer para recuperar el id del usuario
+    this.store.select('user').subscribe((user) => {
+      if (user) {
+        let userPokedex = Object.values(user)
+        this.userPokedex = userPokedex[0]
+      }
+    })
+    if (this.userPokedex === '' || this.userPokedex === undefined) {
+      this.userPokedex = this.logServ.getCookieId()!
+      this.store.dispatch(setUser({ userId: this.userPokedex }))
+    }
     let userId = (this.LoginService.getCookieId())
     const dbRef = ref(this.database, `pokedex/${userId}`)
     return new Observable(observer => {

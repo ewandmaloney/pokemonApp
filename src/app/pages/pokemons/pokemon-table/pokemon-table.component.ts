@@ -25,7 +25,6 @@ export class PokemonTableComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.pokemonInfoSubscription?.unsubscribe();
-    console.log('Desuscrito');
   }
 
   ngOnInit(): void {
