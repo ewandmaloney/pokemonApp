@@ -3,6 +3,9 @@ import { PokemonDetailsResponse, Type } from '../interfaces/PokemonDetailsRespon
 import { PokemonService } from 'src/app/services/pokemon.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { InfoDialogsService } from 'src/app/services/info-dialogs.service';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/states/app.state';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-pokemon-card',
@@ -27,9 +30,6 @@ export class PokemonCardComponent implements OnInit, OnChanges {
   @Output() eventPageNumber: EventEmitter<number> = new EventEmitter;
   @Output() eventLimit: EventEmitter<number> = new EventEmitter();
 
-  
-  
-
   @HostListener('window:scroll', [])
   onWindowScroll() {
     if ((window.pageYOffset ||
@@ -45,7 +45,10 @@ export class PokemonCardComponent implements OnInit, OnChanges {
     }
   }
 
-  constructor(private pokeService: PokemonService, private firebase: FirebaseService, private dialog: InfoDialogsService) {
+  constructor(private pokeService: PokemonService, private firebase: FirebaseService, private dialog: InfoDialogsService, private store: Store<AppState>) {
+    this.store.subscribe((state) => {
+      console.log(state.user)
+    })
   }
 
   //Con esto compruebo si existen cambios en los datos de la llamada y me lo copio

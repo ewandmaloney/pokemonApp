@@ -1,10 +1,15 @@
 import { createReducer, on } from "@ngrx/store";
-import { loadPokedex } from "../actions/pokedex.action";
+import { loadPokedex, setPokedex, setUser } from "../actions/pokedex.action";
+import { AppState } from "../app.state";
 
 
-export const initialState = {}
+export const initialState: AppState = {
+    user: undefined,
+}
 
-export const pokedexReducer = createReducer(
+export const userReducer = createReducer(
     initialState,
-    on(loadPokedex, state => state),
+    on(setUser, (state, { userId }) => ({ ...state, user: userId })),
+    // on(loadPokedex, (state) => ({ ...state })),
+    // on(setPokedex, (state, { pokedex }) => ({ ...state, pokedex })),
 );
