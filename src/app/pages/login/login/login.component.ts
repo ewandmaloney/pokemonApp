@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { FirebaseAuthService } from 'src/app/services/firebase-auth.service';
 import { InfoDialogsService } from 'src/app/services/info-dialogs.service';
 import { LoginService } from 'src/app/services/login.service';
+import { loadPokedex } from 'src/app/states/actions/pokedex.action';
 import { setUser } from 'src/app/states/actions/user.action';
 import { AppState } from 'src/app/states/app.state';
 
@@ -20,7 +21,7 @@ export class LoginComponent implements OnInit {
   public loading: boolean = false;
 
   constructor(private logServ: LoginService, private location: Location, private router: Router, private dialog: InfoDialogsService, private auth: FirebaseAuthService, private store: Store<AppState>) {
-   }
+  }
 
 
   ngOnInit(): void {
@@ -52,8 +53,9 @@ export class LoginComponent implements OnInit {
       //Login completado
       this.logServ.saveCookie(user.email!, user.uid);
       //Accion para guardar el usuario en el store
-      this.store.dispatch(setUser({ userId: user.uid}))
+      this.store.dispatch(setUser({ userId: user.uid }))
       this.dialog.showSuccess('¡Éxito!', '¡Bienvenido!');
+      this.store.dispatch(loadPokedex())
       this.loading = false;
       this.router.navigate(['pokemons/all']);
     }).catch((error) => {
