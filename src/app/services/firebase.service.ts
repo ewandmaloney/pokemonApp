@@ -7,6 +7,7 @@ import { Database, get, onValue, push, ref, remove, set } from '@angular/fire/da
 import { TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../states/app.state';
+import { addPokemon, deletePokemon } from '../states/actions/pokedex.action';
 
 @Injectable({
   providedIn: 'root'
@@ -55,7 +56,8 @@ export class FirebaseService {
       id: pokemon.id,
       name: pokemon.name,
       image: pokemon.sprites.front_default,
-    }
+    };
+
     let userId = (this.LoginService.getCookieId())
     let isSaved;
     this.isPokemonAlreadySaved(pokemon).subscribe((res: any) => {
@@ -65,7 +67,8 @@ export class FirebaseService {
         return;
       } else {
         //Añadir pokemon a la pokedex
-        const dbRef = ref(this.database, `pokedex/${userId}/pokemons`)
+        this.store.dispatch(addPokemon({ pokemon: pokemonSaved }));
+        const dbRef = ref(this.database, `pokedex/${userId}/pokemons/${pokemon.id}`)
         get(dbRef).then((snapshot) => {
           if (snapshot.exists()) {
             push(dbRef, pokemonSaved);
@@ -94,26 +97,36 @@ export class FirebaseService {
         pokedex = Object.values(pkm)
       })
     }
-    return pokedex;
+    return pokedex.flat();
   }
 
   isPokemonAlreadySaved(pokemon: PokemonDetailsResponse): Observable<boolean> {
     return new Observable<boolean>(observer => {
       const { id } = pokemon;
-      let isSaved = false;
       this.leerDatosPokedex().subscribe((res: any) => {
-        if (!res) { observer.next(false); observer.complete(); return; }
+        if (!res) {
+          observer.next(false);
+          observer.complete();
+          return;
+        }
         const pokemons = Object.values(res);
-        pokemons.forEach((pkm: any) => {
-          const pkmArray = Object.values(pkm);
+        let isSaved = false;
+        for (let i = 0; i < pokemons.length; i++) {
+          const pkmArray = Object.values(pokemons[i] as object);
+          console.log(pkmArray)
           for (let index = 0; index < pkmArray.length; index++) {
             if ((pkmArray[index] as any).id === id) {
               isSaved = true;
+              break;
             }
           }
-        });
+          if (isSaved) {
+            break;
+          }
+        }
         observer.next(isSaved);
         observer.complete();
+      }, error => {
         observer.error(Error('Error trying to obtain pokemon from pokedex'));
       });
     });
@@ -129,12 +142,14 @@ export class FirebaseService {
       let dataFirebase = Object.entries(pkm);
       //Recorro el array y siempre tiene 2 valores, 1 id firebase, 2 datos almacenados dentro
       dataFirebase.forEach((pkm: any) => {
-        if (pkm[1].id === id) {
+        let id_pokemon = Number(pkm[0])
+        if (id_pokemon === id) {
           let pokemon = pkm[0]
           //sweeet alert para confirmar
           this.dialog.showConfirmationDialog(this.translateService.instant('Confirm'), this.translateService.instant('Do you want to delete this pokemon?'), () => {
             const dbRef = ref(this.database, `pokedex/${userId}/pokemons/${pokemon}`)
             remove(dbRef)
+            this.store.dispatch(deletePokemon({ id: pokemon }))
             this.dialog.showSuccess(this.translateService.instant('Pokemon deleted'), `${pkm[1].name} ${this.translateService.instant('has been deleted from your pokedex')}`);
           });
         }

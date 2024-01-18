@@ -69,7 +69,9 @@ export class InfiniteScrollComponent implements OnInit, OnChanges {
     if (this.pokedexID.split('/').length < 7) {
       this.pokemonInfoSubscription = this.store.select('pokedex')
         .subscribe((res) => {
+          console.log(res)
           this.pokemons = this.firebase.createPokedexArray(res);
+          console.log(this.pokemons)
           this.pokemons.sort((a, b) => a.id - b.id);
         })
     }
