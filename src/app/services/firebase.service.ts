@@ -148,13 +148,15 @@ export class FirebaseService {
         let id_pokemon = Number(pkm[0])
         if (id_pokemon === id) {
           let pokemon = pkm[0]
-          let nombrePokemon = pkm[1].flat()[0].name
+          let nombrePokemon = pkm[1]
+          let datos_pokemon = nombrePokemon.flat()
+          let nombre_pokemon = datos_pokemon[0].name
           //sweeet alert para confirmar
           this.dialog.showConfirmationDialog(this.translateService.instant('Confirm'), this.translateService.instant('Do you want to delete this pokemon?'), () => {
             const dbRef = ref(this.database, `pokedex/${userId}/pokemons/${pokemon}`)
             remove(dbRef)
             this.store.dispatch(deletePokemon({ id: pokemon }))
-            this.dialog.showSuccess(this.translateService.instant('Pokemon deleted'), `${nombrePokemon} ${this.translateService.instant('has been deleted from your pokedex')}`);
+            this.dialog.showSuccess(this.translateService.instant('Pokemon deleted'), `${nombre_pokemon} ${this.translateService.instant('has been deleted from your pokedex')}`);
           });
         }
       })
