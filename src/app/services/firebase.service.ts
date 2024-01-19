@@ -129,9 +129,11 @@ export class FirebaseService {
         }
         observer.next(isSaved);
         observer.complete();
-      }, error => {
-        observer.error(Error('Error trying to obtain pokemon from pokedex'));
-      });
+      }),
+        (error: any) => {
+          observer.error(error);
+          observer.complete();
+        };
     });
   }
 
