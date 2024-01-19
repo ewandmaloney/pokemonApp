@@ -4,8 +4,11 @@ import { PokemonService } from 'src/app/services/pokemon.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { InfoDialogsService } from 'src/app/services/info-dialogs.service';
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/states/app.state';
+import { AppState, Pokedex, UserPokedex } from 'src/app/states/app.state';
 import { map } from 'rxjs';
+import { loadPokedex } from 'src/app/states/actions/pokedex.action';
+import { LoginService } from 'src/app/services/login.service';
+import { setUser } from 'src/app/states/actions/user.action';
 
 @Component({
   selector: 'app-pokemon-card',
@@ -14,6 +17,7 @@ import { map } from 'rxjs';
 })
 export class PokemonCardComponent implements OnInit, OnChanges {
 
+  public userPokedex!: string
 
   public page: number = 1;
   public copyPokemons: PokemonDetailsResponse[] = [];
@@ -45,10 +49,8 @@ export class PokemonCardComponent implements OnInit, OnChanges {
     }
   }
 
-  constructor(private pokeService: PokemonService, private firebase: FirebaseService, private dialog: InfoDialogsService, private store: Store<AppState>) {
-    this.store.subscribe((state) => {
-      console.log(state.user)
-    })
+  constructor(private firebase: FirebaseService) {
+
   }
 
   //Con esto compruebo si existen cambios en los datos de la llamada y me lo copio
@@ -123,6 +125,5 @@ export class PokemonCardComponent implements OnInit, OnChanges {
     document.body.scrollTop = 0;  // Safari
     document.documentElement.scrollTop = 0; // Other
   }
-
 
 }

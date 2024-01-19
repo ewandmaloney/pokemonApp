@@ -1,11 +1,12 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { PokemonDetailsResponse } from '../pages/pokemons/interfaces/PokemonDetailsResponse.interface';
 import { Observable } from 'rxjs';
 import { LoginService } from './login.service';
 import { InfoDialogsService } from './info-dialogs.service';
-import { Database, get, object, onValue, push, ref, remove, set } from '@angular/fire/database';
+import { Database, get, onValue, push, ref, remove, set } from '@angular/fire/database';
 import { TranslateService } from '@ngx-translate/core';
+import { Store } from '@ngrx/store';
+import { AppState } from '../states/app.state';
 
 @Injectable({
   providedIn: 'root'
@@ -15,15 +16,27 @@ export class FirebaseService {
   private database: Database = inject(Database)
   public firebaseData: any[] = [];
   public pokemons: any[] = [];
+  public userPokedex!: string
 
-  constructor(private http: HttpClient, private translateService: TranslateService, private LoginService: LoginService, private dialog: InfoDialogsService) {
+  constructor(private translateService: TranslateService,
+    private LoginService: LoginService,
+    private dialog: InfoDialogsService,
+    private store: Store<AppState>) {
   }
 
 
 
   //Devuelve un observable con los datos de la pokedex
   leerDatosPokedex() {
-    let userId = (this.LoginService.getCookieId())
+    //Recuperar el id del usuario del state
+    this.store.select('user')
+      .subscribe((user) => {
+        if (user) {
+          let userPokedex = Object.values(user)
+          this.userPokedex = userPokedex[0]
+        }
+      })
+    let userId = this.userPokedex
     const dbRef = ref(this.database, `pokedex/${userId}`)
     return new Observable(observer => {
       onValue(dbRef, (snapshot) => {
@@ -87,7 +100,6 @@ export class FirebaseService {
   isPokemonAlreadySaved(pokemon: PokemonDetailsResponse): Observable<boolean> {
     return new Observable<boolean>(observer => {
       const { id } = pokemon;
-      const userId = (this.LoginService.getCookieId())
       let isSaved = false;
       this.leerDatosPokedex().subscribe((res: any) => {
         if (!res) { observer.next(false); observer.complete(); return; }

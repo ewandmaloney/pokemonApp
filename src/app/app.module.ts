@@ -24,10 +24,11 @@ import { DirectivesModule } from './directives/directives.module';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { StoreModule } from '@ngrx/store';
-import { userReducer } from './states/reducers/pokedex.reducer';
+import { userReducer } from './states/reducers/user.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import { PokedexEffects } from './states/effects/pokedex.effects';
+import { pokedexReducer } from './states/reducers/pokedex.reducer';
 
 
 
@@ -60,12 +61,17 @@ import { PokedexEffects } from './states/effects/pokedex.effects';
         deps: [HttpClient]
       }
     }),
-    StoreModule.forRoot({ user: userReducer }),
+    StoreModule.forRoot({ user: userReducer, pokedex: pokedexReducer }, {
+      runtimeChecks: {
+        strictStateImmutability: false,
+        strictActionImmutability: false,
+      },
+    }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: !isDevMode(),
     }),
-    EffectsModule.forRoot([])
+    EffectsModule.forRoot([PokedexEffects])
   ],
   exports: [],
   providers: [

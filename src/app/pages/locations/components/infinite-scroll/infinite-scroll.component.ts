@@ -1,10 +1,12 @@
 import { Component, HostListener, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { PokemonDetailsResponse } from 'src/app/pages/pokemons/interfaces/PokemonDetailsResponse.interface';
 import { InfiniteScrollService } from './services/infinite-scroll.service';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { LocationService } from 'src/app/services/location.service';
 import { PokemonService } from 'src/app/services/pokemon.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/states/app.state';
 
 @Component({
   selector: 'app-infinite-scroll',
@@ -28,6 +30,7 @@ export class InfiniteScrollComponent implements OnInit, OnChanges {
   showScrollHeight: number = 400;
   hideScrollHeight: number = 200;
   ngUnsubscribe = new Subject<void>();
+  pokemonInfoSubscription?: Subscription;
 
 
   @HostListener('window:scroll', [])
@@ -45,27 +48,38 @@ export class InfiniteScrollComponent implements OnInit, OnChanges {
     }
   }
 
-  constructor(public infScr: InfiniteScrollService, private locServ: LocationService, private pokeServ: PokemonService, private firebase: FirebaseService) {
+  constructor(public infScr: InfiniteScrollService, private locServ: LocationService, private pokeServ: PokemonService, private firebase: FirebaseService, private store: Store<AppState>) {
+  }
+
+  ngOnDestroy(): void {
+    this.pokemonInfoSubscription?.unsubscribe();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes)
     if (changes['pokedexID'] && changes['pokedexID'].currentValue) {
-      this.infScr.detectPokedexId(this.pokedexID);
+      if (this.pokedexID.split('/').length < 7) {
+        this.personalPokedex = true;
+        this.pokemonInfoSubscription = this.store.select('pokedex')
+          .subscribe((res) => {
+            console.log(res)
+            this.pokemons = this.firebase.createPokedexArray(res);
+            console.log(this.pokemons)
+            this.pokemons.sort((a, b) => a.id - b.id);
+          })
+      } else {
+        this.infScr.detectPokedexId(this.pokedexID);
+        this.pokemons = this.infScr.pokemons;
+        this.personalPokedex = this.infScr.personalPokedex;
+      }
       //Solo se llama una vez, detecta el pokedexID y ya
-      this.pokemons = this.infScr.pokemons;
-      this.personalPokedex = this.infScr.personalPokedex;
+      console.log(this.pokemons)
+      console.log(this.personalPokedex)
     }
   }
 
   ngOnInit(): void {
     //Si es una pokedex de pokeApi esta se divide en 7 partes por eso la condicion
-    if (this.pokedexID.split('/').length < 7) {
-      this.firebase.leerDatosPokedex().subscribe((res: any) => {
-        console.log(res)
-        this.pokemons = this.firebase.createPokedexArray(res);
-        this.pokemons.sort((a, b) => a.id - b.id);
-      });
-    }
   }
 
 
