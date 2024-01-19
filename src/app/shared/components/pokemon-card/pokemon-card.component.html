@@ -18,7 +18,7 @@
         <div class="card-body d-flex justify-content-around pokemon">
             <h5 (click)="detailsPokemon(pokemon.id)" class="card-title text-center">{{pokemon.name | titlecase}}</h5>
             <p *ngIf="personalPokedex" (click)="deletePokemonFirebase(pokemon.id)" class="delete"><i
-                    class="fa-solid fa-trash-can">Eliminar</i></p>
+                    class="fa-solid fa-trash-can"></i></p>
         </div>
     </div>
 </ng-template>

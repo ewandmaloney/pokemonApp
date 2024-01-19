@@ -1,6 +1,6 @@
 export interface AppState {
     user: string | undefined;
-    pokedex: any
+    pokedex: Pokedex
 }
 
 export interface UserPokedex {
@@ -8,10 +8,10 @@ export interface UserPokedex {
 }
 
 export interface Pokedex {
-    pokemons: { [key: string]: Pokemon };
+    pokemons: { [key: string]: PokemonState };
 }
 
-export interface Pokemon {
+export interface PokemonState {
     id: number;
     image: string;
     name: string;

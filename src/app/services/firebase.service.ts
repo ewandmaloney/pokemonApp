@@ -113,15 +113,18 @@ export class FirebaseService {
         let isSaved = false;
         for (let i = 0; i < pokemons.length; i++) {
           const pkmArray = Object.values(pokemons[i] as object);
-          console.log(pkmArray)
-          for (let index = 0; index < pkmArray.length; index++) {
-            if ((pkmArray[index] as any).id === id) {
+          let pokemonArray = pkmArray.flat();
+          console.log(pokemonArray)
+          for (let j = 0; j < pokemonArray.length; j++) {
+            const pkm = pokemonArray[j];
+            console.log(pkm)
+            if (pkm.id === id) {
               isSaved = true;
-              break;
+              break; // Salir del bucle cuando se encuentra una coincidencia
             }
           }
           if (isSaved) {
-            break;
+            break; // Salir del bucle externo si ya se encontró una coincidencia
           }
         }
         observer.next(isSaved);
@@ -150,7 +153,7 @@ export class FirebaseService {
             const dbRef = ref(this.database, `pokedex/${userId}/pokemons/${pokemon}`)
             remove(dbRef)
             this.store.dispatch(deletePokemon({ id: pokemon }))
-            this.dialog.showSuccess(this.translateService.instant('Pokemon deleted'), `${pkm[1].name} ${this.translateService.instant('has been deleted from your pokedex')}`);
+            this.dialog.showSuccess(this.translateService.instant('Pokemon deleted'), `${pokemon.name} ${this.translateService.instant('has been deleted from your pokedex')}`);
           });
         }
       })

@@ -56,25 +56,30 @@ export class InfiniteScrollComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes)
     if (changes['pokedexID'] && changes['pokedexID'].currentValue) {
-      this.infScr.detectPokedexId(this.pokedexID);
+      if (this.pokedexID.split('/').length < 7) {
+        this.personalPokedex = true;
+        this.pokemonInfoSubscription = this.store.select('pokedex')
+          .subscribe((res) => {
+            console.log(res)
+            this.pokemons = this.firebase.createPokedexArray(res);
+            console.log(this.pokemons)
+            this.pokemons.sort((a, b) => a.id - b.id);
+          })
+      } else {
+        this.infScr.detectPokedexId(this.pokedexID);
+        this.pokemons = this.infScr.pokemons;
+        this.personalPokedex = this.infScr.personalPokedex;
+      }
       //Solo se llama una vez, detecta el pokedexID y ya
-      this.pokemons = this.infScr.pokemons;
-      this.personalPokedex = this.infScr.personalPokedex;
+      console.log(this.pokemons)
+      console.log(this.personalPokedex)
     }
   }
 
   ngOnInit(): void {
     //Si es una pokedex de pokeApi esta se divide en 7 partes por eso la condicion
-    if (this.pokedexID.split('/').length < 7) {
-      this.pokemonInfoSubscription = this.store.select('pokedex')
-        .subscribe((res) => {
-          console.log(res)
-          this.pokemons = this.firebase.createPokedexArray(res);
-          console.log(this.pokemons)
-          this.pokemons.sort((a, b) => a.id - b.id);
-        })
-    }
   }
 
 
