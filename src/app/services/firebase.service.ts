@@ -114,10 +114,8 @@ export class FirebaseService {
         for (let i = 0; i < pokemons.length; i++) {
           const pkmArray = Object.values(pokemons[i] as object);
           let pokemonArray = pkmArray.flat();
-          console.log(pokemonArray)
           for (let j = 0; j < pokemonArray.length; j++) {
             const pkm = pokemonArray[j];
-            console.log(pkm)
             if (pkm.id === id) {
               isSaved = true;
               break; // Salir del bucle cuando se encuentra una coincidencia
@@ -150,12 +148,13 @@ export class FirebaseService {
         let id_pokemon = Number(pkm[0])
         if (id_pokemon === id) {
           let pokemon = pkm[0]
+          let nombrePokemon = pkm[1].flat()[0].name
           //sweeet alert para confirmar
           this.dialog.showConfirmationDialog(this.translateService.instant('Confirm'), this.translateService.instant('Do you want to delete this pokemon?'), () => {
             const dbRef = ref(this.database, `pokedex/${userId}/pokemons/${pokemon}`)
             remove(dbRef)
             this.store.dispatch(deletePokemon({ id: pokemon }))
-            this.dialog.showSuccess(this.translateService.instant('Pokemon deleted'), `${pokemon.name} ${this.translateService.instant('has been deleted from your pokedex')}`);
+            this.dialog.showSuccess(this.translateService.instant('Pokemon deleted'), `${nombrePokemon} ${this.translateService.instant('has been deleted from your pokedex')}`);
           });
         }
       })
