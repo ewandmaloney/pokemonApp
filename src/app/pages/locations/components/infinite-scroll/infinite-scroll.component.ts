@@ -6,7 +6,8 @@ import { LocationService } from 'src/app/services/location.service';
 import { PokemonService } from 'src/app/services/pokemon.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/states/app.state';
+import { AppState, PokemonState } from 'src/app/states/app.state';
+import { addPokemon, deletePokemon } from 'src/app/states/actions/pokedex.action';
 
 @Component({
   selector: 'app-infinite-scroll',
@@ -62,9 +63,9 @@ export class InfiniteScrollComponent implements OnInit, OnChanges {
         this.personalPokedex = true;
         this.pokemonInfoSubscription = this.store.select('pokedex')
           .subscribe((res) => {
-            console.log(res)
+            // console.log(res)
             this.pokemons = this.firebase.createPokedexArray(res);
-            console.log(this.pokemons)
+            // console.log(this.pokemons)
             this.pokemons.sort((a, b) => a.id - b.id);
           })
       } else {
@@ -73,8 +74,8 @@ export class InfiniteScrollComponent implements OnInit, OnChanges {
         this.personalPokedex = this.infScr.personalPokedex;
       }
       //Solo se llama una vez, detecta el pokedexID y ya
-      console.log(this.pokemons)
-      console.log(this.personalPokedex)
+      // console.log(this.pokemons)
+      // console.log(this.personalPokedex)
     }
   }
 
@@ -97,10 +98,16 @@ export class InfiniteScrollComponent implements OnInit, OnChanges {
   }
 
   addPokemonToPokedex(pokemon: PokemonDetailsResponse) {
-    this.firebase.savePokemon(pokemon);
+    const savePokemon: PokemonState =
+    {
+      id: pokemon.id,
+      name: pokemon.name,
+      image: pokemon.sprites.front_default,
+    };
+    this.store.dispatch(addPokemon({ pokemon: pokemon }));
   }
 
   deletePokemonFromPokedex(id: number) {
-    this.firebase.deletePokemonFromPokedex(id);
+    this.store.dispatch(deletePokemon({ id: id }));
   }
 }

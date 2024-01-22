@@ -6,7 +6,7 @@ import { InfoDialogsService } from 'src/app/services/info-dialogs.service';
 import { Store } from '@ngrx/store';
 import { AppState, Pokedex, UserPokedex } from 'src/app/states/app.state';
 import { map } from 'rxjs';
-import { loadPokedex } from 'src/app/states/actions/pokedex.action';
+import { addPokemon, loadPokedex } from 'src/app/states/actions/pokedex.action';
 import { LoginService } from 'src/app/services/login.service';
 import { setUser } from 'src/app/states/actions/user.action';
 
@@ -49,7 +49,7 @@ export class PokemonCardComponent implements OnInit, OnChanges {
     }
   }
 
-  constructor(private firebase: FirebaseService) {
+  constructor(private firebase: FirebaseService, private store: Store<AppState>) {
 
   }
 
@@ -75,7 +75,13 @@ export class PokemonCardComponent implements OnInit, OnChanges {
     //this.firebase.deletePruebas();
 
     //Mensaje de error y de success desde aqui
-    this.firebase.savePokemon(pokemon);
+    const savePokemon =
+    {
+      id: pokemon.id,
+      name: pokemon.name,
+      image: pokemon.sprites.front_default,
+    };
+    this.store.dispatch(addPokemon({ pokemon: pokemon }));
   }
 
   //Cambia de pagina y manda un evento al padre para llamar a la api

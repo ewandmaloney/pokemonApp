@@ -6,7 +6,7 @@ import { InfoDialogsService } from './info-dialogs.service';
 import { Database, get, onValue, push, ref, remove, set } from '@angular/fire/database';
 import { TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngrx/store';
-import { AppState } from '../states/app.state';
+import { AppState, PokemonState } from '../states/app.state';
 import { addPokemon, deletePokemon } from '../states/actions/pokedex.action';
 
 @Injectable({
@@ -52,6 +52,7 @@ export class FirebaseService {
 
   //Logica actualizada
   savePokemon(pokemon: PokemonDetailsResponse) {
+    
     const pokemonSaved = {
       id: pokemon.id,
       name: pokemon.name,
@@ -60,15 +61,14 @@ export class FirebaseService {
 
     let userId = (this.LoginService.getCookieId())
     let isSaved;
-    this.isPokemonAlreadySaved(pokemon).subscribe((res: any) => {
+    this.isPokemonAlreadySaved(pokemonSaved).subscribe((res: any) => {
       isSaved = res;
       if (isSaved) {
         this.dialog.showError(this.translateService.instant('Error'), this.translateService.instant('This pokemon is already saved in your pokedex'));
         return;
       } else {
         //Añadir pokemon a la pokedex
-        this.store.dispatch(addPokemon({ pokemon: pokemonSaved }));
-        const dbRef = ref(this.database, `pokedex/${userId}/pokemons/${pokemon.id}`)
+        const dbRef = ref(this.database, `pokedex/${userId}/pokemons/${pokemonSaved.id}`)
         get(dbRef).then((snapshot) => {
           if (snapshot.exists()) {
             push(dbRef, pokemonSaved);
@@ -100,7 +100,7 @@ export class FirebaseService {
     return pokedex.flat();
   }
 
-  isPokemonAlreadySaved(pokemon: PokemonDetailsResponse): Observable<boolean> {
+  isPokemonAlreadySaved(pokemon: PokemonState): Observable<boolean> {
     return new Observable<boolean>(observer => {
       const { id } = pokemon;
       this.leerDatosPokedex().subscribe((res: any) => {
