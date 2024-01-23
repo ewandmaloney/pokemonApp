@@ -51,29 +51,23 @@ export class FirebaseService {
 
 
   //Logica actualizada
-  savePokemon(pokemon: PokemonDetailsResponse) {
-    
-    const pokemonSaved = {
-      id: pokemon.id,
-      name: pokemon.name,
-      image: pokemon.sprites.front_default,
-    };
+  savePokemon(pokemon: PokemonState) {
 
     let userId = (this.LoginService.getCookieId())
     let isSaved;
-    this.isPokemonAlreadySaved(pokemonSaved).subscribe((res: any) => {
+    this.isPokemonAlreadySaved(pokemon).subscribe((res: any) => {
       isSaved = res;
       if (isSaved) {
         this.dialog.showError(this.translateService.instant('Error'), this.translateService.instant('This pokemon is already saved in your pokedex'));
         return;
       } else {
         //Añadir pokemon a la pokedex
-        const dbRef = ref(this.database, `pokedex/${userId}/pokemons/${pokemonSaved.id}`)
+        const dbRef = ref(this.database, `pokedex/${userId}/pokemons/${pokemon.id}`)
         get(dbRef).then((snapshot) => {
           if (snapshot.exists()) {
-            push(dbRef, pokemonSaved);
+            push(dbRef, pokemon);
           } else {
-            set(dbRef, [pokemonSaved]);
+            set(dbRef, [pokemon]);
           }
         });
         this.dialog.showSuccess(this.translateService.instant('Pokemon saved'), `${pokemon.name} ${this.translateService.instant('has been added to your pokedex')}`);
@@ -140,26 +134,31 @@ export class FirebaseService {
     //ID usuario
     let userId = (this.LoginService.getCookieId())
 
-    this.firebaseData.forEach((pkm: any) => {
-      //Vuelve el objeto en un array
-      let dataFirebase = Object.entries(pkm);
-      //Recorro el array y siempre tiene 2 valores, 1 id firebase, 2 datos almacenados dentro
-      dataFirebase.forEach((pkm: any) => {
-        let id_pokemon = Number(pkm[0])
-        if (id_pokemon === id) {
-          let pokemon = pkm[0]
-          let nombrePokemon = pkm[1]
-          let datos_pokemon = nombrePokemon.flat()
-          let nombre_pokemon = datos_pokemon[0].name
-          //sweeet alert para confirmar
-          this.dialog.showConfirmationDialog(this.translateService.instant('Confirm'), this.translateService.instant('Do you want to delete this pokemon?'), () => {
-            const dbRef = ref(this.database, `pokedex/${userId}/pokemons/${pokemon}`)
+    //Borrar pokemon de la pokedex
+    this.leerDatosPokedex().subscribe((res: any) => {
+      if (!res) {
+        return;
+      }
+      const pokemons = Object.values(res);
+      let isSaved = false;
+      for (let i = 0; i < pokemons.length; i++) {
+        const pkmArray = Object.values(pokemons[i] as object);
+        let pokemonArray = pkmArray.flat();
+        for (let j = 0; j < pokemonArray.length; j++) {
+          const pkm = pokemonArray[j];
+          if (pkm.id === id) {
+            isSaved = true;
+            //Borrar pokemon de la pokedex
+            const dbRef = ref(this.database, `pokedex/${userId}/pokemons/${pkm.id}`)
             remove(dbRef)
-            this.store.dispatch(deletePokemon({ id: pokemon }))
-            this.dialog.showSuccess(this.translateService.instant('Pokemon deleted'), `${nombre_pokemon} ${this.translateService.instant('has been deleted from your pokedex')}`);
-          });
+            this.dialog.showSuccess(this.translateService.instant('Pokemon deleted'), `${pkm.name} ${this.translateService.instant('has been deleted from your pokedex')}`);
+            break;
+          }
         }
-      })
+        if (isSaved) {
+          break;
+        }
+      }
     })
   }
 

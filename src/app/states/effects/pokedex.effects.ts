@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
-import { EMPTY, Observable, catchError, delay, exhaustMap, map, mergeMap, switchMap, take } from "rxjs";
+import { EMPTY, Observable, catchError, delay, exhaustMap, from, map, mergeMap, of, switchMap, take, tap } from "rxjs";
 import { FirebaseService } from "src/app/services/firebase.service";
 import { InfoDialogsService } from "src/app/services/info-dialogs.service";
 import { AppState } from "../app.state";
@@ -29,17 +29,20 @@ export class PokedexEffects {
         ofType('[Pokedex] Delete Pokemon'),
         exhaustMap(({ id }) =>
             this.firebase.leerDatosPokedex().pipe(
-                map((pokemons: any) => {
+                switchMap((pokemons: any) => {
                     let arrayPokemon = Object.values(pokemons.pokemons)
-                    console.log(arrayPokemon)
                     let pokemonArray = arrayPokemon.flat()
                     let pokemon = pokemonArray.find((p: any) => p.id === id);
-                    console.log(pokemon)
                     if (pokemon) {
-                        this.firebase.deletePokemonFromPokedex(id);
-                        return { type: '[Pokedex] Load Pokedex' };
+                        return of(this.firebase.deletePokemonFromPokedex(id)).pipe(
+                            map(() => ({ type: '[Pokedex] Load Pokedex' })),
+                            catchError((error) => {
+                                console.error("Error deleting the pokemon", error);
+                                return of({ type: '[Pokedex] Delete Pokemon Failed' });
+                            })
+                        );
                     } else {
-                        return { type: '[Pokedex] Delete Pokemon Failed' };
+                        return of({ type: '[Pokedex] Delete Pokemon Failed' });
                     }
                 }),
                 catchError((error) => {
@@ -47,24 +50,6 @@ export class PokedexEffects {
                     return EMPTY;
                 })
             )
-
-            // this.store.select('pokedex').pipe(
-            //     map((pokemons: any) => {
-            //         let pokemonArray = this.firebase.createPokedexArray(pokemons);
-            //         console.log(pokemonArray)
-            //         let pokemon = pokemonArray.find((p: any) => p.id === id);
-            //         if (pokemon) {
-            //             this.firebase.deletePokemonFromPokedex(id);
-            //             return { type: '[Pokedex] Load Pokedex' };
-            //         } else {
-            //             return { type: '[Pokedex] Delete Pokemon Failed' };
-            //         }
-            //     }),
-            //     catchError((error) => {
-            //         console.error("Error deleting the pokemon", error);
-            //         return EMPTY;
-            //     })
-            // )
         )
     ));
 
@@ -73,11 +58,11 @@ export class PokedexEffects {
         ofType('[Pokedex] Add Pokemon'),
         switchMap(({ pokemon }) =>
             this.store.select('pokedex').pipe(
-                map((pokemons: any) => {
+                tap((pokemons: any) => {
                     let arrayPokemon = Object.values(pokemons.pokemons)
                     let pokemonArray = arrayPokemon.flat()
-                    let pokemonSaved = pokemonArray.find((p: any) => p.id === (pokemon as any).id);
-                    if (!pokemonSaved) {
+                    let pokemonSaved = pokemonArray.filter((p: any) => p.id === (pokemon as any).id);
+                    if (pokemonSaved.length === 0 || pokemonSaved.length === 1) {
                         this.firebase.savePokemon(pokemon);
                         return { type: '[Pokedex] Load Pokedex' };
                     } else {

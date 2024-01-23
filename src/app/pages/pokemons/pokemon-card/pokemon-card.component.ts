@@ -81,7 +81,7 @@ export class PokemonCardComponent implements OnInit, OnChanges {
       name: pokemon.name,
       image: pokemon.sprites.front_default,
     };
-    this.store.dispatch(addPokemon({ pokemon: pokemon }));
+    this.store.dispatch(addPokemon({ pokemon: savePokemon }));
   }
 
   //Cambia de pagina y manda un evento al padre para llamar a la api
