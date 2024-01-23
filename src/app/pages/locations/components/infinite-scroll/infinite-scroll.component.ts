@@ -7,6 +7,7 @@ import { PokemonService } from 'src/app/services/pokemon.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/states/app.state';
+import { deletePokemon } from 'src/app/states/actions/pokedex.action';
 
 @Component({
   selector: 'app-infinite-scroll',
@@ -62,9 +63,7 @@ export class InfiniteScrollComponent implements OnInit, OnChanges {
         this.personalPokedex = true;
         this.pokemonInfoSubscription = this.store.select('pokedex')
           .subscribe((res) => {
-            console.log(res)
             this.pokemons = this.firebase.createPokedexArray(res);
-            console.log(this.pokemons)
             this.pokemons.sort((a, b) => a.id - b.id);
           })
       } else {
@@ -72,9 +71,6 @@ export class InfiniteScrollComponent implements OnInit, OnChanges {
         this.pokemons = this.infScr.pokemons;
         this.personalPokedex = this.infScr.personalPokedex;
       }
-      //Solo se llama una vez, detecta el pokedexID y ya
-      console.log(this.pokemons)
-      console.log(this.personalPokedex)
     }
   }
 
@@ -101,6 +97,6 @@ export class InfiniteScrollComponent implements OnInit, OnChanges {
   }
 
   deletePokemonFromPokedex(id: number) {
-    this.firebase.deletePokemonFromPokedex(id);
+    this.store.dispatch(deletePokemon({ id: id }));
   }
 }

@@ -122,20 +122,21 @@ export class FirebaseService {
 
   deletePokemonFromPokedex(id: number) {
     //ID usuario
-    let userId = (this.LoginService.getCookieId())
-
+    let userId = this.userPokedex
     this.firebaseData.forEach((pkm: any) => {
       //Vuelve el objeto en un array
       let dataFirebase = Object.entries(pkm);
       //Recorro el array y siempre tiene 2 valores, 1 id firebase, 2 datos almacenados dentro
       dataFirebase.forEach((pkm: any) => {
-        if (pkm[1].id === id) {
+        let id_pokemon = pkm[1].id
+        if (id_pokemon === id) {
           let pokemon = pkm[0]
-          //sweeet alert para confirmar
+          let nombrePokemon = pkm[1].name
+          //Si no borras el confirmation dialog, el pokemon se borra pero tienes que actualizar la pantalla para poder verlo
           this.dialog.showConfirmationDialog(this.translateService.instant('Confirm'), this.translateService.instant('Do you want to delete this pokemon?'), () => {
             const dbRef = ref(this.database, `pokedex/${userId}/pokemons/${pokemon}`)
             remove(dbRef)
-            this.dialog.showSuccess(this.translateService.instant('Pokemon deleted'), `${pkm[1].name} ${this.translateService.instant('has been deleted from your pokedex')}`);
+            this.dialog.showSuccess(this.translateService.instant('Pokemon deleted'), `${nombrePokemon} ${this.translateService.instant('has been deleted from your pokedex')}`);
           });
         }
       })
