@@ -40,4 +40,21 @@ export class PokedexEffects {
                 )
         })
     ), { dispatch: false });
+
+
+    // @Effect()
+    addPokemon$ = createEffect(() => this.actions$.pipe(
+        ofType('[Pokedex] Add Pokemon'),
+        exhaustMap(({ pokemon }) => {
+            return this.firebase.savePokemon(pokemon)
+                .pipe(
+                    take(1),
+                    map(() => ({ type: '[Pokedex] Load Nothing Pokedex' })),
+                    catchError((error) => {
+                        console.error("Error añadiendo el pokemon", error)
+                        return EMPTY
+                    })
+                )
+        })
+    ), { dispatch: false }) 
 }

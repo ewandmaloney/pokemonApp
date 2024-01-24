@@ -6,7 +6,7 @@ import { InfoDialogsService } from './info-dialogs.service';
 import { Database, get, onValue, push, ref, remove, set } from '@angular/fire/database';
 import { TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngrx/store';
-import { AppState } from '../states/app.state';
+import { AppState, PokemonState } from '../states/app.state';
 
 @Injectable({
   providedIn: 'root'
@@ -50,31 +50,44 @@ export class FirebaseService {
 
 
   //Logica actualizada
-  savePokemon(pokemon: PokemonDetailsResponse) {
-    const pokemonSaved = {
-      id: pokemon.id,
-      name: pokemon.name,
-      image: pokemon.sprites.front_default,
-    }
-    let userId = (this.LoginService.getCookieId())
-    let isSaved;
-    this.isPokemonAlreadySaved(pokemon).subscribe((res: any) => {
-      isSaved = res;
-      if (isSaved) {
-        this.dialog.showError(this.translateService.instant('Error'), this.translateService.instant('This pokemon is already saved in your pokedex'));
-        return;
-      } else {
-        //Añadir pokemon a la pokedex
-        const dbRef = ref(this.database, `pokedex/${userId}/pokemons`)
-        get(dbRef).then((snapshot) => {
-          if (snapshot.exists()) {
-            push(dbRef, pokemonSaved);
-          } else {
-            set(dbRef, [pokemonSaved]);
-          }
-        });
-        this.dialog.showSuccess(this.translateService.instant('Pokemon saved'), `${pokemon.name} ${this.translateService.instant('has been added to your pokedex')}`);
-      }
+  savePokemon(pokemon: PokemonState): Observable<boolean> {
+    return new Observable<boolean>(observer => {
+      let userId = this.userPokedex
+      let isSaved;
+
+      this.isPokemonAlreadySaved(pokemon).subscribe((res: any) => {
+        isSaved = res;
+        if (isSaved) {
+          this.dialog.showError(
+            this.translateService.instant('Error'),
+            this.translateService.instant('This pokemon is already saved in your pokedex')
+          );
+          observer.next(false); // Notify the observer that the save operation failed
+          observer.complete(); // Complete the observable
+          return;
+        } else {
+          // Añadir pokemon a la pokedex
+          const dbRef = ref(this.database, `pokedex/${userId}/pokemons`);
+          get(dbRef)
+            .then((snapshot) => {
+              if (snapshot.exists()) {
+                push(dbRef, pokemon);
+              } else {
+                set(dbRef, [pokemon]);
+              }
+              this.dialog.showSuccess(
+                this.translateService.instant('Pokemon saved'),
+                `${pokemon.name} ${this.translateService.instant('has been added to your pokedex')}`
+              );
+              observer.next(true); // Notify the observer that the save operation was successful
+              observer.complete(); // Complete the observable
+            })
+            .catch((error) => {
+              observer.error(error); // Notify the observer if there was an error
+              observer.complete(); // Complete the observable
+            });
+        }
+      });
     });
   }
 
@@ -97,7 +110,7 @@ export class FirebaseService {
     return pokedex;
   }
 
-  isPokemonAlreadySaved(pokemon: PokemonDetailsResponse): Observable<boolean> {
+  isPokemonAlreadySaved(pokemon: PokemonState): Observable<boolean> {
     return new Observable<boolean>(observer => {
       const { id } = pokemon;
       let isSaved = false;

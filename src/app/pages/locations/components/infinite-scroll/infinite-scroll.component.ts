@@ -7,7 +7,7 @@ import { PokemonService } from 'src/app/services/pokemon.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/states/app.state';
-import { deletePokemon } from 'src/app/states/actions/pokedex.action';
+import { addPokemon, deletePokemon } from 'src/app/states/actions/pokedex.action';
 import { InfoDialogsService } from 'src/app/services/info-dialogs.service';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -95,7 +95,12 @@ export class InfiniteScrollComponent implements OnInit, OnChanges {
   }
 
   addPokemonToPokedex(pokemon: PokemonDetailsResponse) {
-    this.firebase.savePokemon(pokemon);
+    const savePokemon = {
+      id: pokemon.id, 
+      name: pokemon.name,
+      image: pokemon.sprites.front_default,
+    }
+    this.store.dispatch(addPokemon({ pokemon: savePokemon }));
   }
 
   deletePokemonFromPokedex(id: number) {

@@ -5,9 +5,9 @@ export const loadPokedex = createAction('[Pokedex] Load Pokedex');
 export const setPokedex = createAction('[Pokedex] Set Pokedex',
     props<{ pokemons: PokemonState[] }>()
 );
-// export const addPokemon = createAction('[Pokedex] Add Pokemon',
-//     props<{ pokemon: any }>()
-// );
+export const addPokemon = createAction('[Pokedex] Add Pokemon',
+    props<{ pokemon: PokemonState }>()
+);
 export const deletePokemon = createAction('[Pokedex] Delete Pokemon',
     props<{ id: number }>()
 );
