@@ -8,6 +8,8 @@ import { FirebaseService } from 'src/app/services/firebase.service';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/states/app.state';
 import { deletePokemon } from 'src/app/states/actions/pokedex.action';
+import { InfoDialogsService } from 'src/app/services/info-dialogs.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-infinite-scroll',
@@ -49,7 +51,7 @@ export class InfiniteScrollComponent implements OnInit, OnChanges {
     }
   }
 
-  constructor(public infScr: InfiniteScrollService, private locServ: LocationService, private pokeServ: PokemonService, private firebase: FirebaseService, private store: Store<AppState>) {
+  constructor(public infScr: InfiniteScrollService, private firebase: FirebaseService, private store: Store<AppState>, private infoDialog: InfoDialogsService, private translateService: TranslateService) {
   }
 
   ngOnDestroy(): void {
@@ -97,6 +99,10 @@ export class InfiniteScrollComponent implements OnInit, OnChanges {
   }
 
   deletePokemonFromPokedex(id: number) {
-    this.store.dispatch(deletePokemon({ id: id }));
+    this.infoDialog.showConfirmationDialog('Delete Pokemon', 'Are you sure you want to delete this pokemon from your pokedex?', () => {
+      this.store.dispatch(deletePokemon({ id: id }));
+      this.infoDialog.showSuccess(this.translateService.instant('Pokemon deleted'), this.translateService.instant('The pokemon has been deleted from your pokedex'));
+
+    });
   }
 }

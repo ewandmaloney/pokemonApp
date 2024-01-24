@@ -13,7 +13,11 @@ export class PokedexEffects {
         switchMap(() => this.firebase.leerDatosPokedex()
             .pipe(
                 take(1),
-                map((pokemons: any) => ({ type: '[Pokedex] Set Pokedex', pokemons: pokemons.pokemons })),
+                map((pokemons: any) => {
+                    //Cambio la forma de recibir la pokedex para no mutar el state posteriormente
+                    const pokemonsArray = Object.values(pokemons.pokemons)
+                    return ({ type: '[Pokedex] Set Pokedex', pokemons: pokemonsArray })
+                }),
                 catchError((error) => {
                     console.error("Error cargando los pokemon", error)
                     return EMPTY
@@ -24,29 +28,16 @@ export class PokedexEffects {
     // @Effect()
     deletePokemon$ = createEffect(() => this.actions$.pipe(
         ofType('[Pokedex] Delete Pokemon'),
-        exhaustMap(({ id }) =>
-            this.firebase.leerDatosPokedex().pipe(
-                switchMap((pokemons: any) => {
-                    let arrayPokemon = Object.values(pokemons.pokemons)
-                    let pokemonArray = arrayPokemon.flat()
-                    let pokemon = pokemonArray.find((p: any) => p.id === id);
-                    if (pokemon) {
-                        return of(this.firebase.deletePokemonFromPokedex(id)).pipe(
-                            map(() => ({ type: '[Pokedex] Load Pokedex' })),
-                            catchError((error) => {
-                                console.error("Error deleting the pokemon", error);
-                                return of({ type: '[Pokedex] Delete Pokemon Failed' });
-                            })
-                        );
-                    } else {
-                        return of({ type: '[Pokedex] Delete Pokemon Failed' });
-                    }
-                }),
-                catchError((error) => {
-                    console.error("Error deleting the pokemon", error);
-                    return EMPTY;
-                })
-            )
-        )
-    ));
+        exhaustMap(({ id }) => {
+            return this.firebase.deletePokemonFromPokedex(id)
+                .pipe(
+                    take(1),
+                    map(() => ({ type: '[Pokedex] Load Nothing Pokedex' })),
+                    catchError((error) => {
+                        console.error("Error eliminando el pokemon", error)
+                        return EMPTY
+                    })
+                )
+        })
+    ), { dispatch: false });
 }

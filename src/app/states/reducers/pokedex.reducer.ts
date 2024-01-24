@@ -10,10 +10,8 @@ export const pokedexReducer = createReducer(
     on(loadPokedex, (state) => ({ ...state })),
     on(setPokedex, (state, { pokemons }) => ({ ...state, pokemons })),
     on(deletePokemon, (state, { id }) => {
-        const { [id]: deleted, ...pokemons } = state.pokemons;
-        return {
-            ...state,
-            pokemons,
-        };
+        const pokemonArray = Object.values(state.pokemons)
+        const updatedPokemons = pokemonArray.filter((pokemon: any) => pokemon.id !== id);
+        return { ...state, pokemons: updatedPokemons }
     })
 );
