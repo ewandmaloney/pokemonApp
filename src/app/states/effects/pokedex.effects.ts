@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { EMPTY, catchError, exhaustMap, map, of, switchMap, take } from "rxjs";
+import { EMPTY, catchError, exhaustMap, map, of, switchMap, take, tap } from "rxjs";
 import { FirebaseService } from "src/app/services/firebase.service";
+import { addPokemon, deletePokemon } from "../actions/pokedex.action";
 
 @Injectable()
 export class PokedexEffects {
@@ -26,35 +27,37 @@ export class PokedexEffects {
     ))
 
     // @Effect()
-    deletePokemon$ = createEffect(() => this.actions$.pipe(
-        ofType('[Pokedex] Delete Pokemon'),
-        exhaustMap(({ id }) => {
-            return this.firebase.deletePokemonFromPokedex(id)
-                .pipe(
-                    take(1),
-                    map(() => ({ type: '[Pokedex] Load Nothing Pokedex' })),
-                    catchError((error) => {
-                        console.error("Error eliminando el pokemon", error)
-                        return EMPTY
-                    })
-                )
-        })
-    ), { dispatch: false });
+    deletePokemon$ = createEffect(
+        () =>
+            this.actions$.pipe(
+                ofType(deletePokemon),
+                tap(({ id }) => {
+                    this.firebase.deletePokemonFromPokedex(id).subscribe({
+                        complete: () => {
+                            console.info('Pokemon eliminado con éxito');
+                        },
+                        error: (error) => {
+                            console.error('Error eliminando el pokemon', error);
+                        },
+                    });
+                })
+            ),
+        { dispatch: false }
+    );
 
 
     // @Effect()
     addPokemon$ = createEffect(() => this.actions$.pipe(
-        ofType('[Pokedex] Add Pokemon'),
-        exhaustMap(({ pokemon }) => {
-            return this.firebase.savePokemon(pokemon)
-                .pipe(
-                    take(1),
-                    map(() => ({ type: '[Pokedex] Load Nothing Pokedex' })),
-                    catchError((error) => {
-                        console.error("Error añadiendo el pokemon", error)
-                        return EMPTY
-                    })
-                )
+        ofType(addPokemon),
+        tap(({ pokemon }) => {
+            this.firebase.savePokemon(pokemon).subscribe({
+                complete: () => {
+                    console.info('Pokemon añadido con éxito');
+                },
+                error: (error) => {
+                    console.error('Error añadiendo el pokemon', error);
+                },
+            })
         })
-    ), { dispatch: false }) 
+    ), { dispatch: false })
 }
