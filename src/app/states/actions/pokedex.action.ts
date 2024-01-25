@@ -8,6 +8,6 @@ export const setPokedex = createAction('[Pokedex] Set Pokedex',
 // export const addPokemon = createAction('[Pokedex] Add Pokemon',
 //     props<{ pokemon: any }>()
 // );
-// export const deletePokemon = createAction('[Pokedex] Delete Pokemon',
-//     props<{ pokemon: any }>()
-// );
+export const deletePokemon = createAction('[Pokedex] Delete Pokemon',
+    props<{ id: number }>()
+);

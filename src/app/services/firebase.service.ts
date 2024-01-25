@@ -87,7 +87,7 @@ export class FirebaseService {
   createPokedexArray(pokedexObj: any) {
     let pokedex: any[] = []
     if (pokedexObj) {
-      this.firebaseData = Object.values(pokedexObj)
+      //this.firebaseData = Object.values(pokedexObj)
       const data: any[] = Object.values(pokedexObj)
       if (pokedexObj === null) { return []; }
       data.forEach((pkm: any) => {
@@ -120,26 +120,35 @@ export class FirebaseService {
   }
 
 
-  deletePokemonFromPokedex(id: number) {
-    //ID usuario
-    let userId = (this.LoginService.getCookieId())
-
-    this.firebaseData.forEach((pkm: any) => {
-      //Vuelve el objeto en un array
-      let dataFirebase = Object.entries(pkm);
-      //Recorro el array y siempre tiene 2 valores, 1 id firebase, 2 datos almacenados dentro
-      dataFirebase.forEach((pkm: any) => {
-        if (pkm[1].id === id) {
-          let pokemon = pkm[0]
-          //sweeet alert para confirmar
-          this.dialog.showConfirmationDialog(this.translateService.instant('Confirm'), this.translateService.instant('Do you want to delete this pokemon?'), () => {
-            const dbRef = ref(this.database, `pokedex/${userId}/pokemons/${pokemon}`)
-            remove(dbRef)
-            this.dialog.showSuccess(this.translateService.instant('Pokemon deleted'), `${pkm[1].name} ${this.translateService.instant('has been deleted from your pokedex')}`);
+  deletePokemonFromPokedex(id: number): Observable<void> {
+    return new Observable<void>(observer => {
+      // ID usuario
+      let userId = this.userPokedex;
+      this.leerDatosPokedex().subscribe((res: any) => {
+        this.firebaseData = Object.values(res);
+        this.firebaseData.forEach((pkm: any) => {
+          // Vuelve el objeto en un array
+          let dataFirebase = Object.entries(pkm);
+          // Recorro el array y siempre tiene 2 valores, 1 id firebase, 2 datos almacenados dentro
+          dataFirebase.forEach((pkm: any) => {
+            let id_pokemon = pkm[1].id;
+            if (id_pokemon === id) {
+              let pokemon = pkm[0];
+              const dbRef = ref(this.database, `pokedex/${userId}/pokemons/${pokemon}`);
+              remove(dbRef)
+                .then(() => {
+                  observer.next();
+                  observer.complete();
+                })
+                .catch(error => {
+                  observer.error(error);
+                  observer.complete();
+                });
+            }
           });
-        }
-      })
-    })
+        });
+      });
+    });
   }
 
   deletePruebas() {

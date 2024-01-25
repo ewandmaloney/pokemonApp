@@ -32,8 +32,6 @@ export class PokemonListComponent implements OnInit {
   deletePokemon(id: number) {
     //Borrar pokemon de la pokedex
     this.deletePokemonFromPokedex.emit(id);
-    this.firebase.deletePokemonFromPokedex(id);
-
   }
 
 }
