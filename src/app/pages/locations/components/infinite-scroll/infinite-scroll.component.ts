@@ -7,6 +7,9 @@ import { PokemonService } from 'src/app/services/pokemon.service';
 import { FirebaseService } from 'src/app/services/firebase.service';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/states/app.state';
+import { addPokemon, deletePokemon } from 'src/app/states/actions/pokedex.action';
+import { InfoDialogsService } from 'src/app/services/info-dialogs.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-infinite-scroll',
@@ -48,7 +51,7 @@ export class InfiniteScrollComponent implements OnInit, OnChanges {
     }
   }
 
-  constructor(public infScr: InfiniteScrollService, private locServ: LocationService, private pokeServ: PokemonService, private firebase: FirebaseService, private store: Store<AppState>) {
+  constructor(public infScr: InfiniteScrollService, private firebase: FirebaseService, private store: Store<AppState>, private infoDialog: InfoDialogsService, private translateService: TranslateService) {
   }
 
   ngOnDestroy(): void {
@@ -62,9 +65,7 @@ export class InfiniteScrollComponent implements OnInit, OnChanges {
         this.personalPokedex = true;
         this.pokemonInfoSubscription = this.store.select('pokedex')
           .subscribe((res) => {
-            console.log(res)
             this.pokemons = this.firebase.createPokedexArray(res);
-            console.log(this.pokemons)
             this.pokemons.sort((a, b) => a.id - b.id);
           })
       } else {
@@ -72,9 +73,6 @@ export class InfiniteScrollComponent implements OnInit, OnChanges {
         this.pokemons = this.infScr.pokemons;
         this.personalPokedex = this.infScr.personalPokedex;
       }
-      //Solo se llama una vez, detecta el pokedexID y ya
-      console.log(this.pokemons)
-      console.log(this.personalPokedex)
     }
   }
 
@@ -97,10 +95,19 @@ export class InfiniteScrollComponent implements OnInit, OnChanges {
   }
 
   addPokemonToPokedex(pokemon: PokemonDetailsResponse) {
-    this.firebase.savePokemon(pokemon);
+    const savePokemon = {
+      id: pokemon.id, 
+      name: pokemon.name,
+      image: pokemon.sprites.front_default,
+    }
+    this.store.dispatch(addPokemon({ pokemon: savePokemon }));
   }
 
   deletePokemonFromPokedex(id: number) {
-    this.firebase.deletePokemonFromPokedex(id);
+    this.infoDialog.showConfirmationDialog('Delete Pokemon', 'Are you sure you want to delete this pokemon from your pokedex?', () => {
+      this.store.dispatch(deletePokemon({ id: id }));
+      this.infoDialog.showSuccess(this.translateService.instant('Pokemon deleted'), this.translateService.instant('The pokemon has been deleted from your pokedex'));
+
+    });
   }
 }
